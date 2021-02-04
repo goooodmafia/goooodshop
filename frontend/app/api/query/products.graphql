@@ -1,0 +1,21 @@
+query($route:String! $languageCode:LanguageCodeEnum!){
+  products(categories_Path_Iexact:$route query:""){
+    totalCount
+    results(limit:10 offset:0){
+      model
+      sku
+      slug
+      thumbnail{
+        link
+      }
+      colors
+      new
+      hit
+      sale
+      glowInTheDark
+      glowInTheUv
+      description(languageCode:$languageCode)
+      content(languageCode:$languageCode)
+    }
+  }
+}

@@ -1,0 +1,85 @@
+@import "_vars";
+@import "_mixins";
+
+.catalog-menu-toggle {
+  display: flex;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: $light-blue;
+  user-select: none;
+  @include miw(768) {
+    display: none;
+  }
+  &__text {
+    border-bottom: 1px dotted $light-blue;
+  }
+
+  &__burger {
+    width: 16px;
+    position: relative;
+    margin: 0 5px 0 0;
+    top: 5px;
+  }
+  &__burger span {
+    display: block;
+    position: absolute;
+    width: 100%;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .25s ease-in-out;
+    height: 2px;
+    background-color: $accent;
+  }
+
+  &__burger span:nth-child(1) {
+    top: 0;
+  }
+
+  &__burger span:nth-child(2) {
+    top: 5px;
+  }
+
+  &__burger span:nth-child(3) {
+    top: 10px;
+  }
+}
+.catalog-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  @include maw(767) {
+    display: none;
+  }
+  @include miw(768) {
+    padding-bottom: 24px;
+  }
+
+  &__in {
+    list-style: none;
+    margin: 0;
+    padding: 9px 0 15px 22px;
+    @include miw(768) {
+      display: none;
+    }
+    .current + & {
+      display: block;
+    }
+  }
+  &__item {
+    text-transform: uppercase;
+    padding: 0 0 14px;
+    li {
+      text-transform: none;
+      padding: 7px 0;
+    }
+  }
+  &__link {
+    color: #fff;
+    &.current {
+      color: $accent;
+    }
+  }
+}

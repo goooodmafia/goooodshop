@@ -1,0 +1,60 @@
+@import "_vars";
+@import "_mixins";
+
+.contacts-block {
+  margin: 0 0 90px;
+
+  &__wrap {
+    background: #07215e;
+    display: flex;
+    justify-content: space-between;
+    @include maw(991) {
+      flex-wrap: wrap;
+    }
+  }
+  &__details {
+    width: calc(50% - 25px);
+    @include maw(991) {
+      width: 100%;
+    }
+  }
+  &__map {
+    position: relative;
+    width: calc(50% - 25px);
+    @include maw(991) {
+      width: 100%;
+      height: 400px;
+    }
+  }
+  &__details {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0 0 25px;
+    @include maw(991) {
+      padding-right: 25px;
+    }
+    @include maw(767) {
+      flex-wrap: wrap;
+    }
+  }
+  &__list {
+    padding: 30px 0 0;
+    width: calc(50% - 12px);
+    @include maw(991) {
+      width: calc(50% - 25px);
+    }
+    @include maw(767) {
+      width: 100%;
+    }
+  }
+  &__how-find {
+    padding: 23px 0 17px;
+    width: calc(50% - 12px);
+    @include maw(991) {
+      width: calc(50% - 25px);
+    }
+    @include maw(767) {
+      width: 100%;
+    }
+  }
+}

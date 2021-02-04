@@ -1,0 +1,16 @@
+@import "_vars";
+@import "_mixins";
+
+.logo {
+  &--header {}
+  &--footer {
+    @include maw(575) {
+      text-align: center;
+    }
+  }
+
+  &__img {
+    //width: 210px;
+    width: 211px;
+  }
+}

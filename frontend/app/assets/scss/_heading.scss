@@ -1,0 +1,89 @@
+@import "vars";
+@import "mixins";
+
+.heading {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  div {
+    display: inline;
+    font-size: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    line-height: inherit;
+  }
+}
+
+.heading--h1 {
+  color: $accent;
+  font-size: 55px;
+  font-weight: 700;
+  @include lh(55,50);
+
+  @include maw(991) {
+
+  }
+  @include maw(767) {
+
+  }
+  @include maw(575) {
+    font-size: 36px;
+  }
+  @include maw(400) {
+    font-size: 30px;
+  }
+}
+.heading--h2 {
+  color: $light-blue;
+  font-size: 33px;
+  font-weight: 700;
+  padding: 0 0 36px;
+
+  @include maw(991) {
+
+  }
+  @include maw(767) {
+
+  }
+  @include maw(575) {
+
+  }
+}
+.heading--h3 {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  padding: 0 0 44px;
+}
+.heading--h4 {
+  color: $accent;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 0 0 17px;
+}
+.heading--center {
+  text-align: center;
+}
+.heading--dark {
+  color: #000;
+}
+.heading--orange {
+  color: $accent;
+}
+.heading--white {
+  color: #fff;
+}
+.heading--breadcrumb {
+  padding-bottom: 5px;
+}
+.heading--sub {
+  padding-bottom: 12px;
+}

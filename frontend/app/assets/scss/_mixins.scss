@@ -1,0 +1,424 @@
+@mixin maw($max-width) {
+  @media only screen and (max-width: $max-width+px) {
+    @content;
+  }
+}
+@mixin miw($min-width) {
+  @media only screen and (min-width: $min-width+px) {
+    @content;
+  }
+}
+@mixin mww($min-width,$max-width) {
+  @media only screen and (min-width: $min-width+px) and (max-width: $max-width+px) {
+    @content;
+  }
+}
+@mixin mah($max-width) {
+  @media only screen and (max-height: $max-width+px) {
+    @content;
+  }
+}
+@mixin mih($min-width) {
+  @media only screen and (min-height: $min-width+px) {
+    @content;
+  }
+}
+@mixin clearfix {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+@mixin align {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
+
+@mixin left-bottom-toLeft {
+  left:  -16px;
+  bottom: 0;
+  border-left:   16px solid transparent;
+  border-right:  16px solid transparent;
+  border-bottom: 15px solid #fff;
+}
+@mixin left-bottom-toDown {
+  left:  0;
+  bottom: -16px;
+  border-top:    15px solid transparent;
+  border-left:   16px solid #fff;
+  border-bottom: 15px solid transparent;
+}
+@mixin right-bottom-toDown {
+  right: 0;
+  bottom: -16px;
+  border-top:    15px solid transparent;
+  border-right:  16px solid #fff;
+  border-bottom: 15px solid transparent;
+}
+@mixin right-bottom-toRight {
+  right:  -16px;
+  bottom: 0;
+  border-left:   16px solid transparent;
+  border-right:  16px solid transparent;
+  border-bottom: 15px solid #fff;
+}
+@mixin left-top-toLeft {
+  left: -16px;
+  top: 0;
+  border-left:   16px solid transparent;
+  border-right:  16px solid transparent;
+  border-top: 15px solid #fff;
+}
+
+// Read the article: http://sassbreak.com/viewport-relative-headings-with-sass
+
+// Max breakpoint
+$max-breakpoint: 1300;
+
+// This could be one of your media query breakpoint variables
+$wide-screen: "(min-width: #{$max-breakpoint}px)";
+
+// Function
+@function get-vw($target) {
+  // 1 vw is equal to 1% of the viewport width
+  $vw-context: ($max-breakpoint * .01) * 1px; // 1% viewport width
+  @return ($target/$vw-context) * 1vw;
+}
+
+// Mixin
+@mixin vwFont($size) {
+  font-size: $size;
+  font-size: get-vw($size);
+  // Prevent font-size from getting too big
+  @media #{$wide-screen} {
+    font-size: $size;
+  }
+}
+
+
+//-- Convert px to vw for width ---//
+
+// Function
+@function get-vw-width($target) {
+  $vw-context: ($max-breakpoint * .01);
+  @return ($target/$vw-context) * 1vw;
+}
+
+// Mixin
+@mixin vwWidth($size) {
+  width: get-vw-width($size);
+  max-width: $size+px;
+}
+
+// Mixin
+@mixin vwMinWidth($size) {
+  min-width: get-vw-width($size);
+}
+
+//-- Convert px to vw for height ---//
+
+// Function
+@function get-vw-height($target) {
+  $vw-context: ($max-breakpoint * .01);
+  @return ($target/$vw-context) * 1vw;
+}
+
+// Mixin
+@mixin vwHeight($size) {
+  height: get-vw-height($size);
+  max-height: $size+px;
+}
+
+// Mixin
+@mixin vwMinHeight($size) {
+  min-height: get-vw-height($size);
+  @media #{$wide-screen} {
+    min-height: auto;
+    height: $size+px;
+  }
+}
+
+
+//-- Convert px to vw for margin-top ---//
+
+// Function
+@function get-vw-margin($target) {
+  $vw-context: ($max-breakpoint * .01);
+  @return ($target/$vw-context) * 1vw;
+}
+
+// Mixin
+@mixin marginTopVW($size) {
+  margin-top: $size+px;
+  margin-top: get-vw-margin($size);
+  // Prevent font-size from getting too big
+  @media #{$wide-screen} {
+    margin-top: $size+px;
+  }
+}
+
+
+//-- Convert px to vw for margin-bottom ---//
+
+// Mixin
+@mixin marginBottomVW($size) {
+  margin-bottom: $size+px;
+  margin-bottom: get-vw-margin($size);
+  // Prevent font-size from getting too big
+  @media #{$wide-screen} {
+    margin-bottom: $size+px;
+  }
+}
+
+
+//-- Convert px to vw for margin-right ---//
+
+// Mixin
+@mixin marginRightVW($size) {
+  margin-right: $size+px;
+  margin-right: get-vw-margin($size);
+  // Prevent font-size from getting too big
+  @media #{$wide-screen} {
+    margin-right: $size+px;
+  }
+}
+
+
+//-- Convert px to vw for margin-left ---//
+
+// Mixin
+@mixin marginLeftVW($size) {
+  margin-left: $size+px;
+  margin-left: get-vw-margin($size);
+  // Prevent font-size from getting too big
+  @media #{$wide-screen} {
+    margin-left: $size+px;
+  }
+}
+
+
+//-- Convert px to vw for padding-top ---//
+
+// Function
+@function get-vw-padding($target) {
+  $vw-context: ($max-breakpoint * .01);
+  @return ($target/$vw-context) * 1vw;
+}
+
+// Mixin
+@mixin paddingTopVW($size) {
+  padding-top: $size+px;
+  padding-top: get-vw-padding($size);
+  // Prevent font-size from getting too big
+  @media #{$wide-screen} {
+    padding-top: $size+px;
+  }
+}
+
+
+//-- Convert px to vw for padding-bottom ---//
+
+// Function
+@function get-vw-padding($target) {
+  $vw-context: ($max-breakpoint * .01);
+  @return ($target/$vw-context) * 1vw;
+}
+
+// Mixin
+@mixin paddingBottomVW($size) {
+  padding-bottom: $size+px;
+  padding-bottom: get-vw-padding($size);
+  // Prevent font-size from getting too big
+  @media #{$wide-screen} {
+    padding-bottom: $size+px;
+  }
+}
+
+
+//-- Convert px to vw for padding-left ---//
+
+// Function
+@function get-vw-padding($target) {
+  $vw-context: ($max-breakpoint * .01);
+  @return ($target/$vw-context) * 1vw;
+}
+
+// Mixin
+@mixin paddingLeftVW($size) {
+  padding-left: $size+px;
+  padding-left: get-vw-padding($size);
+  // Prevent font-size from getting too big
+  @media #{$wide-screen} {
+    padding-left: $size+px;
+  }
+}
+
+//-- Convert px to vw for padding-right ---//
+
+// Function
+@function get-vw-padding($target) {
+  $vw-context: ($max-breakpoint * .01);
+  @return ($target/$vw-context) * 1vw;
+}
+
+// Mixin
+@mixin paddingRightVW($size) {
+  padding-right: $size+px;
+  padding-right: get-vw-padding($size);
+  // Prevent font-size from getting too big
+  @media #{$wide-screen} {
+    padding-right: $size+px;
+  }
+}
+
+//-- Convert px to vw for top ---//
+
+// Function
+@function get-vw-top($target) {
+  $vw-context: ($max-breakpoint * .01);
+  @return ($target/$vw-context) * 1vw;
+}
+
+// Mixin
+@mixin topVW($size) {
+  top: $size+px;
+  top: get-vw-top($size);
+  // Prevent font-size from getting too big
+  @media #{$wide-screen} {
+    top: $size+px;
+  }
+}
+
+
+//-- Convert px to vw for bottom ---//
+
+// Function
+@function get-vw-bottom($target) {
+  $vw-context: ($max-breakpoint * .01);
+  @return ($target/$vw-context) * 1vw;
+}
+
+// Mixin
+@mixin bottomVW($size) {
+  bottom: $size+px;
+  bottom: get-vw-bottom($size);
+  // Prevent font-size from getting too big
+  @media #{$wide-screen} {
+    bottom: $size+px;
+  }
+}
+
+
+//-- Convert px to vw for left ---//
+
+// Function
+@function get-vw-left($target) {
+  $vw-context: ($max-breakpoint * .01);
+  @return ($target/$vw-context) * 1vw;
+}
+
+// Mixin
+@mixin leftVW($size) {
+  left: $size+px;
+  left: get-vw-left($size);
+  // Prevent font-size from getting too big
+  @media #{$wide-screen} {
+    left: $size+px;
+  }
+}
+
+
+//-- Convert px to vw for right ---//
+
+// Function
+@function get-vw-right($target) {
+  $vw-context: ($max-breakpoint * .01);
+  @return ($target/$vw-context) * 1vw;
+}
+
+// Mixin
+@mixin rightVW($size) {
+  right: $size+px;
+  right: get-vw-right($size);
+  // Prevent font-size from getting too big
+  @media #{$wide-screen} {
+    right: $size+px;
+  }
+}
+
+
+//-- Convert px to vw for border-width ---//
+
+// Function
+@function get-vw-border-width($target) {
+  $vw-context: ($max-breakpoint * .01);
+  @return ($target/$vw-context) * 1vw;
+}
+
+// Mixin
+@mixin borderWidthVW($size) {
+  border-width: $size+px;
+  border-width: get-vw-border-width($size);
+  // Prevent font-size from getting too big
+  @media #{$wide-screen} {
+    border-width: $size+px;
+  }
+}
+
+
+//-- Convert "px" to "%" for padding-top & padding-bottom ---//
+
+//$calc-width: 1664;
+$calc-width: 1300;
+// Function
+@function get-padding($target) {
+  @return ($target/$calc-width) * 100%;
+}
+
+@mixin paddingTopPercent($size) {
+  padding-top: get-padding($size);
+}
+
+@mixin paddingBottomPercent($size) {
+  padding-bottom: get-padding($size);
+}
+
+//@mixin paddingLeftPercent($size) {
+//  padding-left: get-padding($size);
+//}
+
+
+//-- Convert "px" to "%" for width ---//
+
+// Function
+@function get-width($target) {
+  @return ($target/$calc-width) * 100%;
+}
+
+@mixin percentageWidth($size) {
+  width: get-width($size);
+}
+
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  &:before{
+    display: block;
+    content: " ";
+    //width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+}
+
+
+@mixin lh($font-size, $line-height) {
+  line-height: $line-height/$font-size;
+}

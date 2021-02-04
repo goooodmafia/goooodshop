@@ -1,0 +1,59 @@
+@import "_vars";
+@import "_mixins";
+
+.catalog-slider-nav {
+  position: absolute;
+  top: 13px;
+  left: 17px;
+  width: 70px;
+  .slick-list {
+    padding: 0 !important;
+  }
+  .slick-slide {
+    border: 0;
+  }
+  &__slide {
+    border: 0;
+    margin-bottom: 13px;
+  }
+  &__img {
+    cursor: pointer;
+    .slick-center & {
+      cursor: default;
+    }
+  }
+  .slider-button--prev {
+    display: none !important;
+  }
+  .slider-button--next {
+    bottom: -18px;
+    top: auto;
+    width: 14px;
+    height: 26px;
+    right: auto;
+    left: 50%;
+    margin-left: -7px;
+    transform: rotate(90deg);
+  }
+}
+
+.catalog-slider-main-wrap {
+  position: absolute;
+  top:   12px;
+  right: 12px;
+  width: 160px;
+
+}
+.catalog-slider-main {
+  position: absolute;
+  top:   0;
+  right: 0;
+  width: 160px;
+  .slick-slide {
+    border: 0;
+  }
+  &__slide {
+    border: 0;
+    margin-bottom: 13px;
+  }
+}

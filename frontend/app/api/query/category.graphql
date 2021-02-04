@@ -1,0 +1,9 @@
+query($route:String! $languageCode:LanguageCodeEnum!) {
+  category(route:$route){
+    path
+    fullName
+    name(languageCode:$languageCode)
+    slug
+    breadcrumbs
+  }
+}

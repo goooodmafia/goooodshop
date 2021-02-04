@@ -1,0 +1,13 @@
+@import "_vars";
+@import "_mixins";
+
+.wholesale-delivery {
+  padding: 0 0 100px;
+
+  &__title {
+    padding: 0 0 2px;
+  }
+  &__item {
+    padding: 0 0 24px;
+  }
+}

@@ -1,0 +1,10 @@
+@import "_vars";
+@import "_mixins";
+
+.product-head {
+  display: flex;
+  padding: 0 0 37px;
+  @include maw(991) {
+    flex-wrap: wrap;
+  }
+}

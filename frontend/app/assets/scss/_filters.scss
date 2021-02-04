@@ -1,0 +1,76 @@
+@import "_vars";
+@import "_mixins";
+
+.filters {
+  width: 154px;
+  border-top: 1px solid #6081be;
+  padding: 21px 0 0;
+  @include maw(767) {
+    width: auto;
+    border-bottom: 1px solid #6081be;
+    padding-top: 0;
+  }
+
+  &__headline {
+    user-select: none;
+    font-size: 18px;
+    color: $light-blue;
+    margin: 0 0 14px;
+
+    @include maw(767) {
+      cursor: pointer;
+      margin: 20px 0;
+    }
+    @include miw(768) {
+      pointer-events: none;
+    }
+    &:before {
+      content: '';
+      background: url(../img/icon__filter.svg) 0 0 no-repeat;
+      width: 16px;
+      height: 13px;
+      display: inline-block;
+      margin: 0 5px 0 0;
+      position: relative;
+      top: 1px;
+    }
+    span {
+      @include maw(767) {
+        border-bottom: 1px dotted $light-blue;
+      }
+    }
+  }
+  &__item {
+    padding: 0 0 15px;
+  }
+  &__title {
+    user-select: none;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 18px;
+    margin: 0 0 13px;
+    &:after {
+      content: '';
+      background: url(../img/arrow--orange.svg) 0 0 no-repeat;
+      width: 6px;
+      height: 12px;
+      display: inline-block;
+      margin: 0 0 0 12px;
+      position: relative;
+      top: 1px;
+      transition: all .2s ease;
+      .is-active & {
+        transform: rotate(90deg);
+      }
+    }
+  }
+  &__options {
+    overflow: hidden;
+  }
+  &__content {
+    display: none;
+    @include miw(768) {
+      display: block !important;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+@import "_vars";
+@import "_mixins";
+
+.similar {
+  position: relative;
+  z-index: 10;
+  @include maw(1280) {
+    max-width: 526px;
+    margin: 0 auto;
+  }
+  &__list {
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__item {
+    margin: 0 0 39px;
+    @include maw(1280) {
+      width: 50%;
+    }
+    @include maw(575) {
+      width: 100%;
+    }
+  }
+}

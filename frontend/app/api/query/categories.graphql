@@ -1,0 +1,19 @@
+fragment Category on CategoryType{
+  name(languageCode:$languageCode)
+  path
+  slug
+}
+query($languageCode:LanguageCodeEnum!){
+  categories {
+    ...Category
+    children{
+      ...Category
+      children{
+        ...Category
+        children{
+          ...Category
+        }
+      }
+    }
+  }
+}

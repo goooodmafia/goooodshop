@@ -1,0 +1,27 @@
+@import "_vars";
+@import "_mixins";
+
+.main-content {
+  flex: 1 0 auto;
+  padding: 70px 0 0;
+  //padding: 70px 0 ;
+  &--index {
+    padding-top: 0;
+  }
+  &--catalog {
+    overflow: hidden;
+  }
+  &--sidebar {
+
+    @include maw(767) {
+      padding-top: 0;
+    }
+  }
+
+  &__holder {
+    display: flex;
+    @include maw(991) {
+      flex-wrap: wrap;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+@import "_vars";
+@import "_mixins";
+
+.shops {
+  @include maw(575) {
+    padding-bottom: 70px;
+  }
+
+  &__city {
+    color: $accent;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  &__address {
+    padding: 0 0 18px;
+    position: relative;
+    &:before {
+      content: '';
+      background: url(../img/arrow--orange.svg) 0 0 no-repeat;
+      width: 6px;
+      height: 12px;
+      display: inline-block;
+      margin: 0 8px 0 0;
+      position: relative;
+      top: 0;
+    }
+  }
+  &__col {
+    @include miw(576) {
+      padding-bottom: 75px;
+    }
+  }
+}

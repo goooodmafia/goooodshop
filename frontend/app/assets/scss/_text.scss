@@ -1,0 +1,23 @@
+@import "_vars";
+@import "_mixins";
+
+.text {
+  &--ico {
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 0 0 0 66px;
+    margin: 0 0 35px;
+  }
+
+  &__ico {
+    position: absolute;
+    top: -6px;
+    left: 0;
+  }
+
+  p {
+    padding-bottom: 0;
+  }
+}

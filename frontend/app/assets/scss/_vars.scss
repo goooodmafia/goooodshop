@@ -1,0 +1,32 @@
+$default-font: "Source Sans Pro", arial, sans-serif;
+
+$accent: #fc982e;
+
+$blue: #247fc1;
+$light-blue: #91b9ff;
+
+//$grid-gutter-width: 12px;
+// Customization Bootstrap vars from "app/scss/libs/bootstrap/_variables.scss"
+$grid-gutter-width: 50px;
+$container-padding-x: 25px;
+//$grid-columns: 12;
+//$grid-breakpoints: (xs: 0, sm: 576px, md: 750px, lg: 992px, xl: 1200px);
+$container-max-widths: (sm: 768px, md: 992px, lg: 1200px, xl: 1300px);
+
+//$gutter: $grid-gutter-width;
+
+$font-family-base: "Source Sans Pro", arial, sans-serif;
+$font-size-base:    0.9375rem;
+$line-height-base:  1.25;
+$paragraph-margin-bottom: 1.1rem;
+
+// Body
+//
+// Settings for the `<body>` element.
+
+$body-bg:                   #1f4ea3;
+$body-color:                #fff;
+
+// Links
+$link-color: $accent;
+$link-hover-color: $accent;

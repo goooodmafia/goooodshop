@@ -1,0 +1,24 @@
+@import "_vars";
+@import "_mixins";
+
+.wholesale-benefits {
+  padding-bottom: 52px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    padding: 0 0 32px;
+  }
+  &__figure {
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin: 0 16px 0 0;
+    width: 65px;
+  }
+  &__ico {
+  }
+  &__text {}
+  &__note {
+    text-align: center;
+  }
+}

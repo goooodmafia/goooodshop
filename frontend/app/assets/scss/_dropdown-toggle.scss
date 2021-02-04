@@ -1,0 +1,27 @@
+@import "_vars";
+@import "_mixins";
+
+.dropdown-toggle {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  transition: .2s ease;
+  @include miw(992) {
+    display: none;
+  }
+
+  &:before {
+    content: '';
+    background: url(../img/checkbox.svg) 0 0 no-repeat;
+    width: 16px;
+    height: 16px;
+    @include align;
+  }
+  &.active {
+    transform: rotate(180deg);
+    top: -14px;
+  }
+}

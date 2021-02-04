@@ -1,0 +1,31 @@
+@import "_vars";
+@import "_mixins";
+
+.mybreadcrumb {
+  color: #91b9ff;
+  padding:  0 0 34px;
+  margin: 0;
+  &--product {
+    padding-bottom: 0;
+    @include maw(991) {
+      padding-top: 30px;
+    }
+  }
+
+  &__item {
+    display: inline;
+    &:after {
+      content: '>';
+      display: inline-block;
+      margin: 0 6px 0;
+    }
+    &:last-child {
+      &:after {
+        content: none;
+      }
+    }
+  }
+  &__link {
+    color: #91b9ff;
+  }
+}

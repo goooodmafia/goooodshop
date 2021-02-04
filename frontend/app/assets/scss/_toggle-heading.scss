@@ -1,0 +1,36 @@
+@import "_vars";
+@import "_mixins";
+
+.toggle-heading {
+  border-bottom: 1px solid $light-blue;
+  display: flex;
+  font-size: 25px;
+  font-weight: 700;
+  color: $light-blue;
+  padding: 0 0 23px 9px;
+
+  &__item {
+    margin: 0 56px 0 0;
+    cursor: pointer;
+    user-select: none;
+    @include maw(575) {
+      margin-right: 30px;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+    &--active {
+      pointer-events: none;
+      position: relative;
+      &:before {
+        content: '';
+        height: 6px;
+        position: absolute;
+        bottom: -27px;
+        left: 10px;
+        width: calc(100% - 20px);
+        background-color: $accent;
+      }
+    }
+  }
+}

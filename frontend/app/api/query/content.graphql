@@ -1,0 +1,28 @@
+fragment Component on ContentType{
+#  id
+#  route
+#  title
+  data(languageCode:$languageCode)
+}
+
+
+query($route:String! $languageCode:LanguageCodeEnum!){
+    header_top:content(route:$route position:HEADER_TOP) {
+      ...Component
+    }
+    header_bottom:content(route:$route position:HEADER_BOTTOM) {
+      ...Component
+    }
+    default_top:content(route:$route position:DEFAULT_TOP) {
+      ...Component
+    }
+    default_bottom:content(route:$route position:DEFAULT_BOTTOM) {
+      ...Component
+    }
+    footer_top:content(route:$route position:FOOTER_TOP) {
+      ...Component
+    }
+    footer_bottom:content(route:$route position:DEFAULT_BOTTOM) {
+      ...Component
+    }
+  }

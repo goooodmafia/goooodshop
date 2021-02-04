@@ -1,0 +1,10 @@
+@import "_vars";
+@import "_mixins";
+
+.notice {
+
+  &__title {
+    font-weight: 700;
+  }
+  &__item {}
+}

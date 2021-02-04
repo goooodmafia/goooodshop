@@ -1,0 +1,61 @@
+@import "vars";
+@import "mixins";
+
+.menu {
+  position: relative;
+  @include miw(992) {
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+  }
+
+  &__item {
+    @include maw(991) {
+      padding: 0 0 10px;
+      position: relative;
+    }
+    @include miw(992) {
+      flex-basis: auto;
+      flex-grow: 1;
+      position: relative;
+      border-right: 1px solid #fff;
+      &:last-child {
+        border-right: 0;
+        flex-basis: 160px;
+        flex-grow: 0;
+      }
+      &:hover {
+        background-color: $accent;
+      }
+      &.align-right {
+        position: static;
+      }
+    }
+  }
+
+  &__link {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    &:hover {
+      text-decoration: none;
+      color: #fff;
+    }
+    @include maw(991) {
+      &:hover {
+        color: $accent;
+        text-decoration: underline;
+      }
+    }
+    @include miw(992) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      text-transform: uppercase;
+      &:hover {
+        background-color: $accent;
+      }
+    }
+  }
+}

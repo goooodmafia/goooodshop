@@ -1,0 +1,20 @@
+@import "_vars";
+@import "_mixins";
+
+.phone {
+  color: #fefeff;
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+  &--lg {
+    font-size: 25px;
+  }
+
+  &__link {
+    color: #fefeff;
+    &:hover {
+      color: #fefeff;
+      text-decoration: none;
+    }
+  }
+}
