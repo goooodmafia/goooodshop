@@ -185,6 +185,8 @@ class Product(TranslatableModel):
         verbose_name='Медиафайлы'
     )
 
+    total_count = models.IntegerField(verbose_name='Остаток')
+
     new = models.BooleanField(default=True, verbose_name='Новинка')
     hit = models.BooleanField(default=False, verbose_name='Хит')
     sale = models.BooleanField(default=False, verbose_name='Sale')

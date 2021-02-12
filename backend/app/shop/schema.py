@@ -3,6 +3,7 @@ from django.db.models import Q
 import django_filters
 from django_parler_graphql.fields import TranslatedInstanceFields
 from graphene.types.generic import GenericScalar
+
 import graphene_django
 from graphene_django_extras import DjangoObjectType, DjangoListObjectType, LimitOffsetGraphqlPagination, \
     DjangoListObjectField

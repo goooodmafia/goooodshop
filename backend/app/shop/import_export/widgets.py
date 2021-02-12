@@ -88,7 +88,7 @@ class MyCategoriesWidget(ManyToManyWidget):
                     )
                 )
 
-        print(r)
+        # print(r)
 
         return r
 

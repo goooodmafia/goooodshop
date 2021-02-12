@@ -82,6 +82,25 @@ class ProductResource(VerboseNameModelResource):
         widget=MyGetManyToManyWidget(model=Color, field='name', separator=';')
     )
 
+    total_count = Field(
+        attribute='total_count',
+        column_name='Кол-во',
+        widget=widgets.IntegerWidget()
+    )
+
+    def skip_row(self, instance, original):
+        if instance.total_count is None:
+            skip = True
+        else:
+            if instance.total_count > 0:
+                skip = False
+            else:
+                skip = True
+
+        print('%s - %s ' % (instance.total_count, skip))
+
+        return skip
+
     def get_img(self, sku, brand):
         return '/img/products/%s/%s/%s.jpg' % (brand, sku, sku)
 
@@ -101,8 +120,6 @@ class ProductResource(VerboseNameModelResource):
         result_list = []
         instance.model = temp[0]
 
-
-
         for item in temp:
             result_list.append(switcher(item))
 
@@ -118,13 +135,14 @@ class ProductResource(VerboseNameModelResource):
                 slugify(instance.brand.name)
             )
         )[0]
-        (tag, success) = Tag.objects.get_or_create(name=instance.model)
-        instance.tags.add(tag)
+
+        # @todo
+        # (tag, success) = Tag.objects.get_or_create(name=instance.model)
+        # instance.tags.add(tag)
 
         return instance
 
     def after_save_instance(self, instance, using_transactions, dry_run):
-
         # instance.save()
         return instance
 
