@@ -1,0 +1,18 @@
+query($limit:Int! $offset:Int! $route:String! $languageCode:LanguageCodeEnum!){
+  fetchproducts(categories_Path_Iexact:$route limit:$limit offset:$offset){
+    model
+    sku
+    slug
+    thumbnail{
+      link
+    }
+    colors
+    new
+    hit
+    sale
+    glowInTheDark
+    glowInTheUv
+    description(languageCode:$languageCode)
+    content(languageCode:$languageCode)
+  }
+}

@@ -18,9 +18,9 @@
           </ol>
         </nav>
 
-        <Sorter />
+        <Sorter/>
 
-        <Products />
+        <Products/>
 
       </div>
     </div>
@@ -42,8 +42,13 @@ export default {
   ],
   computed: {
     breadcrumbs() {
-      return [{title: 'Главная', link: this.localePath('index')}].concat(this.data.breadcrumbs)
-    }
-  },
+      var b = [{title: 'Главная', link: this.localePath('index')}]
+      if (this.data.breadcrumbs) {
+        return b.concat(this.data.breadcrumbs)
+      } else {
+        return b
+      }
+    },
+  }
 }
 </script>

@@ -16,6 +16,7 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    '@fortawesome/fontawesome-svg-core/styles.css',
     '~/assets/scss/style.scss',
   ],
   loading: {
@@ -26,6 +27,8 @@ export default {
   plugins: [
 
     // { src: '@/plugins/markdown-it-vue-light', ssr: false }
+    {src: '~plugins/bus.js'},
+    {src: '~/plugins/vue-fontawesome'}
 
   ],
 
@@ -90,8 +93,6 @@ export default {
     injected: true
   },
 
-  static:{
-
-  },
+  static: {},
 
 }

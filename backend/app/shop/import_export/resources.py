@@ -92,14 +92,14 @@ class ProductResource(VerboseNameModelResource):
         if instance.total_count is None:
             skip = True
         else:
-            if instance.total_count > 0:
-                skip = False
-            else:
-                skip = True
-
-        print('%s - %s ' % (instance.total_count, skip))
+            # if instance.total_count > 0:
+            #     skip = False
+            # else:
+            #     skip = True
+            skip = False
 
         return skip
+
 
     def get_img(self, sku, brand):
         return '/img/products/%s/%s/%s.jpg' % (brand, sku, sku)

@@ -83,8 +83,8 @@ class MyCategoriesWidget(ManyToManyWidget):
             for child in children:
                 r.append(
                     self.my_get_or_create(
-                        name=child,
-                        parent=self.my_get_or_create(name=parent, parent=None)
+                        name=child.strip(),
+                        parent=self.my_get_or_create(name=parent.strip(), parent=None)
                     )
                 )
 

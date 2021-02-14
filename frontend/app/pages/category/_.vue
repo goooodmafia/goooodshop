@@ -1,6 +1,6 @@
 <template>
   <Wrapper>
-
+<!--    <div v-if="error">{{ error }}</div>-->
     <Breadcrumbs :data="breadcrumbs()"/>
 
   </Wrapper>
@@ -15,12 +15,13 @@ export default {
 
   components: {Breadcrumbs, Wrapper},
 
-  data(){
-    return{
+  data() {
+    return {
       category: {
-        link:"index",
-        breadcrumbs:[]
-      }
+        link: "index",
+        breadcrumbs: []
+      },
+      error: null,
     }
   },
 
@@ -38,6 +39,9 @@ export default {
       // update(data) {
       //   return data
       // }
+      error(error) {
+        this.error = JSON.stringify(error.message);
+      }
     }
   },
 

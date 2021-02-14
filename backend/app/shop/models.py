@@ -44,7 +44,7 @@ class Category(MPTTModel, TranslatableModel):
         name=models.CharField(max_length=1024, blank=True, verbose_name='Имя')
     )
     full_name = models.CharField(max_length=1024, blank=True, verbose_name='Полное имя')
-    path = models.CharField(max_length=256, blank=True, verbose_name='Путь')
+    path = models.CharField(max_length=256, blank=True, unique=True, verbose_name='Путь')
 
     enable = models.BooleanField(default=True, verbose_name='Показывать')
     slug = models.SlugField(max_length=128, blank=True, verbose_name='ЧПУ ссылка')

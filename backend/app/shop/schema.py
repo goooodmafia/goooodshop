@@ -1,5 +1,5 @@
 import graphene
-from django.db.models import Q
+from django.db.models import Q, Count
 import django_filters
 from django_parler_graphql.fields import TranslatedInstanceFields
 from graphene.types.generic import GenericScalar
@@ -15,29 +15,22 @@ def myresolver(instance, _info, language_code):
     return instance.safe_translation_getter(_info.field_name, language_code=language_code)
 
 
-class CategoryType(graphene_django.DjangoObjectType):
-    breadcrumbs = graphene.List(GenericScalar)
-    name = TranslatedInstanceFields(graphene.String, resolver=myresolver)
-
-
-    class Meta:
-        model = Category
-
 class MediaFileType(DjangoObjectType):
     class Meta:
         model = MediaFile
-        fields=('link',)
+        fields = ('link',)
+
 
 class TagType(DjangoListObjectType):
     class Meta:
         model = Tag
-        fields=('name',)
+        fields = ('name',)
+
 
 class ProductFilter(django_filters.FilterSet):
     query = django_filters.CharFilter(method='my_query_filter')
 
     def my_query_filter(self, queryset, name, value):
-        print(value)
         query_filter = (
                 Q(translations__description__icontains=value) |
                 Q(model__icontains=value) |
@@ -71,9 +64,26 @@ class ProductType(DjangoObjectType):
 class ProductListType(DjangoListObjectType):
     thumbnail = graphene.List(MediaFileType)
     tags = DjangoListObjectField(TagType)
+
     class Meta:
         model = Product
         pagination = LimitOffsetGraphqlPagination(default_limit=25)
 
-    # def resolve_tags(self, info):
-    #     return [tag.name for tag in self.tags.all()]
+
+class CategoryType(graphene_django.DjangoObjectType):
+    breadcrumbs = graphene.List(GenericScalar)
+    name = TranslatedInstanceFields(graphene.String, resolver=myresolver)
+    products = graphene.List(ProductType)
+    children = graphene.List(lambda: CategoryType)
+
+    def resolve_products(self, info):
+        return self.products\
+            .filter(total_count__gt=0)
+
+    def resolve_children(self, info):
+        return self.children\
+            .annotate(num_products=Count('products', Q(products__total_count__gt=0))).filter(num_products__gt=0)
+
+
+    class Meta:
+        model = Category
