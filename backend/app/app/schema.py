@@ -6,7 +6,7 @@ from graphene_django_extras import DjangoFilterListField, DjangoFilterPaginateLi
 
 from content.models import Content
 from shop.models import Category, Product
-from shop.schema import CategoryType, ProductType, ProductListType, ProductFilter
+from shop.schema import CategoryType, ProductType, ProductListType, ProductFilter, FilterType
 from users.models import CustomUser as UserModel
 
 from content.schema import ContentType
@@ -25,12 +25,6 @@ class Query(graphene.ObjectType):
     categories = graphene.List(CategoryType)
 
     product = graphene.Field(ProductType, sku=graphene.String())
-    # products = graphene.List(
-    #     ProductType,
-    #     path=graphene.String(),
-    #     filters=graphene.JSONString(),
-    #     query=graphene.String()
-    # )
 
     products = DjangoListObjectField(
         ProductListType,
@@ -43,6 +37,8 @@ class Query(graphene.ObjectType):
         filterset_class=ProductFilter
     )
 
+    filters = graphene.Field(FilterType, path=graphene.Argument(graphene.String))
+
     def resolve_content(self, info, route, position):
         return Content.objects.filter(enable=True, route=route, position=position)
 
@@ -53,17 +49,27 @@ class Query(graphene.ObjectType):
             return None
 
     def resolve_categories(self, info):
-        return Category.objects.filter(enable=True, parent=None)\
-        .annotate(
+        return Category.objects.filter(enable=True, parent=None) \
+            .annotate(
             num_children=Count(
                 'children',
-                filter = Q(children__products__total_count__gt=0)
+                filter=Q(children__products__total_count__gt=0)
             )
-        )\
-        .filter(num_children__gt=0)
+        ).filter(num_children__gt=0)
 
     def resolve_product(self, info, sku):
         return Product.objects.get(sku=sku)
+
+    def resolve_filters(self, info, path):
+
+        qs = Category.objects.filter(path=path) \
+            .values('products__colors__name').annotate(count=Count('products__colors__name')) \
+            .order_by('products__colors__name')
+
+        return FilterType(
+
+            colors = zip(qs.values_list('products__colors__name'), qs.values_list('count'))
+        )
 
         # def resolve_products(self, info, path, query):
         #     qs = Category.objects.get(path=path).products
@@ -79,5 +85,6 @@ class Query(graphene.ObjectType):
         #     #     print(filters)
         #     #     qs = qs.filter(**filters)
         #     return qs
+
 
 schema = graphene.Schema(query=Query)
