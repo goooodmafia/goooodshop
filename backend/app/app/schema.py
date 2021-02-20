@@ -1,12 +1,14 @@
-from django.db.models import Q, Count
+from django.db.models import Q, F, Count, Value, BooleanField
 from graphene_django import DjangoObjectType
 import graphene
 from graphene_django_extras import DjangoFilterListField, DjangoFilterPaginateListField, LimitOffsetGraphqlPagination, \
     DjangoListObjectField
 
+
+
 from content.models import Content
 from shop.models import Category, Product
-from shop.schema import CategoryType, ProductType, ProductListType, ProductFilter, FilterType
+from shop.schema import CategoryType, ProductType, ProductListType, ProductFilter, FilterType, FiltersType
 from users.models import CustomUser as UserModel
 
 from content.schema import ContentType
@@ -37,7 +39,8 @@ class Query(graphene.ObjectType):
         filterset_class=ProductFilter
     )
 
-    filters = graphene.Field(FilterType, path=graphene.Argument(graphene.String))
+    # filters = graphene.Field(FilterType, path=graphene.Argument(graphene.String))
+    filters = graphene.List(FiltersType, route=graphene.Argument(graphene.String))
 
     def resolve_content(self, info, route, position):
         return Content.objects.filter(enable=True, route=route, position=position)
@@ -60,16 +63,35 @@ class Query(graphene.ObjectType):
     def resolve_product(self, info, sku):
         return Product.objects.get(sku=sku)
 
-    def resolve_filters(self, info, path):
+    def resolve_filters(self, info, route):
 
-        qs = Category.objects.filter(path=path) \
-            .values('products__colors__name').annotate(count=Count('products__colors__name')) \
-            .order_by('products__colors__name')
+        qs = Category.objects.filter(path=route) \
+            .annotate(lable=F('products__colors__name')).values('lable') \
+            .exclude(lable__isnull=True) \
+            .annotate(count=Count('lable')) \
+            .annotate(value=Value(False, output_field=BooleanField())) \
+            .order_by('lable')
 
-        return FilterType(
 
-            colors = zip(qs.values_list('products__colors__name'), qs.values_list('count'))
-        )
+        return [
+            FiltersType(title='Цвет', name='color', items=qs),
+            # FiltersType(title='Фильтр', name='filter', items=[]),
+            # FiltersType(title='Фильтр', name='filter', items=[]),
+        ]
+
+        # qs = Category.objects.filter(path=path) \
+        #     .values('products__colors__name').annotate(count=Count('products__colors__name')) \
+        #     .order_by('products__colors__name')
+
+        # qs = Category.objects.filter(path=path) \
+        #     .annotate(lable = F('products__colors__name')).values('lable')\
+        #     .annotate(count=Count('lable')) \
+        #     .annotate(value=Value(False, output_field=BooleanField())) \
+        #     .order_by('lable')
+        #
+        # return FilterType(
+        #     colors = qs
+        # )
 
         # def resolve_products(self, info, path, query):
         #     qs = Category.objects.get(path=path).products

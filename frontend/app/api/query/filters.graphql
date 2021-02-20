@@ -1,0 +1,7 @@
+query($route:String!){
+  filters(route:$route){
+    title
+    name
+    items
+  }
+}

@@ -88,9 +88,13 @@ class CategoryType(graphene_django.DjangoObjectType):
     class Meta:
         model = Category
 
+class FiltersType(graphene.ObjectType):
+    title = graphene.String()
+    name = graphene.String()
+    items = graphene.List(GenericScalar)
 
 class FilterType(graphene.ObjectType):
-    colors = graphene.List(graphene.String)
+    colors = graphene.List(GenericScalar)
 
     # def resolve_colors(self, info):
     #     # print(instance)

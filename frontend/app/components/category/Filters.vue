@@ -5,36 +5,44 @@
     </div>
     <div class="filters__content">
 
-      <FilterComponent v-for="filter in filters" :filter="filter"/>
+      <FilterComponent v-for="filter in filters" :filter="filter" :key="filter.title"/>
 
     </div>
   </div>
 </template>
 <script>
 import FilterComponent from "./filters/FilterComponent";
+import FILTERS from '~/api/query/filters'
 
 export default {
-  components: {FilterComponent},
-  data() {
+
+  data(){
     return {
-      filters: [
-        {
-          title: 'Тип', name: 'sex', items: [
-            {lable: 'Мужское', value: false},
-            {lable: 'Женское', value: false},
-            {lable: 'Детское', value: false},
-          ]
-        },
-        {
-          title: 'Цвет', name: 'color', items: [
-            {lable: 'Черное', value: false},
-            {lable: 'Белое', value: false},
-            {lable: 'Красное', value: false},
-            {lable: 'Зеленый', value: false},
-            {lable: 'Синий', value: false},
-          ]
-        },
-      ]
+      filters:null
+    }
+  },
+  components: {FilterComponent},
+  apollo:{
+    filters:{
+      query:FILTERS,
+      variables() {
+        return {
+          route: this.$route.path
+            .replace('\/' + this.$i18n.locale, '/')
+            .replace('\/\/', '/'),
+        }
+      }
+    }
+  },
+
+  mounted() {
+    this.$bus.$emit('filters_change', this.filters)
+  },
+
+  watch:{
+    filters(newFilters, oldFilters) {
+      console.log('filters event')
+      this.$bus.$emit('filters_change', newFilters)
     }
   }
 }

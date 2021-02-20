@@ -27,7 +27,7 @@ export default {
   plugins: [
 
     // { src: '@/plugins/markdown-it-vue-light', ssr: false }
-    {src: '~plugins/bus.js'},
+    {src: '~/plugins/bus.js'},
     {src: '~/plugins/vue-fontawesome'}
 
   ],
