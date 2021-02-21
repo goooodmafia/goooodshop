@@ -29,6 +29,7 @@ class TagType(DjangoListObjectType):
 
 class ProductFilter(django_filters.FilterSet):
     query = django_filters.CharFilter(method='my_query_filter')
+    colors__name = django_filters.LookupChoiceFilter
 
     def my_query_filter(self, queryset, name, value):
         query_filter = (
@@ -44,6 +45,7 @@ class ProductFilter(django_filters.FilterSet):
             "model": ("icontains", "iexact"),
             "sku": ("icontains", "iexact"),
             "categories__path": ("icontains", "iexact"),
+            "colors__name"
         }
 
 
@@ -77,21 +79,22 @@ class CategoryType(graphene_django.DjangoObjectType):
     children = graphene.List(lambda: CategoryType)
 
     def resolve_products(self, info):
-        return self.products\
+        return self.products \
             .filter(total_count__gt=0)
 
     def resolve_children(self, info):
-        return self.children\
+        return self.children \
             .annotate(num_products=Count('products', Q(products__total_count__gt=0))).filter(num_products__gt=0)
-
 
     class Meta:
         model = Category
+
 
 class FiltersType(graphene.ObjectType):
     title = graphene.String()
     name = graphene.String()
     items = graphene.List(GenericScalar)
+
 
 class FilterType(graphene.ObjectType):
     colors = graphene.List(GenericScalar)
