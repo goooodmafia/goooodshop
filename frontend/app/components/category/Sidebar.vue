@@ -18,26 +18,29 @@
         :level="0"
         :key="item.name"/>
     </ul>
-    <Filters/>
+
+    <slot></slot>
+
   </div>
 </template>
 <script>
 import CategoryMenuItem from './CategoryMenuItem.vue'
 import CATEGORIES from '~/api/query/categories.graphql'
-import Filters from "./Filters";
+
 
 export default {
 
   components: {
-    Filters,
     CategoryMenuItem
   },
 
-  data(){
+  data() {
     return {
-      categories:[]
+      categories: []
     }
   },
+
+  props: ['filters'],
 
   apollo: {
     categories: {

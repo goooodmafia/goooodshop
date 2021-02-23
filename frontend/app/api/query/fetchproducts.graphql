@@ -1,5 +1,11 @@
-query($limit:Int! $offset:Int! $route:String! $languageCode:LanguageCodeEnum!){
-  fetchproducts(categories_Path_Iexact:$route limit:$limit offset:$offset){
+query(
+  $limit:Int!
+  $offset:Int!
+  $route:String!
+  $languageCode:LanguageCodeEnum!
+  $colors:String!
+){
+  fetchproducts(categories_Path_Iexact:$route limit:$limit offset:$offset colors:$colors){
     model
     sku
     slug

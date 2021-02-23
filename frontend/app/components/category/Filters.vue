@@ -12,38 +12,11 @@
 </template>
 <script>
 import FilterComponent from "./filters/FilterComponent";
-import FILTERS from '~/api/query/filters'
 
 export default {
 
-  data(){
-    return {
-      filters:null
-    }
-  },
   components: {FilterComponent},
-  apollo:{
-    filters:{
-      query:FILTERS,
-      variables() {
-        return {
-          route: this.$route.path
-            .replace('\/' + this.$i18n.locale, '/')
-            .replace('\/\/', '/'),
-        }
-      }
-    }
-  },
+  props:['filters'],
 
-  mounted() {
-    this.$bus.$emit('filters_change', this.filters)
-  },
-
-  watch:{
-    filters(newFilters, oldFilters) {
-      console.log('filters event')
-      this.$bus.$emit('filters_change', newFilters)
-    }
-  }
 }
 </script>

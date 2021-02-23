@@ -29,7 +29,7 @@ class TagType(DjangoListObjectType):
 
 class ProductFilter(django_filters.FilterSet):
     query = django_filters.CharFilter(method='my_query_filter')
-    colors__name = django_filters.LookupChoiceFilter
+    colors = django_filters.CharFilter(method='my_colors_filter')
 
     def my_query_filter(self, queryset, name, value):
         query_filter = (
@@ -39,13 +39,19 @@ class ProductFilter(django_filters.FilterSet):
         )
         return queryset.filter(query_filter)
 
+    def my_colors_filter(self, queryset, name, value):
+        colors = list(map(str.strip, value.split(',')))
+        query_filter = (
+            Q(colors__name__in=colors)
+        )
+        return queryset.filter(query_filter)
+
     class Meta:
         model = Product
         fields = {
             "model": ("icontains", "iexact"),
             "sku": ("icontains", "iexact"),
             "categories__path": ("icontains", "iexact"),
-            "colors__name"
         }
 
 
