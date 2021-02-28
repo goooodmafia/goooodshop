@@ -81,6 +81,7 @@ export default {
 
   apollo: {
     errorHandler: '~/plugins/apollo-error-handler.js',
+    fetchPolicy: 'no-cache',
 
     clientConfigs: {
       default: {

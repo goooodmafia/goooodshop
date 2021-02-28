@@ -18,6 +18,7 @@
           <div class="catalog-unit__sale-perc">-30%</div>
         </div>
         <div class="catalog-unit__title"><a href="#">{{ item.model }}</a></div>
+        <div>{{ item.colors }}</div>
         <div class="catalog-unit__category"><a href="#">Мужское / Футболки короткий рукав</a></div>
       </div>
 
@@ -94,3 +95,11 @@ export default {
   props:["item"],
 }
 </script>
+
+<style>
+.catalog-unit__figure {
+    min-width: 160px;
+    min-height: 200px;
+    background-color: rgba(255,255,255,0.2);
+}
+</style>

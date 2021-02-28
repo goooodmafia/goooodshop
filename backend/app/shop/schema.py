@@ -30,6 +30,7 @@ class TagType(DjangoListObjectType):
 class ProductFilter(django_filters.FilterSet):
     query = django_filters.CharFilter(method='my_query_filter')
     colors = django_filters.CharFilter(method='my_colors_filter')
+    route = django_filters.CharFilter(method='my_path_filter')
 
     def my_query_filter(self, queryset, name, value):
         query_filter = (
@@ -46,12 +47,18 @@ class ProductFilter(django_filters.FilterSet):
         )
         return queryset.filter(query_filter)
 
+    def my_path_filter(self, queryset, name, value):
+
+        query_filter = (
+            Q(categories__path__iexact=value)
+        )
+        return queryset.filter(query_filter)
+
     class Meta:
         model = Product
         fields = {
             "model": ("icontains", "iexact"),
             "sku": ("icontains", "iexact"),
-            "categories__path": ("icontains", "iexact"),
         }
 
 
@@ -102,8 +109,8 @@ class FiltersType(graphene.ObjectType):
     items = graphene.List(GenericScalar)
 
 
-class FilterType(graphene.ObjectType):
-    colors = graphene.List(GenericScalar)
+# class FilterType(graphene.ObjectType):
+#     colors = graphene.List(GenericScalar)
 
     # def resolve_colors(self, info):
     #     # print(instance)

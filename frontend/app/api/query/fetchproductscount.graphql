@@ -1,0 +1,6 @@
+query(
+  $route:String!
+  $colors:String!
+){
+  fetchproductscount(route:$route colors:$colors)
+}

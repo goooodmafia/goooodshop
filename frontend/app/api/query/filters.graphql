@@ -1,5 +1,5 @@
-query($route:String!){
-  filters(route:$route){
+query($route:String! $colors:String! $effects:String!){
+  filters(route:$route colors:$colors effects:$effects){
     title
     name
     items

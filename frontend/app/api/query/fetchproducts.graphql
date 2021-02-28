@@ -5,7 +5,7 @@ query(
   $languageCode:LanguageCodeEnum!
   $colors:String!
 ){
-  fetchproducts(categories_Path_Iexact:$route limit:$limit offset:$offset colors:$colors){
+  fetchproducts(route:$route limit:$limit offset:$offset colors:$colors){
     model
     sku
     slug

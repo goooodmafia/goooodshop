@@ -20,3 +20,8 @@ export default {
 
 }
 </script>
+<style>
+.filters {
+  width: 100%;
+}
+</style>
