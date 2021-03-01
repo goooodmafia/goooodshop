@@ -1,4 +1,6 @@
 <template>
+
+
   <div class="filters__item accordion__item is-active" v-if="filter.items && filter.items.length>1">
     <div class="filters__title accordion__title">{{ filter.title }}</div>
     <div class="filters__options accordion__content" style="display: block;">
@@ -14,6 +16,13 @@
 </template>
 <script>
 export default {
-  props: ['filter']
+  props: ['filter'],
+
+  // computed:{
+  //   showFilters(){
+  //     filter.items.length>1
+  //     && filter.items.length>1
+  //   }
+  // }
 }
 </script>

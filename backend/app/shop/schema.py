@@ -31,6 +31,7 @@ class ProductFilter(django_filters.FilterSet):
     query = django_filters.CharFilter(method='my_query_filter')
     colors = django_filters.CharFilter(method='my_colors_filter')
     route = django_filters.CharFilter(method='my_path_filter')
+    effects = django_filters.CharFilter(method='my_effects_filter')
 
     def my_query_filter(self, queryset, name, value):
         query_filter = (
@@ -53,6 +54,21 @@ class ProductFilter(django_filters.FilterSet):
             Q(categories__path__iexact=value)
         )
         return queryset.filter(query_filter)
+
+    def my_effects_filter(self, queryset, name, value):
+
+        effects_list = list(map(str.strip, value.split(',')))
+
+        effect_glow_in_the_dark = 'Светится в темноте' in effects_list
+        effect_glow_in_the_uv = 'Светится в ультрафиолете' in effects_list
+
+        effects_filter = Q()
+        if effect_glow_in_the_dark:
+            effects_filter = effects_filter & Q(glow_in_the_dark=True)
+        if effect_glow_in_the_uv:
+            effects_filter = effects_filter & Q(glow_in_the_uv=True)
+
+        return queryset.filter(effects_filter)
 
     class Meta:
         model = Product

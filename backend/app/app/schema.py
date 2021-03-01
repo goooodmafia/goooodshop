@@ -39,7 +39,8 @@ class Query(graphene.ObjectType):
 
     fetchproductscount = graphene.Int(
         route=graphene.Argument(graphene.String),
-        colors=graphene.Argument(graphene.String)
+        colors=graphene.Argument(graphene.String),
+        effects=graphene.Argument(graphene.String)
     )
 
     # filters = graphene.Field(FilterType, path=graphene.Argument(graphene.String))
@@ -73,46 +74,62 @@ class Query(graphene.ObjectType):
 
     def resolve_filters(self, info, route, colors, effects):
 
-        qs = Category.objects.filter(path=route)
+        # qs = Category.objects.filter(path=route)
+
         # color_qs = qs.annotate(lable=F('products__colors__name')).values('lable') \
         #     .exclude(lable__isnull=True) \
         #     .annotate(count=Count('lable')) \
         #     .annotate(value=Value(False, output_field=BooleanField())) \
         #     .order_by('lable')
 
-        colors_filter = (Q() | Q(colors__name__in=list(map(str.strip, colors.split(',')))))
+        colors_list = list(filter(None,map(str.strip, colors.split(','))))
+        effects_list = list(filter(None,map(str.strip, effects.split(','))))
+
+        effect_glow_in_the_dark = 'Светится в темноте' in effects_list
+        effect_glow_in_the_uv = 'Светится в ультрафиолете' in effects_list
+
+        colors_filter = Q()
+        print(colors_list)
+        if len(colors_list)>0:
+            colors_filter = colors_filter & Q(colors__name__in=colors_list)
+        # colors_filter =  Q(colors__name__in=colors_list)
+
         effects_filter = Q()
-            # (Q() | Q(colors__name__in=list(map(str.strip, effects.split(',')))))
+        if effect_glow_in_the_dark:
+            effects_filter = effects_filter & Q(glow_in_the_dark=True)
+        if effect_glow_in_the_uv:
+            effects_filter = effects_filter & Q(glow_in_the_uv=True)
+
 
         products_qs = Product.objects.filter(categories__path=route)
         color_qs = products_qs \
             .annotate(lable=F('colors__name')).values('lable') \
             .exclude(lable__isnull=True) \
-            .annotate(count=Count('lable', filter = effects_filter)) \
+            .annotate(count=Count('lable', filter=effects_filter)) \
             .annotate(value=Value(False, output_field=BooleanField())) \
             .order_by('lable')
 
-        if (colors):
-            colors_list = list(map(str.strip, colors.split(',')))
-            colors_filter = (
-                Q(colors__name__in=colors_list)
-            )
-            products_qs = products_qs.filter(colors_filter)
+        # if (colors):
+        #     colors_list = list(map(str.strip, colors.split(',')))
+        #     colors_filter = (
+        #         Q(colors__name__in=colors_list)
+        #     )
+        #     products_qs = products_qs.filter(colors_filter)
 
         products_dark_qs = products_qs \
             .values('glow_in_the_dark') \
             .filter(glow_in_the_dark=True) \
-            .annotate(count=Count('glow_in_the_dark', filter = colors_filter)) \
+            .annotate(count=Count('glow_in_the_dark', filter=colors_filter)) \
             .annotate(lable=Value('Светится в темноте', output_field=CharField())) \
-            .annotate(value=Value(False, output_field=BooleanField())) \
+            .annotate(value=Value(effect_glow_in_the_dark, output_field=BooleanField())) \
             .values('lable', 'count', 'value')
 
         products_uv_qs = products_qs \
             .values('glow_in_the_uv') \
             .filter(glow_in_the_uv=True) \
-            .annotate(count=Count('glow_in_the_uv', filter = colors_filter)) \
+            .annotate(count=Count('glow_in_the_uv', filter=colors_filter)) \
             .annotate(lable=Value('Светится в ультрафиолете', output_field=CharField())) \
-            .annotate(value=Value(False, output_field=BooleanField())) \
+            .annotate(value=Value(effect_glow_in_the_uv, output_field=BooleanField())) \
             .values('lable', 'count', 'value')
 
         # effects_dark_qs = qs.values('products__glow_in_the_dark') \
@@ -127,15 +144,21 @@ class Query(graphene.ObjectType):
         #     .annotate(lable=Value('Светится в ультрафиолете', output_field=CharField())) \
         #     # .values('lable', 'count')
 
+        colors = list(color_qs)
+
+        for color in colors:
+            if color['lable'] in colors_list:
+                color['value'] = True
+
         return [
-            FiltersType(title='Цвет', name='color', items=color_qs),
+            FiltersType(title='Цвет', name='color', items=colors),
             FiltersType(title='Спецэффекты', name='effects', items=list(products_dark_qs) + list(products_uv_qs)),
             # FiltersType(title='Спецэффекты', name='effects', items=list(effects_dark_qs)+ list(effects_uv_qs)),
             # FiltersType(title='Фильтр', name='filter', items=[]),
         ]
 
-    def resolve_fetchproductscount(self, info, route, colors):
 
+    def resolve_fetchproductscount(self, info, route, colors, effects):
         # return Category.objects.filter(path=route) \
         #     .annotate(num_products=Count('products'))[0].num_products
         qs = Category.objects.get(path=route).products.filter(enable=True)
@@ -146,6 +169,17 @@ class Query(graphene.ObjectType):
             )
             qs = qs.filter(colors_filter)
 
+        effects_list = list(map(str.strip, effects.split(',')))
+
+        effect_glow_in_the_dark = 'Светится в темноте' in effects_list
+        effect_glow_in_the_uv = 'Светится в ультрафиолете' in effects_list
+
+        effects_filter = Q()
+        if effect_glow_in_the_dark:
+            effects_filter = effects_filter & Q(glow_in_the_dark=True)
+        if effect_glow_in_the_uv:
+            effects_filter = effects_filter & Q(glow_in_the_uv=True)
+        qs = qs.filter(effects_filter)
         return qs.count()
 
 

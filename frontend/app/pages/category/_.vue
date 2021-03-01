@@ -72,6 +72,7 @@ export default {
           limit: this.pageSize,
           offset: 0,
           colors: '',
+          effects: ''
         }
       },
     },
@@ -81,6 +82,7 @@ export default {
         return {
           route: this.getRoute(),
           colors: '',
+          effects: ''
         }
       },
     },
@@ -139,7 +141,6 @@ export default {
         route: route,
         colors: colors,
         effects: effects,
-
       })
 
       this.$apollo.queries.fetchproducts.refetch({
@@ -148,6 +149,7 @@ export default {
         limit: this.pageSize,
         offset: 0,
         colors: colors,
+        effects: effects,
       })
     },
 

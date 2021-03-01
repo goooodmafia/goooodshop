@@ -4,8 +4,9 @@ query(
   $route:String!
   $languageCode:LanguageCodeEnum!
   $colors:String!
+  $effects:String!
 ){
-  fetchproducts(route:$route limit:$limit offset:$offset colors:$colors){
+  fetchproducts(route:$route limit:$limit offset:$offset colors:$colors effects:$effects){
     model
     sku
     slug

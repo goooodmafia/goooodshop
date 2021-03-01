@@ -1,6 +1,7 @@
 query(
   $route:String!
   $colors:String!
+  $effects:String!
 ){
-  fetchproductscount(route:$route colors:$colors)
+  fetchproductscount(route:$route colors:$colors effects:$effects)
 }

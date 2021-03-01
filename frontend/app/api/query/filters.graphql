@@ -1,4 +1,8 @@
-query($route:String! $colors:String! $effects:String!){
+query(
+  $route:String!
+  $colors:String!
+  $effects:String!
+){
   filters(route:$route colors:$colors effects:$effects){
     title
     name
