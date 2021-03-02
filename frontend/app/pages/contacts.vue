@@ -1,46 +1,43 @@
 <template>
   <Wrapper>
     <template v-slot:header>
-      <Breadcrumbs :data="breacrumbs"/>
-      <Breadcrumbs :data="breacrumbs2"/>
+      <div class="container">
+        <div class="row">
+          <Breadcrumbs :data="breacrumbs"/>
+        </div>
+      </div>
     </template>
     <template>
       <div class="container">
-      <div class="row">
-        <div class="col">
-          <h1>#Контакты</h1>
+        <div class="row">
+          <div class="col">
+            <h1>#Контакты</h1>
+          </div>
         </div>
       </div>
-    </div>
     </template>
 
   </Wrapper>
 </template>
+
+
 <script>
-import Wrapper from "../components/layout/Wrapper";
-import Breadcrumbs from "../components/layout/Breadcrumbs";
+  import Wrapper from "../components/layout/Wrapper";
+  import Breadcrumbs from "../components/layout/Breadcrumbs";
 
-export default {
+  export default {
 
-  name: 'Contacts',
+    name: 'Contacts',
 
-  components: {Breadcrumbs, Wrapper},
+    components: {Breadcrumbs, Wrapper},
 
-  data(){
-    return{
-      breacrumbs:{
-        title:'Контакты',
-        breadcrumbs:[
-          {title:'Контакты',link:this.localePath('contacts')},
-          {title:'Контакты',link:this.localePath('contacts')},
-          {title:'Контакты',link:this.localePath('contacts')}
-        ]
-      },
-      breacrumbs2:{
-        title:'Контакты',
-        breadcrumbs:[]
+    data() {
+      return {
+        breacrumbs: {
+          title: 'Контакты',
+          breadcrumbs: []
+        }
       }
     }
   }
-}
 </script>

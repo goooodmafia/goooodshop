@@ -91,7 +91,8 @@ export default {
   },
 
   markdownit: {
-    injected: true
+    injected: true,
+    html: true,
   },
 
   static: {},
