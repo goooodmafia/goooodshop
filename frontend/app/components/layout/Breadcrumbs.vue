@@ -1,29 +1,28 @@
 <template>
-  <div class="col">
-    <div class="heading heading--h2 heading--breadcrumb">
-      <h1>{{ data.title }}</h1>
+  <div class="row">
+    <slot name="sidebar"/>
+    <div class="col">
+      <div class="heading heading--h2 heading--breadcrumb">
+        <h1>{{ data.title }}</h1>
+      </div>
+      <nav aria-label="breadcrumb">
+        <ol class="mybreadcrumb">
+          <li class="mybreadcrumb__item" v-for="(item, index) in breadcrumbs">
+            <nuxt-link :to="localePath(item.link)" :class="['mybreadcrumb__link']">{{ item.title }}</nuxt-link>
+          </li>
+          <li class="mybreadcrumb__item active">{{ data.title }}</li>
+        </ol>
+      </nav>
+      <slot name="default"/>
     </div>
-
-    <nav aria-label="breadcrumb">
-      <ol class="mybreadcrumb">
-        <li class="mybreadcrumb__item" v-for="(item, index) in breadcrumbs">
-          <nuxt-link :to="localePath(item.link)" :class="['mybreadcrumb__link']">{{ item.title }}</nuxt-link>
-        </li>
-        <li class="mybreadcrumb__item active">{{ data.title }}</li>
-      </ol>
-    </nav>
-
-    <slot/>
-
+    <slot name="right"/>
   </div>
 </template>
 
 <script>
 
 
-
 export default {
-
 
 
   props: [

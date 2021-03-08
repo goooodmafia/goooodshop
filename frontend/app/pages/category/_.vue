@@ -2,20 +2,24 @@
   <Wrapper>
     <div class="container">
       <div class="row">
-
-        <div class="col-md-auto col-sm-12">
-          <Sidebar>
-            <Filters :filters="filters"/>
-          </Sidebar>
-        </div>
-
         <Breadcrumbs :data="breadcrumbs()">
-          <Products :products="fetchproducts"/>
-          <div ref="scrollmonitor">
-            <div v-if="this.$apollo.loading" class="text-center">
-              <font-awesome-icon :icon="['fas', 'circle-notch']" class="orange-text" spin size="6x"/>
+          <template v-slot:sidebar>
+            <div class="col-md-auto col-sm-12">
+              <Sidebar>
+                <Filters :filters="filters"/>
+              </Sidebar>
             </div>
-          </div>
+          </template>
+
+          <template>
+            <Products :products="fetchproducts"/>
+            <div ref="scrollmonitor">
+              <div v-if="this.$apollo.loading" class="text-center">
+                <font-awesome-icon :icon="['fas', 'circle-notch']" class="orange-text" spin size="6x"/>
+              </div>
+            </div>
+          </template>
+
         </Breadcrumbs>
 
       </div>

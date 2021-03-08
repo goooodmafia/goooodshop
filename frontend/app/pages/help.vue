@@ -6,12 +6,12 @@
       </div>
     </template>
     <template>
-      <div class="container" v-html="brand_about"/>
-      <div class="container" v-html="brand_principles"/>
       <div class="container">
         <div class="row">
           <div class="col">
-            <h3># Галлерея</h3>
+            <div class="help">
+              <HelpItem :item="item" v-for="(item,key) in help" :key="key"/>
+            </div>
           </div>
         </div>
       </div>
@@ -24,30 +24,30 @@
 
 import Wrapper from "../components/layout/Wrapper";
 import Breadcrumbs from "../components/layout/Breadcrumbs";
+import HelpItem from "../components/layout/HelpItem";
 
 export default {
 
-  name: 'Brand',
+  name: 'Help',
 
-  components: {Breadcrumbs, Wrapper,},
+  components: {Breadcrumbs, Wrapper, HelpItem},
 
   data() {
     return {
-      brand_about: null,
-      brand_principles: null,
+      help: null,
 
       breacrumbs: {
-        title: this.$t('page.brand.title'),
+        title: this.$t('page.help.title'),
         breadcrumbs: [],
       },
     }
   },
   async asyncData({app}) {
-    const brand_about = await import(`~/content/brand/brand_about_${app.i18n.locale}.md`)
-    const brand_principles = await import(`~/content/brand/brand_principles_${app.i18n.locale}.md`)
+    // const help_about = await import(`~/content/help/help_about_${app.i18n.locale}.md`)
+    const help = await import(`~/content/help/help_${app.i18n.locale}.json`)
     return {
-      brand_about: brand_about.html,
-      brand_principles: brand_principles.html,
+      // help_about: help_about.html,
+      help: help.default,
     }
   }
 }

@@ -9,16 +9,16 @@
                 <div class="nav nav--header">
                   <div class="nav__in">
                     <div class="nav__item">
-                      <nuxt-link class="nav__link" :to="localePath('index')">Помощь</nuxt-link>
+                      <nuxt-link class="nav__link" :to="localePath('help')">Помощь</nuxt-link>
                     </div>
                     <div class="nav__item">
-                      <nuxt-link class="nav__link" :to="localePath('index')">Доставка</nuxt-link>
+                      <nuxt-link class="nav__link" :to="localePath('delivery')">Доставка</nuxt-link>
                     </div>
                     <div class="nav__item">
                       <nuxt-link class="nav__link" :to="localePath('contacts')">Контакты</nuxt-link>
                     </div>
                     <div class="nav__item">
-                      <nuxt-link class="nav__link" :to="localePath('index')">Таблица размеров</nuxt-link>
+                      <nuxt-link class="nav__link" :to="localePath('size')">Таблица размеров</nuxt-link>
                     </div>
                   </div>
                 </div>

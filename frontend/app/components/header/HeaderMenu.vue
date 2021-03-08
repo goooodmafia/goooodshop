@@ -6,7 +6,7 @@
         <nuxt-link :to="localePath(item.path)" class="menu__link">{{ item.name }}</nuxt-link>
         <div class="menu-dropdown">
           <div class="menu-dropdown__item" v-for="child in item.children">
-            <nuxt-link :to="localePath(child.path)" class="menu-dropdown__link">{{ child.name }}</nuxt-link>
+            <nuxt-link :to="localePath({path:child.path, hash:child.hash})" class="menu-dropdown__link">{{ child.name }}</nuxt-link>
           </div>
         </div>
         <div class="dropdown-toggle"></div>
@@ -23,12 +23,12 @@ export default {
   data() {
     return {
       menu: [
-        {name: 'Купить оптом', path: 'opt', slug: '', children: []},
+        {name: 'Купить оптом', path: 'wholesale', slug: '', children: []},
         {
           name: 'Бренд GOOD', path: 'brand', slug: '', children: [
-            {name: 'Оптовый прайс-лист', path: 'brand', slug: ''},
-            {name: 'Помощь оптовикут', path: 'brand', slug: ''},
-            {name: 'Список транспортных', path: 'brand', slug: ''},
+            {name: 'Оптовый прайс-лист', path: 'wholesale', slug: '', hash:''},
+            {name: 'Помощь оптовикут', path: 'wholesale', slug: '', hash:'wholesale-help'},
+            {name: 'Список транспортных', path: 'wholesale', slug: '', hash:'wholesale-delivery'},
           ]
         },
         {name: 'Новинки', path: 'news', slug: '', children: []},

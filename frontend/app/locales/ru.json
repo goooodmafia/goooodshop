@@ -2,6 +2,21 @@
   "page": {
     "contacts": {
       "title": "Контакты"
+    },
+    "brand": {
+      "title": "Бренд GOOD"
+    },
+    "size": {
+      "title": "Таблица размеров"
+    },
+    "delivery": {
+      "title": "Доставка"
+    },
+    "help": {
+      "title": "Помощь"
+    },
+    "wholesale": {
+      "title": "Молодежная одежда оптом"
     }
   }
 }

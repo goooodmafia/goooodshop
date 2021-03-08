@@ -2,9 +2,7 @@
   <Wrapper>
     <template v-slot:header>
       <div class="container">
-        <div class="row">
-          <Breadcrumbs :data="breacrumbs"/>
-        </div>
+        <Breadcrumbs :data="breacrumbs"/>
       </div>
     </template>
     <template>
