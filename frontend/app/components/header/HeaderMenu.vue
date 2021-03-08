@@ -2,7 +2,7 @@
   <div class="container">
     <div class="menu">
 
-      <div class="menu__item" v-for="item in this.categories">
+      <div class="menu__item" v-for="item in this.categories.concat(this.menu)">
         <nuxt-link :to="localePath(item.path)" class="menu__link">{{ item.name }}</nuxt-link>
         <div class="menu-dropdown">
           <div class="menu-dropdown__item" v-for="child in item.children">
@@ -22,6 +22,17 @@ export default {
 
   data() {
     return {
+      menu: [
+        {name: 'Купить оптом', path: 'opt', slug: '', children: []},
+        {
+          name: 'Бренд GOOD', path: 'brand', slug: '', children: [
+            {name: 'Оптовый прайс-лист', path: 'brand', slug: ''},
+            {name: 'Помощь оптовикут', path: 'brand', slug: ''},
+            {name: 'Список транспортных', path: 'brand', slug: ''},
+          ]
+        },
+        {name: 'Новинки', path: 'news', slug: '', children: []},
+      ],
       categories: []
     }
   },
@@ -34,6 +45,10 @@ export default {
           languageCode: this.$i18n.locale.toUpperCase(),
         }
       },
+      // update:function(categories){
+      //   const
+      //   return categories.concat(menu)
+      // },
     }
   },
 

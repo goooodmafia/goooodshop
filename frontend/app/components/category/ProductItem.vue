@@ -4,10 +4,11 @@
     <div class="catalog-unit catalog-unit--catalog">
 
       <div class="catalog-unit__figure">
-        <div class="catalog-unit__label">new</div>
-        <a href="#">
+        <div v-if="item.new" class="catalog-unit__label">new</div>
+        <div v-if="item.hit" class="catalog-unit__label">hit</div>
+        <nuxt-link :to="localePath(`/product/${item.sku}`)">
           <img :src="item.thumbnail.link " alt="" class="catalog-unit__img">
-        </a>
+        </nuxt-link>
       </div>
 
       <div class="catalog-unit__details">
@@ -17,7 +18,9 @@
           <div class="catalog-unit__old-price">2000 руб.</div>
           <div class="catalog-unit__sale-perc">-30%</div>
         </div>
-        <div class="catalog-unit__title"><a href="#">{{ item.model }}</a></div>
+        <div class="catalog-unit__title">
+          <nuxt-link :to="localePath(`/product/${item.sku}`)">{{ item.model }}</nuxt-link>
+        </div>
         <div>{{ item.colors }}</div>
         <div class="catalog-unit__category"><a href="#">Мужское / Футболки короткий рукав</a></div>
       </div>

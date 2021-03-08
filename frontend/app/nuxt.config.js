@@ -28,7 +28,8 @@ export default {
 
     // { src: '@/plugins/markdown-it-vue-light', ssr: false }
     {src: '~/plugins/bus.js'},
-    {src: '~/plugins/vue-fontawesome'}
+    {src: '~/plugins/vue-fontawesome'},
+    {src: '~/plugins/ymapPlugin.js', mode: 'client'}
 
   ],
 
@@ -44,11 +45,23 @@ export default {
     'bootstrap-vue/nuxt',
     'nuxt-i18n',
     '@nuxtjs/apollo',
-    '@nuxtjs/markdownit',
+    // '@nuxtjs/markdownit',
+    // '@nuxt/content'
+
+    '~/modules/markdown'
   ],
 
+
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {},
+  build: {
+    // extend(config, {isDev, isClient}) {
+    //   config.module.rules.push({
+    //     test: /\.html$/i,
+    //     loader: 'html-loader',
+    //     options:{}
+    //   })
+    // }
+  },
 
   bootstrapVue: {
     bootstrapCSS: false,
@@ -58,19 +71,23 @@ export default {
   },
 
   i18n: {
-
     locales: [
       {
         code: 'en',
         name: 'En',
         domain: 'en.localhost:3000',
+        file: 'en.json',
       },
       {
         code: 'ru',
         name: 'Rus',
         domain: 'localhost:3000',
+        file: 'ru.json',
       }
     ],
+
+    lazy: true,
+    langDir: 'locales/',
     defaultLocale: 'ru',
     vueI18n: {
       fallbackLocale: 'ru',
@@ -90,11 +107,15 @@ export default {
     }
   },
 
-  markdownit: {
-    injected: true,
+  markdown: {
+    preset: 'default',
     html: true,
+    // linkify: true,
+    // breaks: true,
+    injected: true,
   },
 
   static: {},
+
 
 }

@@ -18,13 +18,16 @@
     "bootstrap-vue": "^2.17.3",
     "core-js": "^3.6.5",
     "fibers": "^5.0.0",
+    "frontmatter-markdown-loader": "^3.6.2",
     "graphql-tag": "^2.11.0",
+    "markdown-it": "^12.0.4",
     "markdown-it-vue": "^1.1.6",
     "nuxt": "^2.14.12",
     "nuxt-i18n": "^6.17.0",
     "sass": "^1.32.0",
     "sass-loader": "^10.1.0",
-    "scrollmonitor": "^1.2.4"
+    "scrollmonitor": "^1.2.4",
+    "vue-yandex-maps": "^0.10.9"
   },
   "devDependencies": {}
 }
