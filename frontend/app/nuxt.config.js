@@ -18,6 +18,7 @@ export default {
   css: [
     '@fortawesome/fontawesome-svg-core/styles.css',
     '~/assets/scss/style.scss',
+    'hooper/dist/hooper.css',
   ],
   loading: {
     color: '#fc982e',
@@ -29,8 +30,8 @@ export default {
     // { src: '@/plugins/markdown-it-vue-light', ssr: false }
     {src: '~/plugins/bus.js'},
     {src: '~/plugins/vue-fontawesome'},
-    {src: '~/plugins/ymapPlugin.js', mode: 'client'}
-
+    {src: '~/plugins/ymapPlugin.js', mode: 'client'},
+    // {src: '~/plugins/vue-hooper'},
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -61,6 +62,7 @@ export default {
     //     options:{}
     //   })
     // }
+
   },
 
   bootstrapVue: {

@@ -20,6 +20,7 @@
     "fibers": "^5.0.0",
     "frontmatter-markdown-loader": "^3.6.2",
     "graphql-tag": "^2.11.0",
+    "hooper": "^0.3.4",
     "markdown-it": "^12.0.4",
     "markdown-it-vue": "^1.1.6",
     "nuxt": "^2.14.12",

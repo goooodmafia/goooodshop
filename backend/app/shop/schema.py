@@ -30,6 +30,7 @@ class TagType(DjangoListObjectType):
 class ProductFilter(django_filters.FilterSet):
     query = django_filters.CharFilter(method='my_query_filter')
     colors = django_filters.CharFilter(method='my_colors_filter')
+    tags = django_filters.CharFilter(method='my_tags_filter')
     route = django_filters.CharFilter(method='my_path_filter')
     effects = django_filters.CharFilter(method='my_effects_filter')
 
@@ -45,6 +46,13 @@ class ProductFilter(django_filters.FilterSet):
         colors = list(map(str.strip, value.split(',')))
         query_filter = (
             Q(colors__name__in=colors)
+        )
+        return queryset.filter(query_filter)
+
+    def my_tags_filter(self, queryset, name, value):
+        tags = list(map(str.strip, value.split(',')))
+        query_filter = (
+            Q(tags__name__in=tags)
         )
         return queryset.filter(query_filter)
 
@@ -83,10 +91,18 @@ class ProductType(DjangoObjectType):
     content = TranslatedInstanceFields(graphene.String, resolver=myresolver)
     colors = graphene.List(graphene.String)
     thumbnail = graphene.Field(MediaFileType)
-    tags = graphene.List(TagType)
+    # tags = graphene.List(TagType)
+    tags = graphene.List(graphene.String)
+    brand = graphene.String()
 
     def resolve_colors(self, info):
         return [color.name for color in self.colors.all()]
+
+    def resolve_tags(self, info):
+        return [tag.name for tag in self.tags.all()]
+
+    def resolve_brand(self, info):
+        return self.brand.name
 
     class Meta:
         model = Product

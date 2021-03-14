@@ -5,8 +5,9 @@ query(
   $languageCode:LanguageCodeEnum!
   $colors:String!
   $effects:String!
+  $tags:String!
 ){
-  fetchproducts(route:$route limit:$limit offset:$offset colors:$colors effects:$effects){
+  fetchproducts(route:$route limit:$limit offset:$offset colors:$colors effects:$effects tags:$tags){
     model
     sku
     slug

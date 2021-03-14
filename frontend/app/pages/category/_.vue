@@ -1,29 +1,36 @@
 <template>
   <Wrapper>
     <div class="container">
-      <div class="row">
-        <Breadcrumbs :data="breadcrumbs()">
-          <template v-slot:sidebar>
-            <div class="col-md-auto col-sm-12">
-              <Sidebar>
-                <Filters :filters="filters"/>
-              </Sidebar>
-            </div>
-          </template>
+      <Breadcrumbs :data="breadcrumbs()">
+        <template v-slot:sidebar>
+          <div class="col-md-auto col-sm-12">
+            <Sidebar>
+              <Filters :filters="filters"/>
+            </Sidebar>
+          </div>
+        </template>
 
-          <template>
-            <Products :products="fetchproducts"/>
-            <div ref="scrollmonitor">
-              <div v-if="this.$apollo.loading" class="text-center">
-                <font-awesome-icon :icon="['fas', 'circle-notch']" class="orange-text" spin size="6x"/>
+        <template>
+
+          <div class="catalog">
+            <div class="catalog__in">
+              <div class="catalog__item" v-for="item in fetchproducts">
+                <CatalogItem  :item="item" :key="item.sku"/>
               </div>
             </div>
-          </template>
+          </div>
 
-        </Breadcrumbs>
+          <div ref="scrollmonitor">
+            <div v-if="this.$apollo.loading" class="text-center">
+              <font-awesome-icon :icon="['fas', 'circle-notch']" class="orange-text" spin size="6x"/>
+            </div>
+          </div>
+        </template>
 
-      </div>
+      </Breadcrumbs>
+
     </div>
+    <!--    </div>-->
   </Wrapper>
 </template>
 <script>
@@ -33,17 +40,17 @@ import FETCHPRODUCTS from "~/api/query/fetchproducts.graphql"
 import FETCHPRODUCTSCOUNT from "~/api/query/fetchproductscount.graphql"
 
 import Wrapper from "~/components/layout/Wrapper";
-import Products from "~/components/category/Products";
 import Filters from "~/components/category/Filters";
 import Breadcrumbs from "~/components/layout/Breadcrumbs";
 import Sidebar from "~/components/category/Sidebar";
+import CatalogItem from "~/components/category/catalog-unit/CatalogItem"
 import scrollMonitor from "scrollmonitor";
 
 
 export default {
   name: 'category',
 
-  components: {Wrapper, Products, Filters, Breadcrumbs, Sidebar},
+  components: {Wrapper, Filters, Breadcrumbs, Sidebar, CatalogItem},
 
   data() {
     return {
@@ -76,7 +83,8 @@ export default {
           limit: this.pageSize,
           offset: 0,
           colors: '',
-          effects: ''
+          effects: '',
+          tags: '',
         }
       },
     },

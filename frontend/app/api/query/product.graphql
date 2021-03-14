@@ -1,0 +1,23 @@
+query(
+  $sku:String!
+  $languageCode:LanguageCodeEnum!
+){
+  product(sku:$sku){
+    sku
+    model
+    brand
+    tags
+    description(languageCode:$languageCode)
+    content(languageCode:$languageCode)
+    thumbnail{
+      link
+    }
+    new
+    hit
+    sale
+    colors
+    glowInTheDark
+    glowInTheUv
+    slug
+  }
+}

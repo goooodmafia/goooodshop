@@ -2,7 +2,7 @@
   <div class="row">
     <slot name="sidebar"/>
     <div class="col">
-      <div class="heading heading--h2 heading--breadcrumb">
+      <div class="heading heading--h2 heading--breadcrumb" v-if="showTitle">
         <h1>{{ data.title }}</h1>
       </div>
       <nav aria-label="breadcrumb">
@@ -25,9 +25,13 @@
 export default {
 
 
-  props: [
-    'data'
-  ],
+  props: {
+    data:{},
+    showTitle: {
+      type:Boolean,
+      default:true,
+    }
+  },
   computed: {
     breadcrumbs() {
       var b = [{title: 'Главная', link: this.localePath('index')}]

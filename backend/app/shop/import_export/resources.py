@@ -55,7 +55,7 @@ class ProductResource(VerboseNameModelResource):
     # tags = Field(
     #     attribute='tags',
     #     column_name = 'Модель / Цвет',
-    #     widget=MyTagWidget(Tag, field='code', separator='\n')
+    #     widget=widgets.CharWidget()
     # )
 
     content = Field(
@@ -137,13 +137,17 @@ class ProductResource(VerboseNameModelResource):
         )[0]
 
         # @todo
-        # (tag, success) = Tag.objects.get_or_create(name=instance.model)
-        # instance.tags.add(tag)
+
 
         return instance
 
     def after_save_instance(self, instance, using_transactions, dry_run):
         # instance.save()
+
+        (tag, success) = Tag.objects.get_or_create(name=instance.model)
+        # instance.tags.add(tag)
+        tag.products.add(instance)
+
         return instance
 
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
