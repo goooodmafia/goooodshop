@@ -40,7 +40,7 @@ export default {
     }
   },
 
-  props: ['filters'],
+  props: ['filters', 'currentpath'],
 
   apollo: {
     categories: {
@@ -52,12 +52,5 @@ export default {
       },
     }
   },
-
-  computed: {
-    currentpath() {
-      const pathArray = this.$route.fullPath.split('/')
-      return pathArray.slice(pathArray.indexOf('category') + 1)
-    }
-  }
 }
 </script>

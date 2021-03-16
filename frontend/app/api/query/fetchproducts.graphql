@@ -15,6 +15,7 @@ query(
       link
     }
     colors
+    category
     new
     hit
     sale

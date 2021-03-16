@@ -16,6 +16,7 @@ query(
     hit
     sale
     colors
+    category
     glowInTheDark
     glowInTheUv
     slug

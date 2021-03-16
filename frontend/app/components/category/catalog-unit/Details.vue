@@ -9,13 +9,15 @@
     <div class="catalog-unit__title">
       <nuxt-link :to="localePath(`/product/${item.sku}`)">{{ item.model }}</nuxt-link>
     </div>
-    <div>{{ item.colors }}</div>
-    <div class="catalog-unit__category"><a href="#">Мужское / Футболки короткий рукав</a></div>
+<!--    <div>{{ item.colors }}</div>-->
+    <div class="catalog-unit__category">
+      <nuxt-link :to="localePath(item.category.link)">{{ item.category.title }}</nuxt-link>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props:['item']
+  props: ['item']
 }
 </script>

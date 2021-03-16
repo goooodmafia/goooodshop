@@ -22,9 +22,17 @@ export default {
     'currentpath',
     'level'
   ],
-  data() {
-    return {show: this.showchildren && (this.currentpath[this.level] === this.item.slug)}
+  // data() {
+  //   return {show: false}
+  // },
+
+  methods: {
+    show() {
+      return this.currentpath[this.level] === this.item.slug
+    },
   },
+
+
 }
 </script>
 

@@ -91,9 +91,9 @@ class ProductType(DjangoObjectType):
     content = TranslatedInstanceFields(graphene.String, resolver=myresolver)
     colors = graphene.List(graphene.String)
     thumbnail = graphene.Field(MediaFileType)
-    # tags = graphene.List(TagType)
     tags = graphene.List(graphene.String)
     brand = graphene.String()
+    category = GenericScalar()
 
     def resolve_colors(self, info):
         return [color.name for color in self.colors.all()]
@@ -103,6 +103,10 @@ class ProductType(DjangoObjectType):
 
     def resolve_brand(self, info):
         return self.brand.name
+
+    def resolve_category(self, info):
+        qs = self.categories.all()[0]
+        return {'title': qs.full_name, 'link': qs.path}
 
     class Meta:
         model = Product
@@ -140,10 +144,9 @@ class FiltersType(graphene.ObjectType):
     name = graphene.String()
     items = graphene.List(GenericScalar)
 
-
 # class FilterType(graphene.ObjectType):
 #     colors = graphene.List(GenericScalar)
 
-    # def resolve_colors(self, info):
-    #     # print(instance)
-    #     return 42
+# def resolve_colors(self, info):
+#     # print(instance)
+#     return 42

@@ -4,7 +4,7 @@
 
       <div class="row">
         <div class="col-md-auto col-sm-12">
-          <Sidebar>
+          <Sidebar :currentpath="currentpath">
             <!-- <Filters :filters="filters"/>-->
           </Sidebar>
         </div>
@@ -180,6 +180,8 @@ export default {
   data() {
     return {
 
+      currentpath:[],
+
       options_main: {
         mouseDrag: false,
         touchDrag: false,
@@ -203,7 +205,7 @@ export default {
         ],
       },
 
-      fetchproducts:[],
+      fetchproducts: [],
 
       product: {
         sku: '',
@@ -250,14 +252,20 @@ export default {
           languageCode: this.$i18n.locale.toUpperCase(),
         }
       },
-      result({data, loading, networkStatus}) {
-        this.$apollo.queries.fetchproducts.skip = false
-        this.$apollo.queries.fetchproducts.refetch({
-          tags: data.tags.join()
-        })
-      },
     },
 
+  },
+
+  watch: {
+    product() {
+      this.$apollo.queries.fetchproducts.skip = false
+      this.$apollo.queries.fetchproducts.refetch({
+        tags: this.product.tags.join()
+      })
+
+      const pathArray = this.product.category.link.split('/')
+      this.$data.currentpath = pathArray.slice(pathArray.indexOf('category') + 1)
+    }
   },
 
   methods: {
@@ -265,6 +273,13 @@ export default {
       return this.$route.params.sku
     }
   },
+
+  // computed: {
+  //   currentpath() {
+  //     const pathArray = this.product.link.split('/') || []
+  //     return pathArray.slice(pathArray.indexOf('category') + 1)
+  //   }
+  // }
 
 }
 </script>

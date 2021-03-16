@@ -4,7 +4,7 @@
       <Breadcrumbs :data="breadcrumbs()">
         <template v-slot:sidebar>
           <div class="col-md-auto col-sm-12">
-            <Sidebar>
+            <Sidebar :currentpath="currentpath">
               <Filters :filters="filters"/>
             </Sidebar>
           </div>
@@ -216,6 +216,13 @@ export default {
         this.fetchMoreProducts();
       }
     });
+  },
+
+  computed: {
+    currentpath() {
+      const pathArray = this.$route.fullPath.split('/')
+      return pathArray.slice(pathArray.indexOf('category') + 1)
+    }
   }
 
 }
