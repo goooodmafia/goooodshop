@@ -90,7 +90,8 @@ class ProductType(DjangoObjectType):
     description = TranslatedInstanceFields(graphene.String, resolver=myresolver)
     content = TranslatedInstanceFields(graphene.String, resolver=myresolver)
     colors = graphene.List(graphene.String)
-    thumbnail = graphene.Field(MediaFileType)
+    thumbnail = graphene.Field(graphene.String)
+    mediaFiles = graphene.List(graphene.String)
     tags = graphene.List(graphene.String)
     brand = graphene.String()
     category = GenericScalar()
@@ -107,6 +108,12 @@ class ProductType(DjangoObjectType):
     def resolve_category(self, info):
         qs = self.categories.all()[0]
         return {'title': qs.full_name, 'link': qs.path}
+
+    def resolve_mediaFiles(self, info):
+        return [media.link for media in self.media_files.all()]
+
+    def resolve_thumbnail(self, info):
+        return self.thumbnail.link
 
     class Meta:
         model = Product

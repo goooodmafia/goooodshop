@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Free your mind",
+    "description": "Встречайте нашу новинку – футболка из самой пучины океана. Готовьте ваши пиастры – тираж совсем не большой, на всех не хватит",
+    "img": "/img/banner/index/main-slider__pic1.jpg",
+    "link":"/category/muzhskoe/futbolki-korotkii-rukav",
+    "color": "#1f4ea3"
+  },
+  {
+    "title": "Кибер<br> понедельник",
+    "description": "Супер-распродажа месяца! Чёрный понедельник – скидки до 50% на все товары. Успей купить!",
+    "img": "/img/banner/index/main-slider__pic2.jpg",
+    "link":"/category/muzhskoe/futbolki-korotkii-rukav",
+    "color": "#020820"
+  },
+  {
+    "title": "Скидка на все<br> футболки -20%",
+    "description": "Успей купить! Только 12 августа –<br> скидка на все футболки -20%!",
+    "img": "/img/banner/index/main-slider__pic3.jpg",
+    "link":"/category/muzhskoe/futbolki-korotkii-rukav",
+    "color": "#1f4ea3"
+  }
+]

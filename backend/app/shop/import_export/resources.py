@@ -9,6 +9,32 @@ from shop.import_export.widgets import MyGetForeignKeyWidget, MyGetManyToManyWid
 
 from django.utils.text import slugify
 
+import os
+
+from pathlib import Path
+
+from django.conf import settings
+
+
+def remove_prefix(text, prefix):
+    return text[text.startswith(prefix) and len(prefix):]
+
+
+def get_images(brand, sku):
+    path = settings.MEDIA_ROOT / 'img' / 'products' / brand / sku
+    files = []
+    for x in path.glob('**/*.jpg'):
+        if x.is_file():
+            f = remove_prefix(str(x), str(settings.MEDIA_ROOT))
+            # '/img/products/%s/%s/%s.jpg' % (brand, sku, sku)
+            # if (f is not ('/img/products/%s/%s/%s.jpg' % (brand, sku, sku))
+            #     pass
+
+            if f != ('/img/products/%s/%s/%s.jpg' % (brand, sku, sku)):
+                files.append(f)
+        # [ for x in path.glob('**/*.jpg') if x.is_file()]
+    return files
+
 
 class VerboseNameModelResource(resources.ModelResource):
 
@@ -100,7 +126,6 @@ class ProductResource(VerboseNameModelResource):
 
         return skip
 
-
     def get_img(self, sku, brand):
         return '/img/products/%s/%s/%s.jpg' % (brand, sku, sku)
 
@@ -136,17 +161,21 @@ class ProductResource(VerboseNameModelResource):
             )
         )[0]
 
-        # @todo
-
-
         return instance
 
     def after_save_instance(self, instance, using_transactions, dry_run):
         # instance.save()
 
+        imgs = get_images(slugify(instance.brand.name), instance.sku)
+
+        for img in imgs:
+            (media_file, success) = MediaFile.objects.get_or_create(link=img)
+            if (success):
+                instance.media_files.add(media_file)
+
         (tag, success) = Tag.objects.get_or_create(name=instance.model)
-        # instance.tags.add(tag)
-        tag.products.add(instance)
+        if (success):
+            tag.products.add(instance)
 
         return instance
 

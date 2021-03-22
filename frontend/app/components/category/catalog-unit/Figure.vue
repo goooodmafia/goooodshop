@@ -3,7 +3,7 @@
     <div v-if="item.new" class="catalog-unit__label">new</div>
     <div v-if="item.hit" class="catalog-unit__label">hit</div>
     <nuxt-link :to="localePath(`/product/${item.sku}`)">
-      <img :src="item.thumbnail.link " alt="" class="catalog-unit__img">
+      <img :src="item.thumbnail " alt="" class="catalog-unit__img">
     </nuxt-link>
   </div>
 </template>

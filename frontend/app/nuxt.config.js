@@ -31,6 +31,7 @@ export default {
     {src: '~/plugins/bus.js'},
     {src: '~/plugins/vue-fontawesome'},
     {src: '~/plugins/ymapPlugin.js', mode: 'client'},
+    // {src: '~/plugins/vue-router-back-button.js', mode: 'client'},
     // {src: '~/plugins/vue-hooper'},
   ],
 

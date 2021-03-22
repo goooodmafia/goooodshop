@@ -11,9 +11,8 @@ query(
     model
     sku
     slug
-    thumbnail{
-      link
-    }
+    thumbnail
+    mediaFiles
     colors
     category
     new

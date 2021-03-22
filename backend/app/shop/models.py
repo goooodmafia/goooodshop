@@ -176,11 +176,9 @@ class Product(TranslatableModel):
         related_name="product_thumnail",
         verbose_name='Превью'
     )
-    media_files = models.ForeignKey(
+    media_files = models.ManyToManyField(
         MediaFile,
         blank=True,
-        null=True,
-        on_delete=models.CASCADE,
         related_name="product_media_files",
         verbose_name='Медиафайлы'
     )

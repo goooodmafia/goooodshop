@@ -9,9 +9,8 @@ query(
     tags
     description(languageCode:$languageCode)
     content(languageCode:$languageCode)
-    thumbnail{
-      link
-    }
+    thumbnail
+    mediaFiles
     new
     hit
     sale

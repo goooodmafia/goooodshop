@@ -9,18 +9,8 @@
           </Sidebar>
         </div>
         <div class="col content">
-
           <div class="product-head">
-            <!--            <a href="#" class="btn btn&#45;&#45;back">Назад</a>-->
-            <!--            <nav aria-label="breadcrumb">-->
-            <!--              <ol class="breadcrumb breadcrumb&#45;&#45;product">-->
-            <!--                <li class="breadcrumb__item"><a href="#" class="breadcrumb__link">Главная</a></li>-->
-            <!--                <li class="breadcrumb__item"><a href="#" class="breadcrumb__link">Мужское</a></li>-->
-            <!--                <li class="breadcrumb__item"><a href="#" class="breadcrumb__link">Футболки короткий рукав</a></li>-->
-            <!--                <li class="breadcrumb__item active" aria-current="page">Free your mind</li>-->
-            <!--              </ol>-->
-            <!--            </nav>-->
-
+            <div class="btn btn--back" @click="$router.back()">Назад</div>
             <nav aria-label="breadcrumb">
               <ol class="mybreadcrumb">
                 <li class="mybreadcrumb__item" v-for="(item, index) in breadcrumbs.breadcrumbs">
@@ -32,35 +22,41 @@
           </div>
 
           <div class="product-wrap">
-
             <div class="product-slider">
-
               <div class="product-slider__nav">
                 <hooper class="product-slider-nav" ref="slider_nav" :settings="options_nav" group="group"
-                        style="height:512px">
-                  <slide v-for="item in 4" :key="item">
-                    <h3 class="myslidenav">slide {{ item }}</h3>
-                  </slide>
-
+                        style="height: 512px">
+                  <template v-if="product.mediaFiles.length>0">
+                    <slide v-for="item in product.mediaFiles" :key="item">
+                      <b-img-lazy blank-color="rgba(255, 255, 255, .3)" height="119px" center :src="item"/>
+                    </slide>
+                  </template>
+                  <template v-else>
+                    <slide>
+                      <b-img-lazy blank="true" blank-color="rgba(255, 255, 255, .3)" height="119px" width="90px"
+                                  center/>
+                    </slide>
+                  </template>
                   <navigation slot="hooper-addons"></navigation>
-
                 </hooper>
               </div>
 
               <div class="product-slider__main">
                 <div class="product-slider__label">new</div>
-
-                <hooper ref="slider_main" :settings="options_main" group="group" style="height:554px">
-
-                  <slide v-for="item in 4" :key="item">
-                    <h3 class="myslide">slide {{ item }}</h3>
-                  </slide>
-
+                <hooper ref="slider_main" :settings="options_main" group="group"
+                        style="height: 554px">
+                  <template v-if="product.mediaFiles.length>0">
+                    <slide v-for="item in product.mediaFiles" :key="item">
+                      <b-img-lazy blank-color="rgba(255, 255, 255, .3)" height="554px" center :src="item"/>
+                    </slide>
+                  </template>
+                  <template v-else>
+                    <slide>
+                      <b-img-lazy blank="true" blank-color="rgba(255, 255, 255, .3)" height="554px" width="413" center/>
+                    </slide>
+                  </template>
                 </hooper>
-
               </div>
-
-
             </div>
 
             <div class="product-details">
@@ -180,20 +176,20 @@ export default {
   data() {
     return {
 
-      currentpath:[],
+      currentpath: [],
 
       options_main: {
         mouseDrag: false,
         touchDrag: false,
         wheelControl: false,
         keysControl: false,
-        infiniteScroll: true,
+        // infiniteScroll: true,
       },
 
       options_nav: {
         vertical: true,
         itemsToShow: 4,
-        infiniteScroll: true,
+        // infiniteScroll: true,
       },
 
 
@@ -216,6 +212,7 @@ export default {
         thumbnail: {
           link: '',
         },
+        mediaFiles:[],
         new: '',
         hit: '',
         sale: '',
@@ -274,6 +271,12 @@ export default {
     }
   },
 
+  computed: {
+    to() {
+      this.$router.go(-1);
+    },
+  },
+
   // computed: {
   //   currentpath() {
   //     const pathArray = this.product.link.split('/') || []
@@ -288,7 +291,7 @@ export default {
 .myslide {
   text-align: center;
   max-width: 413px;
-  min-height: 554px;
+  /*min-height: 554px;*/
   background-color: rgba(255, 255, 255, .3);
 }
 
@@ -296,8 +299,12 @@ export default {
   text-align: center;
   background-color: rgba(255, 255, 255, .3);
   width: 93px;
-  height: 119px;
+  /*height: 119px;*/
 }
+
+/*.hooper {*/
+/*  height: 100%;*/
+/*}*/
 
 .hooper-navigation.is-vertical .hooper-prev, .hooper-navigation.is-vertical .hooper-next {
   right: auto;

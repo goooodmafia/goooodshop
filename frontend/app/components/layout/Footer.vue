@@ -8,24 +8,45 @@
         <div class="col-md-8 col-lg-4 col-xl-5 footer__menu">
           <div class="bottom-menu">
             <div class="bottom-menu__col">
-              <div class="bottom-menu__item"><a href="#" class="bottom-menu__link">Мужское</a></div>
-              <div class="bottom-menu__item"><a href="#" class="bottom-menu__link">Женское</a></div>
-              <div class="bottom-menu__item"><a href="#" class="bottom-menu__link">Детское</a></div>
+              <div class="bottom-menu__item">
+                <nuxt-link class="bottom-menu__link" :to="localePath('/category/muzhskoe')">Мужское</nuxt-link>
+              </div>
+              <div class="bottom-menu__item">
+                <nuxt-link class="bottom-menu__link" :to="localePath('/category/zhenskoe')">Женское</nuxt-link>
+              </div>
+              <div class="bottom-menu__item">
+                <nuxt-link class="bottom-menu__link" :to="localePath('/category/detskoe')">Детское</nuxt-link>
+              </div>
             </div>
             <div class="bottom-menu__col">
-              <div class="bottom-menu__item"><a href="#" class="bottom-menu__link">Купить оптом</a></div>
-              <div class="bottom-menu__item"><a href="#" class="bottom-menu__link">Бренд GOOD</a></div>
-              <div class="bottom-menu__item"><a href="#" class="bottom-menu__link">Новинки</a></div>
+              <div class="bottom-menu__item">
+                <nuxt-link class="bottom-menu__link" :to="localePath('wholesale')">Купить оптом</nuxt-link></div>
+              <div class="bottom-menu__item">
+                <nuxt-link class="bottom-menu__link" :to="localePath('brand')">Бренд GOOD</nuxt-link></div>
+              <div class="bottom-menu__item">
+                <nuxt-link class="bottom-menu__link" :to="localePath('news')">Новинки</nuxt-link></div>
             </div>
             <div class="bottom-menu__col">
-              <div class="bottom-menu__item"><a href="#" class="bottom-menu__link">Помощь</a></div>
-              <div class="bottom-menu__item"><a href="#" class="bottom-menu__link">Доставка</a></div>
-              <div class="bottom-menu__item"><a href="#" class="bottom-menu__link">Контакты</a></div>
+              <div class="bottom-menu__item">
+                <nuxt-link class="bottom-menu__link" :to="localePath('help')">Помощь</nuxt-link>
+              </div>
+              <div class="bottom-menu__item">
+                <nuxt-link class="bottom-menu__link" :to="localePath('delivery')">Доставка</nuxt-link>
+              </div>
+              <div class="bottom-menu__item">
+                <nuxt-link class="bottom-menu__link" :to="localePath('contacts')">Контакты</nuxt-link>
+              </div>
             </div>
             <div class="bottom-menu__col">
-              <div class="bottom-menu__item"><a href="#" class="bottom-menu__link">Таблица размеров</a></div>
-              <div class="bottom-menu__item"><a href="#" class="bottom-menu__link">Отзывы</a></div>
-              <div class="bottom-menu__item"><a href="#" class="bottom-menu__link">Статьи</a></div>
+              <div class="bottom-menu__item">
+                <nuxt-link class="bottom-menu__link" :to="localePath('size')">Таблица размеров</nuxt-link>
+              </div>
+              <div class="bottom-menu__item">
+                <nuxt-link class="bottom-menu__link" :to="localePath('reviews')">Отзывы</nuxt-link>
+              </div>
+              <div class="bottom-menu__item">
+                <nuxt-link class="bottom-menu__link" :to="localePath('articles')">Статьи</nuxt-link>
+              </div>
             </div>
           </div>
         </div>

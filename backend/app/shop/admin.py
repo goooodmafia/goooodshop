@@ -11,19 +11,30 @@ from shop.models import Product, Category, Brand, MediaFile, Tag, Color
 from shop.import_export.resources import ProductResource
 
 
-class ImportExportMixinAdmin(ImportMixin, ExportMixin, admin.ModelAdmin):
+# class ImportExportMixinAdmin(ImportMixin, ExportMixin, admin.ModelAdmin):
+#
+#     def get_import_formats(self):
+#         formats = (
+#             base_formats.XLS,
+#         )
+#         return [f for f in formats if f().can_import()]
+#
+#     def get_export_formats(self):
+#         formats = (
+#             base_formats.XLS,
+#         )
+#         return [f for f in formats if f().can_export()]
+#
+#     class Meta:
+#         abstract = True
 
+
+class ImportExportMixinAdmin(ImportMixin, admin.ModelAdmin):
     def get_import_formats(self):
         formats = (
             base_formats.XLS,
         )
         return [f for f in formats if f().can_import()]
-
-    def get_export_formats(self):
-        formats = (
-            base_formats.XLS,
-        )
-        return [f for f in formats if f().can_export()]
 
     class Meta:
         abstract = True
@@ -70,11 +81,13 @@ class CategoryAdmin(TranslatableAdmin, MPTTModelAdmin):
     )
 
 
+
 # class TagInline(admin.TabularInline):
 #     model = Tag
 
 @register(Product)
-class ProductAdmin(TranslatableAdmin, ImportExportModelAdmin, ImportExportMixinAdmin):
+# class ProductAdmin(TranslatableAdmin,ImportExportModelAdmin, ImportExportMixinAdmin):
+class ProductAdmin(TranslatableAdmin, ImportExportMixinAdmin):
     resource_class = ProductResource
     readonly_fields = ['pub_date', 'mod_date']
     # autocomplete_fields = ['media_files','video_files', 'thumbnail', 'categories']
@@ -92,9 +105,10 @@ class ProductAdmin(TranslatableAdmin, ImportExportModelAdmin, ImportExportMixinA
         'mod_date'
     )
 
-    # filter_horizontal = ('tags', 'categories', 'colors')
+    # filter_horizontal = ('tags', 'categories', 'colors', 'media_files',)
+    filter_horizontal = ('media_files',)
 
-    autocomplete_fields = ['thumbnail', 'media_files', 'tags', 'categories', 'colors']
+    autocomplete_fields = ['thumbnail', 'tags', 'categories', 'colors']
 
     def get_categories(self, obj):
         return " | ".join([c.full_name for c in obj.categories.all()])
@@ -111,6 +125,9 @@ class ProductAdmin(TranslatableAdmin, ImportExportModelAdmin, ImportExportMixinA
 
     search_fields = ['sku', 'model', 'tags__name', 'colors__name', 'categories__full_name']
     list_filter = ['brand', 'enable', 'colors', 'tags']
+
+    class Meta:
+        ordering = ['id']
 
 
 @register(Tag)
