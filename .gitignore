@@ -1,3 +1,5 @@
 media
 .idea
 .venv
+logs
+static

@@ -1,0 +1,84 @@
+# upstream todoapi {
+#     server ${TODO_API};
+# }
+
+server {
+    listen            ${NGINX_PORT};
+    listen       [::]:${NGINX_PORT};
+    server_name       ${NGINX_HOST};
+
+    gzip            on;
+    gzip_types      text/plain application/xml text/css application/javascript;
+    gzip_min_length 1000;
+
+    root   /usr/share/nginx/html;
+
+
+
+    location /static/ {
+        root /var/www;
+        autoindex on;
+    }
+
+    location / {
+        # expires $expires;
+
+        proxy_redirect                      off;
+        proxy_set_header Host               $host;
+        proxy_set_header X-Real-IP          $remote_addr;
+        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto  $scheme;
+        proxy_read_timeout          1m;
+        proxy_connect_timeout       1m;
+        proxy_pass                          http://frontend_app:3000; # set the address of the Node.js instance here
+
+    }
+
+    location ~ ^/(api|admin) {
+        proxy_redirect                      off;
+        proxy_set_header Host               $host;
+        proxy_set_header X-Real-IP          $remote_addr;
+        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto  $scheme;
+        proxy_read_timeout          1m;
+        proxy_connect_timeout       1m;
+        proxy_pass http://backend_app:8000;
+    }
+
+
+
+#    error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+
+    # error_page   500 502 503 504  /50x.html;
+    # location = /50x.html {
+    #  root   /usr/share/nginx/html;
+    # }
+
+    #     location ~* \.(?:manifest|appcache|html?|xml|json)$ {
+    #         expires -1;
+    #         # access_log logs/static.log; # I don't usually include a static log
+    #     }
+
+    # Feed
+    #     location ~* \.(?:rss|atom)$ {
+    #         expires 1h;
+    #         add_header Cache-Control "public";
+    #     }
+
+    # Media: images, icons, video, audio, HTC
+    #     location ~* \.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc)$ {
+    #         expires 1M;
+    #         access_log off;
+    #         add_header Cache-Control "public";
+    #     }
+
+    # CSS and Javascript
+    #     location ~* \.(?:css|js)$ {
+    #         expires 1y;
+    #         access_log off;
+    #         add_header Cache-Control "public";
+    #     }
+}
