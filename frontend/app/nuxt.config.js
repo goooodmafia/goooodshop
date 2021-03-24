@@ -64,6 +64,8 @@ export default {
     //   })
     // }
 
+    babel: { compact: true }
+
   },
 
   bootstrapVue: {
