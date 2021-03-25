@@ -9,6 +9,7 @@ RUN apk add --no-cache --virtual .build-deps \
     build-base linux-headers \
     gcc python3-dev jpeg-dev zlib-dev\
     ca-certificates \
+    git \
 #    gcc postgresql-dev linux-headers musl-dev \
 #    libffi-dev jpeg-dev zlib-dev \
     && pip install -r requirements.txt \

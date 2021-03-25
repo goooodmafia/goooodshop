@@ -64,7 +64,7 @@ export default {
     //   })
     // }
 
-    babel: { compact: true }
+    babel: {compact: true}
 
   },
 
@@ -107,7 +107,9 @@ export default {
 
     clientConfigs: {
       default: {
-        httpEndpoint: 'http://localhost:8000/graphql',
+        httpEndpoint: 'http://localhost/graphql',
+        // httpEndpoint: 'http://localhost:8000/graphql',
+        // httpEndpoint: 'http://backend_app:8000/graphql',
       }
     }
   },
@@ -121,6 +123,11 @@ export default {
   },
 
   static: {},
+
+  server: {
+    host: '0.0.0.0',
+    port: '3000',
+  }
 
 
 }

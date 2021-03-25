@@ -10,6 +10,7 @@ RUN apk add --no-cache --virtual .build-deps \
  make \
  g++ \
  python2 \
+# && yarn install --production --cache-folder /dev/.ycache && rm -rf /dev/.ycache \
  && yarn install --production \
  && apk del .build-deps
 
