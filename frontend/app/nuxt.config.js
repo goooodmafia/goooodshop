@@ -106,11 +106,12 @@ export default {
     fetchPolicy: 'no-cache',
 
     clientConfigs: {
-      default: {
-        httpEndpoint: 'http://localhost/graphql',
+      default: '~/plugins/apollo-config.js',
+      // default: {
+        // httpEndpoint: 'http://localhost/graphql',
         // httpEndpoint: 'http://localhost:8000/graphql',
         // httpEndpoint: 'http://backend_app:8000/graphql',
-      }
+      // }
     }
   },
 
@@ -125,8 +126,8 @@ export default {
   static: {},
 
   server: {
-    host: '0.0.0.0',
-    port: '3000',
+    host: process.env.HOST || '0.0.0.0',
+    port: process.env.PORT || '3000',
   }
 
 

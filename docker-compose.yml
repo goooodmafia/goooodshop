@@ -4,6 +4,8 @@ services:
   frontend:
     image: goooodmafia/frontend
     container_name: frontend_app
+    env_file:
+      - ./frontend/.env
     expose:
       - "3000"
 
