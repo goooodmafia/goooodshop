@@ -29,6 +29,6 @@ RUN apk add --no-cache --virtual .build-deps \
 ##    && apk del .gyp
 
 #RUN yarn install
-#RUN yarn run build
-#CMD yarn run start
-CMD yarn run dev
+RUN yarn run build
+CMD yarn run start
+#CMD yarn run dev

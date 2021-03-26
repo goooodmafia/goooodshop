@@ -3,7 +3,7 @@ version: "3.8"
 services:
   frontend:
     image: goooodmafia/frontend
-    container_name: frontend_app
+    container_name: frontend
     env_file:
       - ./frontend/.env
     expose:
@@ -11,7 +11,7 @@ services:
 
   backend:
     image: goooodmafia/backend
-    container_name: backend_app
+    container_name: backend
     env_file:
       - ./backend/.env
     expose:
@@ -19,9 +19,10 @@ services:
 #    command: sh -c "./manage.py collectstatic --no-input && gunicorn --bind :8000 --workers 3 app.wsgi"
     volumes:
       - ./static/:/app/static
+      - ./logs:/app/logs
 
   web:
-    container_name: web_app
+    container_name: webserver
     image: nginx:1.19.8-alpine
     volumes:
       - ./nginx:/etc/nginx/templates

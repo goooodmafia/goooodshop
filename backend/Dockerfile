@@ -27,4 +27,4 @@ RUN apk add --no-cache --virtual .build-deps \
     && apk add --virtual .rundeps $runDeps \
     && apk del .build-deps
 
-CMD sh -c "./manage.py collectstatic --no-input && gunicorn --bind :8000 --workers 3 app.wsgi"
+CMD sh -c "./manage.py collectstatic --no-input && gunicorn --config ${APP_ROOT}/gunicorn.conf.py app.wsgi"

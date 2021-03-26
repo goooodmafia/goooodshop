@@ -21,16 +21,16 @@ def remove_prefix(text, prefix):
 
 
 def get_images(brand, sku):
-    path = settings.MEDIA_ROOT / 'img' / 'products' / brand / sku
+    path = settings.BASE_DIR / 'static' / 'img' / 'products' / brand / sku
     files = []
     for x in path.glob('**/*.jpg'):
         if x.is_file():
-            f = remove_prefix(str(x), str(settings.MEDIA_ROOT))
+            f = remove_prefix(str(x), str(settings.BASE_DIR))
             # '/img/products/%s/%s/%s.jpg' % (brand, sku, sku)
             # if (f is not ('/img/products/%s/%s/%s.jpg' % (brand, sku, sku))
             #     pass
 
-            if f != ('/img/products/%s/%s/%s.jpg' % (brand, sku, sku)):
+            if f != ('/static/img/products/%s/%s/%s.jpg' % (brand, sku, sku)):
                 files.append(f)
         # [ for x in path.glob('**/*.jpg') if x.is_file()]
     return files
@@ -127,7 +127,7 @@ class ProductResource(VerboseNameModelResource):
         return skip
 
     def get_img(self, sku, brand):
-        return '/img/products/%s/%s/%s.jpg' % (brand, sku, sku)
+        return '/static/img/products/%s/%s/%s.jpg' % (brand, sku, sku)
 
     def before_save_instance(self, instance, using_transactions, dry_run):
         def switcher(argument):
