@@ -9,7 +9,7 @@
 <div class="row">
   <div class="about__col col-12 col-sm-6 col-lg-3">
     <div class="about__figure about__figure--padding-bottom">
-      <img src="img/banner/index/about__pic1.jpg" alt="" class="about__img">
+      <img src="static/img/banner/index/about__pic1.jpg" alt="" class="about__img">
     </div>
     <p>Компания "АРТ-ИМПЕРИЯ" предлагает Вам модную молодежную одежду "GOOD". Одежда "GOOD" - это:<br>
       - эксклюзивные дизайны, светящееся в темноте и ультрафиолете;<br>

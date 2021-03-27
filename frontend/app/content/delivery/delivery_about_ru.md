@@ -1,7 +1,7 @@
 <div class="row">
   <div class="about__col about__col--article col-12 col-sm-6 col-lg-3">
     <div class="about__figure about__figure--padding-bottom">
-      <img src="img/article/delivery/delivery__pic1.jpg" alt="" class="about__img">
+      <img src="static/img/article/delivery/delivery__pic1.jpg" alt="" class="about__img">
     </div>
   </div>
   <div class="about__col about__col--article col-12 col-sm-6 col-lg-3">

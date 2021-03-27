@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col">
         <div class="about__figure about__figure--padding-bottom">
-          <img src="img/article/brand/brand__pic1.jpg" alt="" class="about__img">
+          <img src="static/img/article/brand/brand__pic1.jpg" alt="" class="about__img">
         </div>
       </div>
     </div>
@@ -57,7 +57,7 @@
     <div class="about__incut">
       <div class="incut">
         <div class="incut__figure incut__figure">
-          <img src="img/article/brand/brand__pic2.jpg" alt="" class="incut__img">
+          <img src="static/img/article/brand/brand__pic2.jpg" alt="" class="incut__img">
         </div>
         <div class="incut__descr">
           <div class="incut__title">Наша теория позитивной жизни «GOOD» проста:</div>

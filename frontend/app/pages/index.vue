@@ -78,7 +78,7 @@ export default {
 <style>
 
 .hooper-navigation button {
-  background: url(/img/arrow.svg) 0 0 no-repeat;
+  background: url(/static/img/arrow.svg) 0 0 no-repeat;
   background-size: cover;
   position: absolute;
   top: 50%;

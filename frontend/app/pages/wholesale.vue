@@ -17,9 +17,9 @@
                 <div class="simple-slider simple-slider--wholesale">
                   <div class="js-slider slider simple-slider__wrapper">
                     <div class="simple-slider__slide slider__slide"
-                         style="background-image:url(img/article/wholesale/simple-slider__pic1.jpg);"></div>
+                         style="background-image:url(static/img/article/wholesale/simple-slider__pic1.jpg);"></div>
                     <div class="simple-slider__slide slider__slide"
-                         style="background-image:url(img/article/wholesale/simple-slider__pic2.jpg);"></div>
+                         style="background-image:url(static/img/article/wholesale/simple-slider__pic2.jpg);"></div>
                   </div>
                   <div class="simple-slider__buttons"></div>
                 </div>

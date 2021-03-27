@@ -24,7 +24,7 @@
     </div>
     <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-6">
       <div class="wholesale__figure">
-        <img src="/img/banner/index/wholesale__pic1.png" alt="" class="wholesale__img">
+        <img src="/static/img/banner/index/wholesale__pic1.png" alt="" class="wholesale__img">
       </div>
     </div>
   </div>

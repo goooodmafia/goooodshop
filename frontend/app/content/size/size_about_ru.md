@@ -5,7 +5,7 @@
 </div>
 <div class="row size">
   <div class="col-md-12 order-2 col-lg-3 order-lg-1 size__figure">
-    <img src="img/article/size/size--man.svg" alt="" class="size__img">
+    <img src="static/img/article/size/size--man.svg" alt="" class="size__img">
   </div>
   <div class="col-md-12 order-1 col-lg-9 order-lg-2 size__descr">
     <div class="size__heading heading heading--h3 heading--orange">
@@ -88,7 +88,7 @@
   </div>
   <div class="row size">
   <div class="col-md-12 order-2 col-lg-3 order-lg-1 size__figure">
-    <img src="img/article/size/size--woman.svg" alt="" class="size__img">
+    <img src="static/img/article/size/size--woman.svg" alt="" class="size__img">
   </div>
   <div class="col-md-12 order-1 col-lg-9 order-lg-2 size__descr">
     <div class="size__heading heading heading--h3 heading--orange">
@@ -171,7 +171,7 @@
   </div>
   <div class="row size">
   <div class="col-md-12 order-2 col-lg-3 order-lg-1 size__figure">
-    <img src="img/article/size/size--child.svg" alt="" class="size__img">
+    <img src="static/img/article/size/size--child.svg" alt="" class="size__img">
   </div>
   <div class="col-md-12 order-1 col-lg-9 order-lg-2 size__descr">
     <div class="size__heading heading heading--h3 heading--orange">
@@ -230,7 +230,7 @@
   </div>
   <div class="row size">
   <div class="col-md-12 order-2 col-lg-3 order-lg-1 size__figure">
-    <img src="img/article/size/size--sweatshirt.svg" alt="" class="size__img">
+    <img src="static/img/article/size/size--sweatshirt.svg" alt="" class="size__img">
   </div>
   <div class="col-md-12 order-1 col-lg-9 order-lg-2 size__descr">
     <div class="size__heading heading heading--h3 heading--orange">

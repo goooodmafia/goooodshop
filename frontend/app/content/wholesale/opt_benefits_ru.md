@@ -6,7 +6,7 @@
 <div class="col-md-6 col-sm-12">
 <div class="wholesale-benefits__item">
   <div class="wholesale-benefits__figure">
-    <img src="img/article/wholesale/wholesale-benefits__pic1.svg" alt="" class="wholesale-benefits__ico">
+    <img src="static/img/article/wholesale/wholesale-benefits__pic1.svg" alt="" class="wholesale-benefits__ico">
   </div>
   <div class="wholesale-benefits__text">Вся наша продукция эксклюзивна. Уникальные дизайны выполнены с использованием
     спецэффектов шелкографии! Светящиеся в темноте и ультрафиолете дизайны специально разработаны для клубной молодежи и
@@ -16,7 +16,7 @@
 </div>
 <div class="wholesale-benefits__item">
   <div class="wholesale-benefits__figure">
-    <img src="img/article/wholesale/wholesale-benefits__pic2.svg" alt="" class="wholesale-benefits__ico">
+    <img src="static/img/article/wholesale/wholesale-benefits__pic2.svg" alt="" class="wholesale-benefits__ico">
   </div>
   <div class="wholesale-benefits__text">Футболки GOOD держат форму, их приятно и комфортно носить. Сделаны из
     натурального, дышащего материала: хлопок наивысшего качества (Пенье) 95% и лайкра 5%;
@@ -26,7 +26,7 @@
 <div class="col-md-6 col-sm-12">
 <div class="wholesale-benefits__item">
   <div class="wholesale-benefits__figure">
-    <img src="img/article/wholesale/wholesale-benefits__pic3.svg" alt="" class="wholesale-benefits__ico">
+    <img src="static/img/article/wholesale/wholesale-benefits__pic3.svg" alt="" class="wholesale-benefits__ico">
   </div>
   <div class="wholesale-benefits__text">Оптовый заказ для юридических лиц возможен от 10 единиц продукции, мы не требуем
     покупки размерными рядами;
@@ -34,7 +34,7 @@
 </div>
 <div class="wholesale-benefits__item">
   <div class="wholesale-benefits__figure">
-    <img src="img/article/wholesale/wholesale-benefits__pic4.svg" alt="" class="wholesale-benefits__ico">
+    <img src="static/img/article/wholesale/wholesale-benefits__pic4.svg" alt="" class="wholesale-benefits__ico">
   </div>
   <div class="wholesale-benefits__text">Мы окажем услуги в организации транспортировки товара посредством любой <a
     href="#wholesale-delivery" class="light-blue">удобной для Вас транспортной компаний</a> (доставка до ТК Деловые
@@ -43,7 +43,7 @@
 </div>
 <div class="wholesale-benefits__item">
   <div class="wholesale-benefits__figure">
-    <img src="img/article/wholesale/wholesale-benefits__pic5.svg" alt="" class="wholesale-benefits__ico">
+    <img src="static/img/article/wholesale/wholesale-benefits__pic5.svg" alt="" class="wholesale-benefits__ico">
   </div>
   <div class="wholesale-benefits__text">Выгодная система скидок от суммы закупки и накопительные скидки для постоянных
     клиентов;

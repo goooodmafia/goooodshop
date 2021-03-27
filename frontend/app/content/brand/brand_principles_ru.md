@@ -29,7 +29,7 @@
       </li>
     </ol>
     <div class="about__figure about__figure--padding-top">
-      <img src="img/article/brand/brand__pic3.jpg" alt="" class="about__img">
+      <img src="static/img/article/brand/brand__pic3.jpg" alt="" class="about__img">
     </div>
   </div>
   <div class="about__col col-12 col-sm-6 col-lg-6 col-xl-3">
@@ -70,7 +70,7 @@
     <div class="row">
       <div class="col">
         <div class="about__figure about__figure--padding-bottom">
-          <img src="img/article/brand/brand__pic4.jpg" alt="" class="about__img">
+          <img src="static/img/article/brand/brand__pic4.jpg" alt="" class="about__img">
         </div>
       </div>
     </div>
