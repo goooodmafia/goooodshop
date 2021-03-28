@@ -56,10 +56,12 @@ class Category(MPTTModel, TranslatableModel):
     @property
     def breadcrumbs(self):
         parent = self
-        r = []
+        r = [{'title': self.name, 'link': self.path}]
+        # r = []
         while parent is not None:
             r.append({'title': parent.name, 'link': parent.path})
             parent = parent.parent
+
         return r[:0:-1]
 
     def create_slug(self):

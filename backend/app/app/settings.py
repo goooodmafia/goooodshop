@@ -17,8 +17,8 @@ import environ
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, False),
-    ALLOWED_HOSTS=(list, ['localhost'])
+    DEBUG=(bool, True),
+    ALLOWED_HOSTS=(list, ['*'])
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -133,7 +133,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/backend'
+STATIC_URL = '/static/backend/'
 STATIC_ROOT = (BASE_DIR / 'static' / 'backend').resolve()
 
 MEDIA_URL = '/media/'

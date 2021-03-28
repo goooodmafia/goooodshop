@@ -31,6 +31,7 @@ export default {
     {src: '~/plugins/bus.js'},
     {src: '~/plugins/vue-fontawesome'},
     {src: '~/plugins/ymapPlugin.js', mode: 'client'},
+    {src: '~/plugins/vue-image-lightbox.js', ssr: false},
     // {src: '~/plugins/vue-router-back-button.js', mode: 'client'},
     // {src: '~/plugins/vue-hooper'},
   ],
@@ -107,10 +108,11 @@ export default {
 
     clientConfigs: {
       default: '~/plugins/apollo-config.js',
+      // default: process.env.APOLLO_CLIENT_HTTP || 'http://localhost:8000/graphql',
       // default: {
-        // httpEndpoint: 'http://localhost/graphql',
-        // httpEndpoint: 'http://localhost:8000/graphql',
-        // httpEndpoint: 'http://backend_app:8000/graphql',
+      // httpEndpoint: 'http://localhost/graphql',
+      // httpEndpoint: 'http://localhost:8000/graphql',
+      // httpEndpoint: 'http://backend_app:8000/graphql',
       // }
     }
   },
@@ -128,6 +130,10 @@ export default {
   server: {
     host: process.env.HOST || '0.0.0.0',
     port: process.env.PORT || '3000',
+  },
+
+  publicRuntimeConfig: {
+    httpEndpoint : process.env.APOLLO_CLIENT_HTTP || 'http://localhost:8000/graphql',
   }
 
 

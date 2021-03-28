@@ -205,7 +205,7 @@ export default {
     breadcrumbs() {
       return {
         title: this.category && this.category.name,
-        breadcrumbs: this.category && this.category.breadcrumbs
+        breadcrumbs: this.category && this.category.breadcrumbs.slice(0,-1)
       }
     },
   },

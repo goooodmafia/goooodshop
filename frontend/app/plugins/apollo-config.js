@@ -3,9 +3,15 @@ export default function(context) {
   // let wsEndpoint = process.env.APOLLO_SERVER_WS || 'ws://localhost:8000/graphql';
 
   if (process.client) {
-    httpEndpoint = process.env.APOLLO_CLIENT_HTTP || 'http://localhost/graphql';
+
+    console.log(context.$config.httpEndpoint);
+    httpEndpoint = context.$config.httpEndpoint;
+    //process.env.APOLLO_CLIENT_HTTP || 'http://localhost:8000/graphqlclient';
     // wsEndpoint = process.env.APOLLO_CLIENT_WS || 'ws://localhost:4000/graphql';
   }
+
+
+  // let httpEndpoint = process.env.APOLLO_CLIENT_HTTP || 'http://localhost:8000/graphql';
 
   return {
     httpEndpoint,

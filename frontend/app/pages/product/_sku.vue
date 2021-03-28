@@ -1,40 +1,57 @@
 <template>
   <Wrapper>
     <div class="container">
-
-      <div class="row">
-        <div class="col-md-auto col-sm-12">
-          <Sidebar :currentpath="currentpath">
-            <!-- <Filters :filters="filters"/>-->
-          </Sidebar>
-        </div>
-        <div class="col content">
-          <div class="product-head">
-            <div class="btn btn--back" @click="$router.back()">Назад</div>
-            <nav aria-label="breadcrumb">
-              <ol class="mybreadcrumb">
-                <li class="mybreadcrumb__item" v-for="(item, index) in breadcrumbs.breadcrumbs">
-                  <nuxt-link :to="localePath(item.link)" :class="['mybreadcrumb__link']">{{ item.title }}</nuxt-link>
-                </li>
-                <li class="mybreadcrumb__item active">{{ breadcrumbs.title }}</li>
-              </ol>
-            </nav>
+      <Breadcrumbs :data="breadcrumbs()" :showTitle="false" :showBack="true">
+        <template v-slot:sidebar>
+          <div class="col-md-auto col-sm-12">
+            <Sidebar :currentpath="currentpath"/>
           </div>
+        </template>
+
+
+        <template>
+<!--          <div class="product-head">-->
+<!--            <div class="btn btn&#45;&#45;back" @click="$router.back()">Назад</div>-->
+<!--            <nav aria-label="breadcrumb">-->
+<!--              <ol class="mybreadcrumb">-->
+<!--                <li class="mybreadcrumb__item" v-for="(item, index) in breadcrumbs.breadcrumbs">-->
+<!--                  <nuxt-link :to="localePath(item.link)" :class="['mybreadcrumb__link']">{{ item.title }}</nuxt-link>-->
+<!--                </li>-->
+<!--                <li class="mybreadcrumb__item active">{{ breadcrumbs.title }}</li>-->
+<!--              </ol>-->
+<!--            </nav>-->
+<!--          </div>-->
 
           <div class="product-wrap">
             <div class="product-slider">
               <div class="product-slider__nav">
-                <hooper class="product-slider-nav" ref="slider_nav" :settings="options_nav" group="group"
-                        style="height: 512px">
+                <hooper class="product-slider-nav"
+                        ref="slider_nav"
+                        :settings="options_nav"
+                        group="group"
+                        style="height: 512px"
+                >
                   <template v-if="product.mediaFiles.length>0">
-                    <slide v-for="item in product.mediaFiles" :key="item">
-                      <b-img-lazy blank-color="rgba(255, 255, 255, .3)" height="119px" center :src="item"/>
+                    <slide v-for="(item,index) in product.mediaFiles" :key="index">
+                      <div @click="$refs.slider_nav.slideTo(index)">
+                        <b-img-lazy
+                          blank-color="rgba(255, 255, 255, .3)"
+                          height="119px"
+                          center
+                          :src="item.src"
+                        />
+                      </div>
                     </slide>
                   </template>
                   <template v-else>
                     <slide>
-                      <b-img-lazy blank="true" blank-color="rgba(255, 255, 255, .3)" height="119px" width="90px"
-                                  center/>
+                      <b-img-lazy
+                        blank="true"
+                        blank-color="rgba(255, 255, 255, .3)"
+                        height="119px"
+                        width="90px"
+                        center
+                      />
                     </slide>
                   </template>
                   <navigation slot="hooper-addons"></navigation>
@@ -43,11 +60,16 @@
 
               <div class="product-slider__main">
                 <div class="product-slider__label">new</div>
-                <hooper ref="slider_main" :settings="options_main" group="group"
-                        style="height: 554px">
+                <hooper ref="slider_main"
+                        :settings="options_main"
+                        group="group"
+                        style="height: 554px"
+                >
                   <template v-if="product.mediaFiles.length>0">
-                    <slide v-for="item in product.mediaFiles" :key="item">
-                      <b-img-lazy blank-color="rgba(255, 255, 255, .3)" height="554px" center :src="item"/>
+                    <slide v-for="(item, index) in product.mediaFiles" :key="index">
+                      <div @click="openGallery(index)">
+                        <b-img-lazy blank-color="rgba(255, 255, 255, .3)" height="554px" center :src="item.src"/>
+                      </div>
                     </slide>
                   </template>
                   <template v-else>
@@ -148,10 +170,13 @@
           </div>
 
 
-        </div>
-      </div>
+        </template>
+
+      </Breadcrumbs>
 
     </div>
+    <light-box v-if="product && product.mediaFiles.length>0" ref="lightbox" :media="product.mediaFiles" :showThumbs="false" :showLightBox="false"></light-box>
+
   </Wrapper>
 </template>
 
@@ -175,7 +200,6 @@ export default {
 
   data() {
     return {
-
       currentpath: [],
 
       options_main: {
@@ -192,15 +216,6 @@ export default {
         // infiniteScroll: true,
       },
 
-
-      breadcrumbs: {
-        title: this.$t('page.help.title'),
-        breadcrumbs: [
-          {title: 'Главная', link: this.localePath('index')},
-          {title: 'Главная', link: this.localePath('index')},
-        ],
-      },
-
       fetchproducts: [],
 
       product: {
@@ -212,7 +227,7 @@ export default {
         thumbnail: {
           link: '',
         },
-        mediaFiles:[],
+        mediaFiles: [],
         new: '',
         hit: '',
         sale: '',
@@ -262,27 +277,27 @@ export default {
 
       const pathArray = this.product.category.link.split('/')
       this.$data.currentpath = pathArray.slice(pathArray.indexOf('category') + 1)
+
+      // this.$refs.slider_nav.update()
+      // this.$refs.slider_main.update()
     }
   },
 
   methods: {
     getSku() {
       return this.$route.params.sku
-    }
-  },
-
-  computed: {
-    to() {
-      this.$router.go(-1);
     },
-  },
+    openGallery(index) {
+      this.$refs.lightbox.showImage(index)
+    },
+    breadcrumbs() {
+      return {
+        title: this.product && this.product.model,
+        breadcrumbs: this.product && this.product.breadcrumbs,
+      }
+    },
 
-  // computed: {
-  //   currentpath() {
-  //     const pathArray = this.product.link.split('/') || []
-  //     return pathArray.slice(pathArray.indexOf('category') + 1)
-  //   }
-  // }
+  },
 
 }
 </script>
@@ -291,7 +306,6 @@ export default {
 .myslide {
   text-align: center;
   max-width: 413px;
-  /*min-height: 554px;*/
   background-color: rgba(255, 255, 255, .3);
 }
 
@@ -299,12 +313,8 @@ export default {
   text-align: center;
   background-color: rgba(255, 255, 255, .3);
   width: 93px;
-  /*height: 119px;*/
 }
 
-/*.hooper {*/
-/*  height: 100%;*/
-/*}*/
 
 .hooper-navigation.is-vertical .hooper-prev, .hooper-navigation.is-vertical .hooper-next {
   right: auto;
@@ -319,4 +329,5 @@ export default {
 .hooper-navigation.is-vertical .hooper-next {
   bottom: -32px;
 }
+
 </style>

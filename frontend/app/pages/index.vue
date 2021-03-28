@@ -77,36 +77,32 @@ export default {
 </script>
 <style>
 
-.hooper-navigation button {
-  background: url(/static/img/arrow.svg) 0 0 no-repeat;
-  background-size: cover;
-  position: absolute;
-  top: 50%;
-  z-index: 5;
-  width: 33px;
-  height: 61px;
-  cursor: pointer;
-}
+/*.main-slider .hooper-navigation button {*/
+/*  background: url(/static/img/arrow.svg) 0 0 no-repeat;*/
+/*  background-size: cover;*/
+/*  position: absolute;*/
+/*  top: 50%;*/
+/*  z-index: 5;*/
+/*  width: 33px;*/
+/*  height: 61px;*/
+/*  cursor: pointer;*/
+/*}*/
 
-.hooper-navigation button.hooper-prev {
-  /*left: -60px;*/
-  -webkit-transform: scaleX(-1);
-  -ms-transform: scaleX(-1);
-  transform: scaleX(-1);
-}
-.hooper-navigation button.hooper-next {
-  /*right: -60px;*/
-  background-position: 100% 0;
-}
-.bestseller .hooper-navigation button.hooper-prev {
-    top: 55px;
-}
-.bestseller .hooper-navigation button.hooper-next {
-    top: 86px;
-}
+/*.main-slider .hooper-navigation button.hooper-prev {*/
+/*  !*left: -60px;*!*/
+/*  -webkit-transform: scaleX(-1);*/
+/*  -ms-transform: scaleX(-1);*/
+/*  transform: scaleX(-1);*/
+/*}*/
+/*.main-slider .hooper-navigation button.hooper-next {*/
+/*  !*right: -60px;*!*/
+/*  background-position: 100% 0;*/
+/*}*/
 
-.bestseller .hooper-navigation button svg {
-  display: none;
-}
+
+/*.bestseller .hooper-navigation button svg {*/
+/*  display: none;*/
+/*}*/
+
 </style>
 

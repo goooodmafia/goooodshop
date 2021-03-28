@@ -21,17 +21,28 @@ def remove_prefix(text, prefix):
 
 
 def get_images(brand, sku):
-    path = settings.BASE_DIR / 'static' / 'img' / 'products' / brand / sku
+    static_dir = (settings.BASE_DIR / 'static' ).resolve()
+    path = static_dir / 'img' / 'products' / brand / sku
     files = []
+
+    print(path)
+
     for x in path.glob('**/*.jpg'):
+        print('\t |- %s' % x)
         if x.is_file():
-            f = remove_prefix(str(x), str(settings.BASE_DIR))
+
+
+            f = remove_prefix(str(x), str(static_dir))
+            f = '/static%s' % f
             # '/img/products/%s/%s/%s.jpg' % (brand, sku, sku)
             # if (f is not ('/img/products/%s/%s/%s.jpg' % (brand, sku, sku))
-            #     pass
+                # pass
 
+            print('\t |- - %s' % f)
+            #
             if f != ('/static/img/products/%s/%s/%s.jpg' % (brand, sku, sku)):
                 files.append(f)
+                print('\t |- + %s' % f)
         # [ for x in path.glob('**/*.jpg') if x.is_file()]
     return files
 
