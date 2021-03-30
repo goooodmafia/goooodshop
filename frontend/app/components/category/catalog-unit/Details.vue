@@ -6,6 +6,7 @@
       <div class="catalog-unit__old-price">2000 руб.</div>
       <div class="catalog-unit__sale-perc">-30%</div>
     </div>
+    <p>{{ item.sku }}</p>
     <div class="catalog-unit__title">
       <nuxt-link :to="localePath(`/product/${item.sku}`)">{{ item.model }}</nuxt-link>
     </div>

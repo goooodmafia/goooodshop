@@ -23,7 +23,7 @@
     &.active {
       text-align: center;
       width: 34px;
-      background: url(../img/circle.svg) 0 0 no-repeat;
+      background: url(/static/img/layout/circle.svg) 0 0 no-repeat;
       background-size: cover;
 
       @include miw(576) {
@@ -65,7 +65,7 @@
       }
       &:before {
         content: '';
-        background: url(../img/arrow.svg) 0 0 no-repeat;
+        background: url(/static/img/layout/arrow.svg) 0 0 no-repeat;
         background-size: cover;
         width: 9px;
         height: 16px;
@@ -88,7 +88,7 @@
       }
       &:after {
         content: '';
-        background: url(../img/arrow.svg) 0 0 no-repeat;
+        background: url(/static/img/layout/arrow.svg) 0 0 no-repeat;
         background-size: cover;
         width: 9px;
         height: 16px;

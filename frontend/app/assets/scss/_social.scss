@@ -27,27 +27,27 @@
       margin-right: 0;
     }
     &--vk {
-      background-image: url(../img/vk.svg);
+      background-image: url(/static/img/layout/vk.svg);
       &:hover {
-        background-image: url(../img/vk--hover.svg);
+        background-image: url(/static/img/layout/vk--hover.svg);
       }
     }
     &--instagram {
-      background-image: url(../img/instagram.svg);
+      background-image: url(/static/img/layout/instagram.svg);
       &:hover {
-        background-image: url(../img/instagram--hover.svg);
+        background-image: url(/static/img/layout/instagram--hover.svg);
       }
     }
     &--fb {
-      background-image: url(../img/fb.svg);
+      background-image: url(/static/img/layout/fb.svg);
       &:hover {
-        background-image: url(../img/fb--hover.svg);
+        background-image: url(/static/img/layout/fb--hover.svg);
       }
     }
     &--tw {
-      background-image: url(../img/twitter.svg);
+      background-image: url(/static/img/layout/twitter.svg);
       &:hover {
-        background-image: url(../img/twitter--hover.svg);
+        background-image: url(/static/img/layout/twitter--hover.svg);
       }
     }
   }

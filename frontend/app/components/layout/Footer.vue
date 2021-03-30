@@ -70,17 +70,17 @@
               <div class="delivery">
                 <div class="delivery__title">Способы доставки</div>
                 <div class="delivery__list">
-                  <div class="delivery__item"><img src="~/assets/img/icon__delivery-1.svg" alt="" class="delivery__img">
+                  <div class="delivery__item"><img src="/static/img/layout/icon__delivery-1.svg" alt="" class="delivery__img">
                   </div>
-                  <div class="delivery__item"><img src="~/assets/img/icon__delivery-2.svg" alt="" class="delivery__img">
+                  <div class="delivery__item"><img src="/static/img/layout/icon__delivery-2.svg" alt="" class="delivery__img">
                   </div>
-                  <div class="delivery__item"><img src="~/assets/img/icon__delivery-3.svg" alt="" class="delivery__img">
+                  <div class="delivery__item"><img src="/static/img/layout/icon__delivery-3.svg" alt="" class="delivery__img">
                   </div>
-                  <div class="delivery__item"><img src="~/assets/img/icon__delivery-4.svg" alt="" class="delivery__img">
+                  <div class="delivery__item"><img src="/static/img/layout/icon__delivery-4.svg" alt="" class="delivery__img">
                   </div>
-                  <div class="delivery__item"><img src="~/assets/img/icon__delivery-5.svg" alt="" class="delivery__img">
+                  <div class="delivery__item"><img src="/static/img/layout/icon__delivery-5.svg" alt="" class="delivery__img">
                   </div>
-                  <div class="delivery__item"><img src="~/assets/img/icon__delivery-6.svg" alt="" class="delivery__img">
+                  <div class="delivery__item"><img src="/static/img/layout/icon__delivery-6.svg" alt="" class="delivery__img">
                   </div>
                 </div>
               </div>
@@ -89,19 +89,19 @@
               <div class="payments">
                 <div class="payments__title">Способы оплаты</div>
                 <div class="payments__list">
-                  <div class="payments__item"><img src="~/assets/img/icon__payment-1.svg" alt="" class="payments__img">
+                  <div class="payments__item"><img src="/static/img/layout/icon__payment-1.svg" alt="" class="payments__img">
                   </div>
-                  <div class="payments__item"><img src="~/assets/img/icon__payment-2.svg" alt="" class="payments__img">
+                  <div class="payments__item"><img src="/static/img/layout/icon__payment-2.svg" alt="" class="payments__img">
                   </div>
-                  <div class="payments__item"><img src="~/assets/img/icon__payment-3.svg" alt="" class="payments__img">
+                  <div class="payments__item"><img src="/static/img/layout/icon__payment-3.svg" alt="" class="payments__img">
                   </div>
-                  <div class="payments__item"><img src="~/assets/img/icon__payment-4.svg" alt="" class="payments__img">
+                  <div class="payments__item"><img src="/static/img/layout/icon__payment-4.svg" alt="" class="payments__img">
                   </div>
-                  <div class="payments__item"><img src="~/assets/img/icon__payment-5.svg" alt="" class="payments__img">
+                  <div class="payments__item"><img src="/static/img/layout/icon__payment-5.svg" alt="" class="payments__img">
                   </div>
-                  <div class="payments__item"><img src="~/assets/img/icon__payment-6.svg" alt="" class="payments__img">
+                  <div class="payments__item"><img src="/static/img/layout/icon__payment-6.svg" alt="" class="payments__img">
                   </div>
-                  <div class="payments__item"><img src="~/assets/img/icon__payment-7.svg" alt="" class="payments__img">
+                  <div class="payments__item"><img src="/static/img/layout/icon__payment-7.svg" alt="" class="payments__img">
                   </div>
                 </div>
               </div>

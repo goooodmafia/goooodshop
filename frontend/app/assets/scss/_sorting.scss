@@ -48,7 +48,7 @@
     &--increase.active {
       &:before {
         content: '';
-        background: url(../img/arrow--orange.svg) 0 0 no-repeat;
+        background: url(/static/img/layout/arrow--orange.svg) 0 0 no-repeat;
         width: 6px;
         height: 12px;
         position: absolute;
@@ -60,7 +60,7 @@
     &--decrease.active {
       &:before {
         content: '';
-        background: url(../img/arrow--orange.svg) 0 0 no-repeat;
+        background: url(/static/img/layout/arrow--orange.svg) 0 0 no-repeat;
         width: 6px;
         height: 12px;
         position: absolute;

@@ -62,15 +62,13 @@ export default {
       },
 
       coords: [
-        // 55.793278,
-        // 37.489294,
         55.79321156892391,
         37.489256999999995,
       ],
 
       markerIcon: {
         layout: 'default#image',
-        imageHref: 'map-marker.svg',
+        imageHref: '/static/img/map-marker.svg',
         imageSize: [56, 77],
         imageOffset: [-28, -77],
       }

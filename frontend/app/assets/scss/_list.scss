@@ -29,7 +29,7 @@
       padding-left: 18px;
       &:before {
         content: '';
-        background: url(../img/arrow--orange.svg) 0 0 no-repeat;
+        background: url(/static/img/layout/arrow--orange.svg) 0 0 no-repeat;
         width: 6px;
         height: 12px;
         position: absolute;
@@ -46,7 +46,7 @@
     font-size: 22px;
     font-weight: 600;
     text-align: center;
-    background: url(../img/circle.svg) 0 0 no-repeat;
+    background: url(/static/img/layout/circle.svg) 0 0 no-repeat;
     width: 42px;
     height: 42px;
     padding: 7px 0 0 3px;
