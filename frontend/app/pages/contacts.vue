@@ -68,7 +68,7 @@ export default {
 
       markerIcon: {
         layout: 'default#image',
-        imageHref: '/static/img/map-marker.svg',
+        imageHref: '/static/img/layout/map-marker.svg',
         imageSize: [56, 77],
         imageOffset: [-28, -77],
       }

@@ -15,7 +15,7 @@
           <div class="catalog">
             <div class="catalog__in">
               <div class="catalog__item" v-for="item in fetchproducts">
-                <CatalogItem  :item="item" :key="item.sku"/>
+                <CatalogItemHover  :item="item" :key="item.sku"/>
               </div>
             </div>
           </div>
@@ -43,14 +43,14 @@ import Wrapper from "~/components/layout/Wrapper";
 import Filters from "~/components/category/Filters";
 import Breadcrumbs from "~/components/layout/Breadcrumbs";
 import Sidebar from "~/components/category/Sidebar";
-import CatalogItem from "~/components/category/catalog-unit/CatalogItem"
+import CatalogItemHover from "~/components/category/catalog-unit/CatalogItemHover"
 import scrollMonitor from "scrollmonitor";
 
 
 export default {
   name: 'category',
 
-  components: {Wrapper, Filters, Breadcrumbs, Sidebar, CatalogItem},
+  components: {Wrapper, Filters, Breadcrumbs, Sidebar, CatalogItemHover},
 
   data() {
     return {

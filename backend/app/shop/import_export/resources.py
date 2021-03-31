@@ -185,8 +185,10 @@ class ProductResource(VerboseNameModelResource):
                 instance.media_files.add(media_file)
 
         (tag, success) = Tag.objects.get_or_create(name=instance.model)
-        if (success):
-            tag.products.add(instance)
+
+        instance.tags.add(tag)
+        # if (success):
+        #     tag.products.add(instance)
 
         return instance
 
