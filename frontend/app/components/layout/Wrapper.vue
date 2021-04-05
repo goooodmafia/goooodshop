@@ -22,14 +22,18 @@
 
 </template>
 <script>
-import Header from "./Header";
-import Footer from "./Footer";
+// import Header from "./Header";
+// import Footer from "./Footer";
 
 import CONTENT from "~/api/query/content.graphql"
 import ContentBlock from "./ContentBlock";
 
 export default {
-  components: {ContentBlock, Footer, Header},
+  components: {
+    ContentBlock,
+    // Footer,
+    // Header,
+  },
 
   data() {
     return {

@@ -16,9 +16,10 @@ from django.utils.translation import gettext_lazy as _
 import environ
 
 env = environ.Env(
-    # set casting, default value
     DEBUG=(bool, True),
-    ALLOWED_HOSTS=(list, ['*'])
+    ALLOWED_HOSTS=(list, ['*']),
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=(str, ''),
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=(str, ''),
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -44,6 +45,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 'django.contrib.sites',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
+
+    # 'social_django',
+
+    "graphql_auth",
 
     'corsheaders',
     'graphene_django',
@@ -166,3 +177,56 @@ PARLER_DEFAULT_LANGUAGE_CODE = 'ru'
 CORS_ALLOW_ALL_ORIGINS = True
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
+
+# SITE_ID=1
+
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+#
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'APP': {
+#             'client_id': '123',
+#             'secret': env('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET', default=''),
+#             'key': env('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY', default=''),
+#         }
+#     }
+# }
+
+# SOCIAL_AUTH_USER_MODEL = 'users.models.CustomUser'
+#
+# AUTHENTICATION_BACKENDS = [
+#     'django.contrib.auth.backends.ModelBackend',
+#     'social_core.backends.google.GoogleOAuth2',
+#     'social_core.backends.facebook.FacebookOAuth2',
+#     'social_core.backends.twitter.TwitterOAuth',
+# ]
+#
+#
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY =\
+#      env('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY', default='')
+#
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET =\
+#     env('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET', default='')
+
+AUTHENTICATION_BACKENDS = [
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    "graphql_auth.backends.GraphQLAuthBackend",
+]
+
+GRAPHQL_AUTH = {
+    'LOGIN_ALLOWED_FIELDS': ['email', ],
+    'REGISTER_MUTATION_FIELDS': ["email",],
+}
+
+# GRAPHQL_JWT = {
+#     "JWT_VERIFY_EXPIRATION": True,
+#
+#     # optional
+#     # "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+# }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

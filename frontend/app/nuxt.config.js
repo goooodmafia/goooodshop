@@ -50,6 +50,7 @@ export default {
     {src: '~/plugins/vue-image-lightbox.js', ssr: false},
     // {src: '~/plugins/vue-router-back-button.js', mode: 'client'},
     // {src: '~/plugins/vue-hooper'},
+    {src: '~/plugins/vee-validate'},
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -66,6 +67,8 @@ export default {
     '@nuxtjs/apollo',
     // '@nuxtjs/markdownit',
     // '@nuxt/content'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth',
 
     '~/modules/markdown'
   ],
@@ -74,11 +77,11 @@ export default {
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     extend(config, {isDev, isClient}) {
-    //   config.module.rules.push({
-    //     test: /\.html$/i,
-    //     loader: 'html-loader',
-    //     options:{}
-    //   })
+      //   config.module.rules.push({
+      //     test: /\.html$/i,
+      //     loader: 'html-loader',
+      //     options:{}
+      //   })
 
       // config.resolve.alias['bootstrap-vue$'] = 'bootstrap-vue/src/index.js'
       // config.module.rules.push({
@@ -92,8 +95,8 @@ export default {
       // })
     },
 
-    babel: {compact: true}
-
+    babel: {compact: true},
+    transpile: ["vee-validate/dist/rules"],
   },
 
   bootstrapVue: {
@@ -165,7 +168,31 @@ export default {
   },
 
   publicRuntimeConfig: {
-    httpEndpoint : process.env.APOLLO_CLIENT_HTTP || 'http://localhost:8000/graphql',
+    httpEndpoint: process.env.APOLLO_CLIENT_HTTP || 'http://localhost:8000/graphql',
+  },
+
+  router: {
+    // middleware: ["auth"],
+  },
+
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/login',
+    },
+    strategies: {
+      google: {
+        // clientId: "128977390614-6bdbk2511vkb8gnv831mipjqohghagci.apps.googleusercontent.com", # v5
+        client_id: "128977390614-6bdbk2511vkb8gnv831mipjqohghagci.apps.googleusercontent.com",
+        // responseType: 'code',
+        // accessType: 'offline',
+        responseType: 'token',
+        grantType: 'authorization_code',
+        // codeChallengeMethod: 'S256',
+        // redirect_uri:"http://localhost:3000/",
+      }
+    }
   }
 
 

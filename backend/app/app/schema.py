@@ -1,5 +1,5 @@
 from django.db.models import Q, F, Count, Value, BooleanField, CharField
-from graphene_django import DjangoObjectType
+
 import graphene
 from graphene_django_extras import DjangoFilterListField, DjangoFilterPaginateListField, LimitOffsetGraphqlPagination, \
     DjangoListObjectField
@@ -7,19 +7,17 @@ from graphene_django_extras import DjangoFilterListField, DjangoFilterPaginateLi
 from content.models import Content
 from shop.models import Category, Product
 from shop.schema import CategoryType, ProductType, ProductListType, ProductFilter, FiltersType
-from users.models import CustomUser as UserModel
+
+
+
 
 from content.schema import ContentType
 from content.schema import PositionEnum
+from users.schema import Query as AuthQuery
+from users.schema import Mutations as AuthMutations
 
 
-class User(DjangoObjectType):
-    class Meta:
-        model = UserModel
-
-
-class Query(graphene.ObjectType):
-    # users = graphene.List(User)
+class MyQuery(graphene.ObjectType):
     content = graphene.List(ContentType, route=graphene.String(), position=PositionEnum())
     category = graphene.Field(CategoryType, route=graphene.String())
     categories = graphene.List(CategoryType)
@@ -183,4 +181,11 @@ class Query(graphene.ObjectType):
         return qs.count()
 
 
-schema = graphene.Schema(query=Query)
+class Mutations(AuthMutations, graphene.ObjectType):
+    pass
+
+class Query(MyQuery, AuthQuery, graphene.ObjectType):
+    pass
+
+# schema = graphene.Schema(query=Query, mutation=Mutations)
+schema = graphene.Schema(query=Query, mutation=Mutations)
