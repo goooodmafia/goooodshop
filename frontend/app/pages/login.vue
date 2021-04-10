@@ -8,7 +8,7 @@
     <template>
       <div class="container">
         ### Login
-<!--        <Login/>-->
+        <Login/>
       </div>
     </template>
   </Wrapper>
@@ -24,7 +24,7 @@ import Login from "~/components/auth/Login";
 
 export default {
 
-  name: 'Login',
+
 
   components: {Breadcrumbs, Wrapper, Login},
 

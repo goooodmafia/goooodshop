@@ -2,35 +2,34 @@
   <validation-observer ref="observer" v-slot="{ handleSubmit }">
       <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
         <validation-provider
-          name="Name"
+          name="Login"
           :rules="{ required: true, min: 3 }"
           v-slot="validationContext"
         >
-          <b-form-group id="example-input-group-1" label="Name" label-for="example-input-1">
+          <b-form-group id="login-group" label="Login" label-for="login-input">
             <b-form-input
-              id="example-input-1"
-              name="example-input-1"
-              v-model="form.name"
+              id="login-input"
+              name="login-input"
+              v-model="form.login"
               :state="getValidationState(validationContext)"
-              aria-describedby="input-1-live-feedback"
+              aria-describedby="login-live-feedback"
             ></b-form-input>
 
-            <b-form-invalid-feedback id="input-1-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+            <b-form-invalid-feedback id="login-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
           </b-form-group>
         </validation-provider>
 
-        <validation-provider name="Food" :rules="{ required: true }" v-slot="validationContext">
-          <b-form-group id="example-input-group-2" label="Food" label-for="example-input-2">
+        <validation-provider name="Password" :rules="{ required: true }" v-slot="validationContext">
+          <b-form-group id="password-group" label="Password" label-for="password-input">
             <b-form-select
-              id="example-input-2"
-              name="example-input-2"
-              v-model="form.food"
-              :options="foods"
+              id="password-input"
+              name="password-input"
+              v-model="form.pass"
               :state="getValidationState(validationContext)"
-              aria-describedby="input-2-live-feedback"
+              aria-describedby="password-live-feedback"
             ></b-form-select>
 
-            <b-form-invalid-feedback id="input-2-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+            <b-form-invalid-feedback id="password-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
           </b-form-group>
         </validation-provider>
 
@@ -51,14 +50,9 @@ export default {
 
   data() {
     return {
-      foods: [
-        { value: null, text: "Choose..." },
-        { value: "apple", text: "Apple" },
-        { value: "orange", text: "Orange" }
-      ],
       form: {
-        name: null,
-        food: null
+        login: null,
+        pass: null
       }
     };
   },
@@ -68,8 +62,8 @@ export default {
     },
     resetForm() {
       this.form = {
-        name: null,
-        food: null
+        login: null,
+        pass: null
       };
 
       this.$nextTick(() => {
@@ -77,7 +71,8 @@ export default {
       });
     },
     onSubmit() {
-      alert("Form submitted!");
+      console.log("Form submitted!");
+      console.log(this.form);
     }
   }
 }
