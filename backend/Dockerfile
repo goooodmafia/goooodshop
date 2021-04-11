@@ -6,10 +6,18 @@ WORKDIR ${APP_ROOT}
 ADD ./app/ ${APP_ROOT}
 
 RUN apk add --no-cache --virtual .build-deps \
-    build-base linux-headers \
-    gcc python3-dev jpeg-dev zlib-dev\
+    build-base \
+    linux-headers \
     ca-certificates \
     git \
+    gcc \
+    musl-dev \
+    python3-dev \
+    libffi-dev \
+    openssl-dev \
+    cargo \
+    jpeg-dev \
+    zlib-dev \
 #    gcc postgresql-dev linux-headers musl-dev \
 #    libffi-dev jpeg-dev zlib-dev \
     && pip install -r requirements.txt \

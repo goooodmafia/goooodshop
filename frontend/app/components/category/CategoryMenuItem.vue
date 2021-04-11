@@ -1,6 +1,12 @@
 <template>
   <li class="catalog-menu__item">
-    <nuxt-link :to="localePath(item.path)" :class="['catalog-menu__link', {'current':show()}]">{{ item.name }}</nuxt-link>
+    <nuxt-link v-if="!this.item.path.startsWith('/static/')"
+               :to="localePath(item.path)"
+               :class="['catalog-menu__link', {'current':show()}]"
+    >{{ item.name }}</nuxt-link>
+    <a v-else :href="item.path"
+       :class="['catalog-menu__link', {'current':show()}]"
+    >{{ item.name }}</a>
     <ul class="catalog-menu__in" v-if="item.children.length > 0">
       <category-menu-item
         v-for="child in item.children"
@@ -30,6 +36,7 @@ export default {
     show() {
       return this.currentpath[this.level] === this.item.slug
     },
+
   },
 
 

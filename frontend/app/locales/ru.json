@@ -28,8 +28,21 @@
       "title": "Новинки"
     },
     "login": {
-      "title": "Войти",
-      "loginbutton": "Войти"
+      "title": "Вход в личный кабинет",
+      "loginfield": "Логин",
+      "passfield": "Пароль",
+      "loginbutton": "Войти",
+      "restorepass": "Забыли пароль?",
+      "register": "Зарегистрироваться"
+    },
+    "restore": {
+      "title": "Восттановление пароля"
+    },
+    "register": {
+      "title": "Регистрация"
+    },
+    "profile": {
+      "title": "Личный кабинет"
     }
   }
 }

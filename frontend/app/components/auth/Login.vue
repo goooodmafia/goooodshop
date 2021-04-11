@@ -2,7 +2,7 @@
   <validation-observer ref="loginobserver" v-slot="{ handleSubmit }">
     <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
       <validation-provider
-        name="Email"
+        :name="$t('page.login.loginfield')"
         :rules="{ required: true, min: 3 }"
         v-slot="validationContext"
       >
@@ -21,7 +21,7 @@
         </b-form-group>
       </validation-provider>
 
-      <validation-provider name="Password" :rules="{ required: true }" v-slot="validationContext">
+      <validation-provider :name="$t('page.login.passfield')" :rules="{ required: true }" v-slot="validationContext">
         <b-form-group id="password-group" label="Password" label-for="password-input">
           <b-form-input
             id="password-input"
@@ -44,7 +44,14 @@
         </div>
       </ValidationProvider>
 
-      <b-button type="submit" variant="primary">{{ $t('page.login.loginbutton')}}</b-button>
+      <div class="mb-3">
+        <nuxt-link :to="localePath('/login/restore')">{{ $t('page.login.restorepass') }}</nuxt-link>
+      </div>
+      <div class="mb-3">
+        <nuxt-link :to="localePath('/login/register')">{{ $t('page.login.register') }}</nuxt-link>
+      </div>
+
+      <b-button type="submit" variant="primary">{{ $t('page.login.loginbutton') }}</b-button>
     </b-form>
   </validation-observer>
 </template>

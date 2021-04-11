@@ -143,6 +143,8 @@ export default {
     errorHandler: '~/plugins/apollo-error-handler.js',
     fetchPolicy: 'no-cache',
 
+    authenticationType: 'JWT',
+
     clientConfigs: {
       default: '~/plugins/apollo-config.js',
       // default: process.env.APOLLO_CLIENT_HTTP || 'http://localhost:8000/graphql',

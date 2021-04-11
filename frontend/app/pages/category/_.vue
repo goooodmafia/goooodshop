@@ -4,7 +4,7 @@
       <Breadcrumbs :data="breadcrumbs()">
         <template v-slot:sidebar>
           <div class="col-md-auto col-sm-12">
-            <Sidebar :currentpath="currentpath">
+            <Sidebar :currentpath="currentpath" :items="categories">
               <Filters :filters="filters"/>
             </Sidebar>
           </div>
@@ -15,7 +15,7 @@
           <div class="catalog">
             <div class="catalog__in">
               <div class="catalog__item" v-for="item in fetchproducts">
-                <CatalogItemHover  :item="item" :key="item.sku"/>
+                <CatalogItemHover :item="item" :key="item.sku"/>
               </div>
             </div>
           </div>
@@ -35,6 +35,7 @@
 </template>
 <script>
 import CATEGORY from "~/api/query/category.graphql"
+import CATEGORIES from '~/api/query/categories.graphql'
 import FILTERS from "~/api/query/filters.graphql"
 import FETCHPRODUCTS from "~/api/query/fetchproducts.graphql"
 import FETCHPRODUCTSCOUNT from "~/api/query/fetchproductscount.graphql"
@@ -98,6 +99,16 @@ export default {
         }
       },
     },
+
+    categories: {
+      query: CATEGORIES,
+      variables() {
+        return {
+          languageCode: this.$i18n.locale.toUpperCase(),
+        }
+      },
+    },
+
 
     category: {
       query: CATEGORY,
@@ -205,7 +216,7 @@ export default {
     breadcrumbs() {
       return {
         title: this.category && this.category.name,
-        breadcrumbs: this.category && this.category.breadcrumbs.slice(0,-1)
+        breadcrumbs: this.category && this.category.breadcrumbs.slice(0, -1)
       }
     },
   },

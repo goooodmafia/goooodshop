@@ -11,7 +11,7 @@
     <!-- BEGIN catalog-menu -->
     <ul class="catalog-menu">
       <category-menu-item
-        v-for="item in this.categories"
+        v-for="item in this.items"
         :item="item"
         :showchildren="true"
         :currentpath="currentpath"
@@ -24,8 +24,9 @@
   </div>
 </template>
 <script>
+
 import CategoryMenuItem from './CategoryMenuItem.vue'
-import CATEGORIES from '~/api/query/categories.graphql'
+
 
 
 export default {
@@ -34,23 +35,8 @@ export default {
     CategoryMenuItem
   },
 
-  data() {
-    return {
-      categories: []
-    }
-  },
 
-  props: ['filters', 'currentpath'],
 
-  apollo: {
-    categories: {
-      query: CATEGORIES,
-      variables() {
-        return {
-          languageCode: this.$i18n.locale.toUpperCase(),
-        }
-      },
-    }
-  },
+  props: ['filters', 'currentpath' , 'items'],
 }
 </script>

@@ -16,7 +16,12 @@ class UserType(DjangoObjectType):
 
 class AuthMutation(graphene.ObjectType):
     register = mutations.Register.Field()
+    send_password_reset_email = mutations.SendPasswordResetEmail.Field()
+
     token_auth = mutations.ObtainJSONWebToken.Field()
+    verify_token = mutations.VerifyToken.Field()
+    refresh_token = mutations.RefreshToken.Field()
+
 
 
 class Mutations(AuthMutation, graphene.ObjectType):

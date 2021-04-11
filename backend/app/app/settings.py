@@ -24,16 +24,14 @@ env = environ.Env(
     EMAIL_PORT=(str, ''),
     EMAIL_HOST_USER=(str, ''),
     EMAIL_HOST_PASSWORD=(str, ''),
-    EMAIL_USE_TLS = (bool, False),
-    EMAIL_USE_SSL = (bool, False),
+    EMAIL_USE_TLS=(bool, False),
+    EMAIL_USE_SSL=(bool, False),
 )
-
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-environ.Env.read_env(str(BASE_DIR.parent / '.env'))
+# environ.Env.read_env(str(BASE_DIR.parent / '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -164,6 +162,9 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 GRAPHENE = {
     'SCHEMA': 'app.schema.schema',
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
 }
 
 LANGUAGES = [
@@ -229,15 +230,30 @@ AUTHENTICATION_BACKENDS = [
 
 GRAPHQL_AUTH = {
     'LOGIN_ALLOWED_FIELDS': ['email', ],
-    'REGISTER_MUTATION_FIELDS': ["email",],
+    'REGISTER_MUTATION_FIELDS': ["email", ],
 }
 
-# GRAPHQL_JWT = {
-#     "JWT_VERIFY_EXPIRATION": True,
-#
-#     # optional
-#     # "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
-# }
+GRAPHQL_JWT = {
+    # "JWT_VERIFY_EXPIRATION": True,
+
+    # optional
+    # "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+
+    # 'JWT_AUTH_HEADER_PREFIX': '',
+
+    "JWT_ALLOW_ANY_CLASSES": [
+        "graphql_auth.mutations.Register",
+        # "graphql_auth.mutations.VerifyAccount",
+        # "graphql_auth.mutations.ResendActivationEmail",
+        # "graphql_auth.mutations.SendPasswordResetEmail",
+        # "graphql_auth.mutations.PasswordReset",
+        "graphql_auth.mutations.ObtainJSONWebToken",
+        # "graphql_auth.mutations.VerifyToken",
+        # "graphql_auth.mutations.RefreshToken",
+        # "graphql_auth.mutations.RevokeToken",
+        # "graphql_auth.mutations.VerifySecondaryEmail",
+    ],
+}
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -248,4 +264,4 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 EMAIL_USE_SSL = env('EMAIL_USE_SSL')
-EMAIL_TIMEOUT=100
+EMAIL_TIMEOUT = 100
