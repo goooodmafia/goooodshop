@@ -20,10 +20,20 @@ env = environ.Env(
     ALLOWED_HOSTS=(list, ['*']),
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=(str, ''),
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=(str, ''),
+    EMAIL_HOST=(str, ''),
+    EMAIL_PORT=(str, ''),
+    EMAIL_HOST_USER=(str, ''),
+    EMAIL_HOST_PASSWORD=(str, ''),
+    EMAIL_USE_TLS = (bool, False),
+    EMAIL_USE_SSL = (bool, False),
 )
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+environ.Env.read_env(str(BASE_DIR.parent / '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -229,4 +239,13 @@ GRAPHQL_AUTH = {
 #     # "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
 # }
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+EMAIL_USE_SSL = env('EMAIL_USE_SSL')
+EMAIL_TIMEOUT=100

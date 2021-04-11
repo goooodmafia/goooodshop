@@ -1,0 +1,13 @@
+mutation(
+  $email:String!
+  $password:String!
+){
+  tokenAuth(email:$email password:$password){
+    token
+    success
+    errors
+    user{
+      email
+    }
+  }
+}

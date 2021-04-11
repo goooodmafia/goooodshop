@@ -1,7 +1,7 @@
 <template>
   <div class="auth auth--header">
     <template v-if="!!this.$apolloHelpers.getToken()">
-      <a href="" @click="this.$apolloHelpers.onLogout()" class="auth__item">Выйти</a>
+      <a href="" @click="$apolloHelpers.onLogout()" class="auth__item">Выйти</a>
     </template>
     <template v-else>
 

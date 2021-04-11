@@ -28,7 +28,8 @@
       "title": "Новинки"
     },
     "login": {
-      "title": "Войти"
+      "title": "Войти",
+      "loginbutton": "Войти"
     }
   }
 }

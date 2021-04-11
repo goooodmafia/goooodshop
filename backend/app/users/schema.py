@@ -5,6 +5,9 @@ from django.contrib.auth import get_user_model
 
 from graphql_auth import mutations
 
+from django_graphene_permissions import permissions_checker
+from django_graphene_permissions.permissions import IsAuthenticated
+
 
 class UserType(DjangoObjectType):
     class Meta:
@@ -23,5 +26,7 @@ class Mutations(AuthMutation, graphene.ObjectType):
 class Query(graphene.ObjectType):
     users = graphene.List(UserType)
 
+    @permissions_checker([IsAuthenticated])
     def resolve_users(self, info):
+        print(info.context.user)
         return get_user_model().objects.all()

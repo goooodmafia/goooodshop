@@ -67,8 +67,8 @@ export default {
     '@nuxtjs/apollo',
     // '@nuxtjs/markdownit',
     // '@nuxt/content'
-    '@nuxtjs/axios',
-    '@nuxtjs/auth',
+    // '@nuxtjs/axios',
+    // '@nuxtjs/auth',
 
     '~/modules/markdown'
   ],
@@ -76,6 +76,8 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
+    transpile: ["vee-validate/dist/rules"],
+
     extend(config, {isDev, isClient}) {
       //   config.module.rules.push({
       //     test: /\.html$/i,
@@ -96,7 +98,7 @@ export default {
     },
 
     babel: {compact: true},
-    transpile: ["vee-validate/dist/rules"],
+
   },
 
   bootstrapVue: {
@@ -175,25 +177,25 @@ export default {
     // middleware: ["auth"],
   },
 
-  auth: {
-    redirect: {
-      login: '/login',
-      logout: '/',
-      callback: '/login',
-    },
-    strategies: {
-      google: {
-        // clientId: "128977390614-6bdbk2511vkb8gnv831mipjqohghagci.apps.googleusercontent.com", # v5
-        client_id: "128977390614-6bdbk2511vkb8gnv831mipjqohghagci.apps.googleusercontent.com",
-        // responseType: 'code',
-        // accessType: 'offline',
-        responseType: 'token',
-        grantType: 'authorization_code',
-        // codeChallengeMethod: 'S256',
-        // redirect_uri:"http://localhost:3000/",
-      }
-    }
-  }
+  // auth: {
+  //   redirect: {
+  //     login: '/login',
+  //     logout: '/',
+  //     callback: '/login',
+  //   },
+  //   strategies: {
+  //     google: {
+  //       // clientId: "128977390614-6bdbk2511vkb8gnv831mipjqohghagci.apps.googleusercontent.com", # v5
+  //       client_id: "128977390614-6bdbk2511vkb8gnv831mipjqohghagci.apps.googleusercontent.com",
+  //       // responseType: 'code',
+  //       // accessType: 'offline',
+  //       responseType: 'token',
+  //       grantType: 'authorization_code',
+  //       // codeChallengeMethod: 'S256',
+  //       // redirect_uri:"http://localhost:3000/",
+  //     }
+  //   }
+  // }
 
 
 }

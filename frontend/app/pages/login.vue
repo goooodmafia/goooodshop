@@ -7,8 +7,11 @@
     </template>
     <template>
       <div class="container">
-        ### Login
-        <Login/>
+        <div class="row justify-content-md-center my-5">
+          <div class="col-sm-12 col-md-6">
+            <Login/>
+          </div>
+        </div>
       </div>
     </template>
   </Wrapper>
