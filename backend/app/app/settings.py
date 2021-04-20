@@ -31,7 +31,7 @@ env = environ.Env(
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# environ.Env.read_env(str(BASE_DIR.parent / '.env'))
+environ.Env.read_env(str(BASE_DIR.parent / '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -92,8 +92,10 @@ ROOT_URLCONF = 'app.urls'
 
 TEMPLATES = [
     {
+
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # 'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -231,6 +233,10 @@ AUTHENTICATION_BACKENDS = [
 GRAPHQL_AUTH = {
     'LOGIN_ALLOWED_FIELDS': ['email', ],
     'REGISTER_MUTATION_FIELDS': ["email", ],
+    # 'EMAIL_FROM': 'test@test',
+    'EMAIL_TEMPLATE_VARIABLES': {
+        'frontend_domain': 'dev.gooood.ru'
+    },
 }
 
 GRAPHQL_JWT = {
@@ -245,8 +251,8 @@ GRAPHQL_JWT = {
         "graphql_auth.mutations.Register",
         # "graphql_auth.mutations.VerifyAccount",
         # "graphql_auth.mutations.ResendActivationEmail",
-        # "graphql_auth.mutations.SendPasswordResetEmail",
-        # "graphql_auth.mutations.PasswordReset",
+        "graphql_auth.mutations.SendPasswordResetEmail",
+        "graphql_auth.mutations.PasswordReset",
         "graphql_auth.mutations.ObtainJSONWebToken",
         # "graphql_auth.mutations.VerifyToken",
         # "graphql_auth.mutations.RefreshToken",
@@ -261,6 +267,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+DEFAULT_FROM_EMAIL = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 EMAIL_USE_SSL = env('EMAIL_USE_SSL')

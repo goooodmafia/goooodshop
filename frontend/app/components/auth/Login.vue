@@ -10,7 +10,9 @@
           <b-form-input
             id="email-input"
             name="email-input"
+            type="email"
             v-model="form.email"
+            autocomplete="on"
             :state="getValidationState(validationContext)"
             aria-describedby="email-live-feedback"
           ></b-form-input>
@@ -28,6 +30,7 @@
             name="password-input"
             type="password"
             v-model="form.password"
+            autocomplete="on"
             :state="getValidationState(validationContext)"
             aria-describedby="password-live-feedback"
           ></b-form-input>
@@ -45,7 +48,7 @@
       </ValidationProvider>
 
       <div class="mb-3">
-        <nuxt-link :to="localePath('/login/restore')">{{ $t('page.login.restorepass') }}</nuxt-link>
+        <nuxt-link :to="localePath('login-password-reset')">{{ $t('page.login.password_reset') }}</nuxt-link>
       </div>
       <div class="mb-3">
         <nuxt-link :to="localePath('/login/register')">{{ $t('page.login.register') }}</nuxt-link>

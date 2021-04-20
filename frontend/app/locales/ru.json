@@ -32,11 +32,15 @@
       "loginfield": "Логин",
       "passfield": "Пароль",
       "loginbutton": "Войти",
-      "restorepass": "Забыли пароль?",
+      "password_reset": "Забыли пароль?",
       "register": "Зарегистрироваться"
     },
-    "restore": {
-      "title": "Восттановление пароля"
+    "password_reset": {
+      "title": "Воccтановление пароля",
+      "emailfield": "Введите Ваш email",
+      "password1": "Введите новый пароль",
+      "password2": "Повторите пароль",
+      "submit": "Восстановить пароль"
     },
     "register": {
       "title": "Регистрация"
