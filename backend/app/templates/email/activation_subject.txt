@@ -1,0 +1,1 @@
+Создан аккаунт на {{ frontend_site_name }}

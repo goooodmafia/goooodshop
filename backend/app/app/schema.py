@@ -31,7 +31,7 @@ class MyQuery(graphene.ObjectType):
 
     fetchproducts = DjangoFilterPaginateListField(
         ProductType,
-        pagination=LimitOffsetGraphqlPagination(),
+        pagination=LimitOffsetGraphqlPagination(ordering="?"),
         filterset_class=ProductFilter
     )
 

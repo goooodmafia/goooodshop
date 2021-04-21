@@ -40,7 +40,7 @@
                 <ValidationProvider name="nonFieldErrors" v-slot="validationContext">
                   <div class="mb-3" style="color: #dc3545;" v-for="(error, index) in validationContext.errors"
                        :key="index">
-                    {{ error.message }}
+                    {{ error }}
                   </div>
                 </ValidationProvider>
 
@@ -98,7 +98,11 @@ export default {
           this.$nuxt.error({ statusCode: 200, message: "Проверьте почту" })
           // this.$router.push(this.localePath('/login'))
         } else {
-          this.$refs.resetpasswordobserver.setErrors(res.errors)
+                    let e = {}
+          for (let prop in res.errors) {
+            e[prop] = res.errors[prop].map((m)=>m.message)
+          }
+          this.$refs.resetpasswordobserver.setErrors(e)
         }
       } catch (e) {
         console.error(e)

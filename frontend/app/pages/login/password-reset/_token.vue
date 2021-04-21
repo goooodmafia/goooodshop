@@ -13,7 +13,7 @@
             <validation-observer ref="newpasswordobserver" v-slot="{ handleSubmit }">
               <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
                 <validation-provider
-                  :name="$t('page.login.loginfield')"
+                  name="newPassword1"
                   :rules="{ required: true, min: 3, }"
                   v-slot="validationContext"
                 >
@@ -25,7 +25,7 @@
                     <b-form-input
                       id="email-input"
                       name="email-input"
-                      v-model="form.password1"
+                      v-model="form.newPassword1"
                       autocomplete="on"
                       :state="getValidationState(validationContext)"
                       aria-describedby="email-live-feedback"
@@ -39,7 +39,7 @@
                 </validation-provider>
 
                 <validation-provider
-                  :name="$t('page.login.loginfield')"
+                  name="newPassword2"
                   :rules="{ required: true, min: 3, }"
                   v-slot="validationContext"
                 >
@@ -51,7 +51,7 @@
                     <b-form-input
                       id="email-input"
                       name="email-input"
-                      v-model="form.password2"
+                      v-model="form.newPassword2"
                       autocomplete="on"
                       :state="getValidationState(validationContext)"
                       aria-describedby="email-live-feedback"
@@ -67,7 +67,7 @@
                 <ValidationProvider name="nonFieldErrors" v-slot="validationContext">
                   <div class="mb-3" style="color: #dc3545;" v-for="(error, index) in validationContext.errors"
                        :key="index">
-                    {{ error.message }}
+                    {{ error }}
                   </div>
                 </ValidationProvider>
 
@@ -102,8 +102,8 @@ export default {
       },
 
       form: {
-        password1: null,
-        password2: null,
+        newPassword1: null,
+        newPassword2: null,
       }
     }
   },
@@ -126,7 +126,11 @@ export default {
           this.$nuxt.error({ statusCode: 200, message: "Пароль успешно сменен" })
           // this.$router.push(this.localePath('/login'))
         } else {
-          this.$refs.newpasswordobserver.setErrors(res.errors)
+          let e = {}
+          for (let prop in res.errors) {
+            e[prop] = res.errors[prop].map((m)=>m.message)
+          }
+          this.$refs.newpasswordobserver.setErrors(e)
         }
       } catch (e) {
         console.error(e)

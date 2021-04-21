@@ -2,10 +2,10 @@ from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 from mptt.models import MPTTModel
-from parler.models import TranslatableModel, TranslatedFields
+from parler.models import TranslatableModel, TranslatedFields, TranslatableModelMixin
 from unidecode import unidecode
 
-from .managers import CategoryManager
+from .managers import CategoryManager, ProductManager
 
 
 class MediaFile(models.Model):
@@ -139,6 +139,9 @@ class Tag(models.Model):
         verbose_name_plural = 'теги'
 
 
+
+
+
 class Product(TranslatableModel):
     sku = models.CharField(max_length=256, unique=True, verbose_name='Артикул')
     model = models.CharField(blank=False, default='', max_length=128, verbose_name='Модель')
@@ -218,3 +221,5 @@ class Product(TranslatableModel):
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
+
+    objects = ProductManager()

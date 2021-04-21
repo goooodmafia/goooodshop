@@ -18,6 +18,7 @@ import environ
 env = environ.Env(
     DEBUG=(bool, True),
     ALLOWED_HOSTS=(list, ['*']),
+    FRONTEND_DOMAIN=(str, 'dev.gooood.ru'),
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=(str, ''),
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=(str, ''),
     EMAIL_HOST=(str, ''),
@@ -235,8 +236,10 @@ GRAPHQL_AUTH = {
     'REGISTER_MUTATION_FIELDS': ["email", ],
     # 'EMAIL_FROM': 'test@test',
     'EMAIL_TEMPLATE_VARIABLES': {
-        'frontend_domain': 'dev.gooood.ru'
+        'frontend_domain': env('FRONTEND_DOMAIN'),
+        'frontend_site_name': 'Gooood.ru'
     },
+    'PASSWORD_RESET_PATH_ON_EMAIL': 'login/password-reset'
 }
 
 GRAPHQL_JWT = {

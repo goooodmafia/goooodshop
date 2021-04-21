@@ -43,7 +43,7 @@
 
       <ValidationProvider name="nonFieldErrors" v-slot="validationContext">
         <div class="mb-3" style="color: #dc3545;" v-for="(error, index) in validationContext.errors" :key="index">
-          {{ error.message }}
+          {{ error }}
         </div>
       </ValidationProvider>
 
@@ -99,12 +99,17 @@ export default {
           mutation: TOKENAUTH,
           variables: credentials
         }).then(({data}) => data && data.tokenAuth)
-        console.log(res)
         if (res.success === true) {
           await this.$apolloHelpers.onLogin(res.token)
           this.$router.push(this.localePath('/'))
         } else {
-          this.$refs.loginobserver.setErrors(res.errors)
+
+                    let e = {}
+          for (let prop in res.errors) {
+            e[prop] = res.errors[prop].map((m)=>m.message)
+          }
+
+          this.$refs.loginobserver.setErrors(e)
         }
       } catch (e) {
         console.error(e)
