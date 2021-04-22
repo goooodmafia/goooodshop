@@ -1,8 +1,10 @@
-from django_random_queryset.queryset import RandomQuerySet
+
 from parler.managers import TranslatableManager, TranslatableQuerySet
 from mptt.managers import TreeManager
 from mptt.querysets import TreeQuerySet
 
+
+from django_random_queryset.queryset import RandomQuerySet
 from django_random_queryset import RandomManager
 
 
@@ -30,4 +32,5 @@ class ProductQuerySet(TranslatableQuerySet, RandomQuerySet):
     as_manager = classmethod(as_manager)
 
 class ProductManager(RandomManager, TranslatableManager):
-    _queryset_class = ProductQuerySet
+    # _queryset_class = ProductQuerySet
+    pass

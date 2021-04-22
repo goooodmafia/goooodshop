@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
+from django_random_queryset import RandomManager
 from mptt.models import MPTTModel
 from parler.models import TranslatableModel, TranslatedFields, TranslatableModelMixin
 from unidecode import unidecode
@@ -222,4 +223,5 @@ class Product(TranslatableModel):
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
 
-    objects = ProductManager()
+    objects = RandomManager()
+    # objects = ProductManager()
