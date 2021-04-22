@@ -4,7 +4,7 @@
       <Breadcrumbs :data="breadcrumbs()" :showTitle="false" :showBack="true">
         <template v-slot:sidebar>
           <div class="col-md-auto col-sm-12">
-            <Sidebar :currentpath="currentpath"/>
+            <Sidebar :currentpath="currentpath" :items="categories"/>
           </div>
         </template>
 
@@ -67,9 +67,10 @@
                 >
                   <template v-if="product.mediaFiles.length>0">
                     <slide v-for="(item, index) in product.mediaFiles" :key="index">
-                      <div @click="openGallery(index)">
-                        <b-img-lazy blank-color="rgba(255, 255, 255, .3)" height="554px" center :src="item.src"/>
-                      </div>
+                      <inner-image-zoom :src="item.src" :zoomSrc="item.src" :fullscreenOnMobile="true"/>
+<!--                      <div @click="openGallery(index)">-->
+<!--                        <b-img-lazy blank-color="rgba(255, 255, 255, .3)" height="554px" center :src="item.src"/>-->
+<!--                      </div>-->
                     </slide>
                   </template>
                   <template v-else>
@@ -185,12 +186,14 @@
 import Wrapper from "../../components/layout/Wrapper";
 import Breadcrumbs from "~/components/layout/Breadcrumbs";
 import Sidebar from "~/components/category/Sidebar";
+import CatalogItem from "../../components/category/catalog-unit/CatalogItem";
 
 import {Hooper, Slide, Navigation} from 'hooper';
 
 import PRODUCT from "~/api/query/product.graphql"
+import CATEGORIES from '~/api/query/categories.graphql'
 import FETCHPRODUCTS from "~/api/query/fetchproducts.graphql"
-import CatalogItem from "../../components/category/catalog-unit/CatalogItem";
+
 
 export default {
 
@@ -245,13 +248,15 @@ export default {
       query: FETCHPRODUCTS,
       variables() {
         return {
-          route: "",
           languageCode: this.$i18n.locale.toUpperCase(),
-          limit: 2,
-          offset: 0,
+          perPage: 2,
+          page: 1,
+          route: '',
           colors: '',
           effects: '',
-          tags: this.product.tags.join()
+          tags: this.product.tags.join(),
+          query: '',
+          order: 'Random'
         }
       },
       skip: true,
@@ -261,6 +266,15 @@ export default {
       variables() {
         return {
           sku: this.getSku(),
+          languageCode: this.$i18n.locale.toUpperCase(),
+        }
+      },
+    },
+
+    categories: {
+      query: CATEGORIES,
+      variables() {
+        return {
           languageCode: this.$i18n.locale.toUpperCase(),
         }
       },

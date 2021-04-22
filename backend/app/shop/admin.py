@@ -10,6 +10,8 @@ from parler.forms import TranslatableModelForm
 from shop.models import Product, Category, Brand, MediaFile, Tag, Color
 from shop.import_export.resources import ProductResource
 
+from adminsortable2.admin import SortableAdminMixin
+
 
 # class ImportExportMixinAdmin(ImportMixin, ExportMixin, admin.ModelAdmin):
 #
@@ -87,11 +89,12 @@ class CategoryAdmin(TranslatableAdmin, MPTTModelAdmin):
 
 @register(Product)
 # class ProductAdmin(TranslatableAdmin,ImportExportModelAdmin, ImportExportMixinAdmin):
-class ProductAdmin(TranslatableAdmin, ImportExportMixinAdmin):
+class ProductAdmin( TranslatableAdmin, ImportExportMixinAdmin, SortableAdminMixin):
     resource_class = ProductResource
     readonly_fields = ['pub_date', 'mod_date']
     # autocomplete_fields = ['media_files','video_files', 'thumbnail', 'categories']
     list_display = (
+        # 'my_order',
         'sku',
         'model',
 

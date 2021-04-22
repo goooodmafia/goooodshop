@@ -24,26 +24,16 @@ def get_images(brand, sku):
     static_dir = (settings.BASE_DIR / 'static' ).resolve()
     path = static_dir / 'img' / 'products' / brand / sku
     files = []
-
-    print(path)
-
+    # print(path)
     for x in path.glob('**/*.jpg'):
-        print('\t |- %s' % x)
+        # print('\t |- %s' % x)
         if x.is_file():
-
-
             f = remove_prefix(str(x), str(static_dir))
             f = '/static%s' % f
-            # '/img/products/%s/%s/%s.jpg' % (brand, sku, sku)
-            # if (f is not ('/img/products/%s/%s/%s.jpg' % (brand, sku, sku))
-                # pass
-
-            print('\t |- - %s' % f)
-            #
+            # print('\t |- - %s' % f)
             if f != ('/static/img/products/%s/%s/%s.jpg' % (brand, sku, sku)):
                 files.append(f)
-                print('\t |- + %s' % f)
-        # [ for x in path.glob('**/*.jpg') if x.is_file()]
+                # print('\t |- + %s' % f)
     return files
 
 
@@ -76,6 +66,8 @@ class VerboseNameModelResource(resources.ModelResource):
 
 
 class ProductResource(VerboseNameModelResource):
+    order = 1
+
     sku = Field(
         attribute='sku',
         column_name='Артикул',
@@ -129,10 +121,6 @@ class ProductResource(VerboseNameModelResource):
         if instance.total_count is None:
             skip = True
         else:
-            # if instance.total_count > 0:
-            #     skip = False
-            # else:
-            #     skip = True
             skip = False
 
         return skip
@@ -172,10 +160,12 @@ class ProductResource(VerboseNameModelResource):
             )
         )[0]
 
+        instance.my_order = self.order
+        self.order += 1
+
         return instance
 
     def after_save_instance(self, instance, using_transactions, dry_run):
-        # instance.save()
 
         imgs = get_images(slugify(instance.brand.name), instance.sku)
 
@@ -187,15 +177,12 @@ class ProductResource(VerboseNameModelResource):
         (tag, success) = Tag.objects.get_or_create(name=instance.model)
 
         instance.tags.add(tag)
-        # if (success):
-        #     tag.products.add(instance)
 
         return instance
 
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
         del dataset[0:8]
         dataset.headers = (
-
             'Артикул',
             'Превью',
             'Модель / Цвет',

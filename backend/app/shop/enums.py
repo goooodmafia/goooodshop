@@ -5,10 +5,12 @@ import graphene
 
 class OrderEnum(Enum):
     Random = 'random'
-    Order = 'order'
+    OrderInc = 'order_inc'
+    OrderDec = 'order_dec'
     PriceInc = 'price_inc'
     PriceDec = 'price_dec'
-    Sale = 'sale'
+    SaleInc = 'sale_inc'
+    SaleDec = 'sale_dec'
 
 
 GrapheneOrderEnum = graphene.Enum.from_enum(OrderEnum)

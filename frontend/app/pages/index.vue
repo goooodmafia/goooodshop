@@ -61,13 +61,15 @@ export default {
       query: FETCHPRODUCTS,
       variables() {
         return {
-          route: "",
           languageCode: this.$i18n.locale.toUpperCase(),
-          limit: 12,
-          offset: 0,
+          perPage: 12,
+          page: 1,
+          route: "",
           colors: '',
           effects: '',
-          tags: ''
+          tags: '',
+          query: '',
+          order: 'Random'
         }
       },
     },

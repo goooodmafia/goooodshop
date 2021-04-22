@@ -10,7 +10,25 @@
           </div>
         </template>
 
+
         <template>
+
+          <div class="sorting sorting--catalog">
+            <div class="sorting__title">Сортировать по:</div>
+            <div class="sorting__list">
+              <div
+                @click="sort(item)"
+                v-for="item in sortingItems"
+                :class="[
+                  'sorting__item',
+                  {'sorting__item--decrease':item.sortOrder},
+                  {'sorting__item--increase':!item.sortOrder},
+                  {'active':item.active}
+                  ]"
+              >{{ item.title }}
+              </div>
+            </div>
+          </div>
 
           <div class="catalog">
             <div class="catalog__in">
@@ -59,6 +77,27 @@ export default {
       fetchproductscount: 0,
       page: 1,
       pageSize: 12,
+      sortingItems: [
+        {
+          title: 'новизне',
+          sortEnum: 'Order',
+          active: true,
+          sortOrder: true
+        },
+        {
+          title: 'цене',
+          sortEnum: 'Price',
+          active: false,
+          sortOrder: true
+        },
+        {
+          title: 'скидкам',
+          sortEnum: 'Sale',
+          active: false,
+          sortOrder: true
+        }
+      ],
+      myorder: 'OrderInc'
     }
   },
 
@@ -79,13 +118,15 @@ export default {
       query: FETCHPRODUCTS,
       variables() {
         return {
-          route: this.getRoute(),
           languageCode: this.$i18n.locale.toUpperCase(),
-          limit: this.pageSize,
-          offset: 0,
+          perPage: this.pageSize,
+          page: 1,
+          route: this.getRoute(),
           colors: '',
           effects: '',
           tags: '',
+          query: '',
+          order: "OrderInc"
         }
       },
     },
@@ -136,7 +177,8 @@ export default {
         this.page++
         this.$apollo.queries.fetchproducts.fetchMore({
           variables: {
-            offset: this.pageSize * this.page
+            page: this.page
+
           },
           updateQuery: function (existing, incoming) {
             return {
@@ -152,7 +194,7 @@ export default {
       let colors = this.getColors()
       let effects = this.getEffects()
 
-      this.page = 0
+      this.page = 1
 
       this.$apollo.queries.filters.refetch({
         route: route,
@@ -169,10 +211,12 @@ export default {
       this.$apollo.queries.fetchproducts.refetch({
         route: route,
         languageCode: this.$i18n.locale.toUpperCase(),
-        limit: this.pageSize,
-        offset: 0,
+        perPage: this.pageSize,
+        page: 1,
         colors: colors,
         effects: effects,
+        query: '',
+        order: this.myorder
       })
     },
 
@@ -219,6 +263,35 @@ export default {
         breadcrumbs: this.category && this.category.breadcrumbs.slice(0, -1)
       }
     },
+
+    sort(current) {
+      if (current.active) {
+        current.sortOrder = !current.sortOrder
+      } else {
+        current.sortOrder = true
+      }
+
+      this.sortingItems.forEach((element) => {
+        element.active = false
+      })
+
+      current.active = true
+
+      this.page = 1
+      let s = current.sortOrder ? 'Inc' : 'Dec'
+
+      // console.log(s)
+      this.myorder = current.sortEnum+s
+      // console.log(this.order)
+
+      this.refetchProducts()
+
+
+      // }else {
+      //   current.active = true
+      //   current.sortOrder = true
+      // }
+    }
   },
   mounted() {
     const elementWatcher = scrollMonitor.create(this.$refs.scrollmonitor);

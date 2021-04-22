@@ -35,6 +35,7 @@ export default {
     '@fortawesome/fontawesome-svg-core/styles.css',
     '~/assets/scss/style.scss',
     'hooper/dist/hooper.css',
+    'vue-inner-image-zoom/lib/vue-inner-image-zoom.css',
   ],
   loading: {
     color: '#fc982e',
@@ -51,6 +52,7 @@ export default {
     // {src: '~/plugins/vue-router-back-button.js', mode: 'client'},
     // {src: '~/plugins/vue-hooper'},
     {src: '~/plugins/vee-validate'},
+    {src: '~/plugins/vue-inner-image-zoom'},
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

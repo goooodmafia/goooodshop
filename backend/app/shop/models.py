@@ -1,12 +1,11 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
-from django_random_queryset import RandomManager
 from mptt.models import MPTTModel
 from parler.models import TranslatableModel, TranslatedFields, TranslatableModelMixin
 from unidecode import unidecode
 
-from .managers import CategoryManager, ProductManager
+from .managers import CategoryManager
 
 
 class MediaFile(models.Model):
@@ -202,6 +201,8 @@ class Product(TranslatableModel):
     pub_date = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     mod_date = models.DateTimeField(auto_now=True, verbose_name='Изменен')
 
+    my_order = models.PositiveIntegerField(default=0, blank=False, null=False, verbose_name='Порядок сортировки')
+
     def create_slug(self):
         if self.slug == '':
             self.slug = slugify(unidecode(self.sku))
@@ -220,8 +221,6 @@ class Product(TranslatableModel):
         return self.sku
 
     class Meta:
+        # ordering = ['my_order',]
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
-
-    objects = RandomManager()
-    # objects = ProductManager()

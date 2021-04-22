@@ -3,6 +3,7 @@ asgiref==3.3.1
 defusedxml==0.7.1
 diff-match-patch==20200713
 Django==3.1.6
+django-admin-sortable2==1.0
 django-graphql-auth==0.3.16
 django_graphene_permissions==0.0.4
 django-cors-headers==3.7.0

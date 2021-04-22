@@ -28,13 +28,13 @@ class MyQuery(graphene.ObjectType):
         filterset_class=ProductFilter
     )
 
-    fetchproducts = DjangoFilterPaginateListField(
-        ProductType,
-        pagination=LimitOffsetGraphqlPagination(ordering="?"),
-        filterset_class=ProductFilter
-    )
+    # fetchproducts = DjangoFilterPaginateListField(
+    #     ProductType,
+    #     pagination=LimitOffsetGraphqlPagination(ordering="?"),
+    #     filterset_class=ProductFilter
+    # )
 
-    myfetchproducts = graphene.List(
+    fetchproducts = graphene.List(
         ProductType,
         per_page=graphene.Argument(graphene.Int),
         page=graphene.Argument(graphene.Int),
@@ -46,7 +46,7 @@ class MyQuery(graphene.ObjectType):
         order=graphene.Argument(GrapheneOrderEnum)
     )
 
-    def resolve_myfetchproducts(self, info, per_page, page, route, colors, effects, tags, query, order):
+    def resolve_fetchproducts(self, info, per_page, page, route, colors, effects, tags, query, order):
 
         route_filter = Q(categories__path__icontains=route)
 
@@ -63,7 +63,7 @@ class MyQuery(graphene.ObjectType):
             effects_filter = effects_filter & Q(glow_in_the_uv=True)
 
         tag_list = list(filter(None, map(str.strip, tags.split(','))))
-        tag_filter = Q(tags__name__in=tag_list)
+        tag_filter = Q(tags__name__in=tag_list) if tag_list else Q()
 
         query_filter = Q(translations__description__icontains=query) \
                        | Q(model__icontains=query) \
@@ -71,8 +71,8 @@ class MyQuery(graphene.ObjectType):
 
         qs_filter = route_filter \
                     & color_filter \
-                    & effects_filter
-        # & tag_filter \
+                    & effects_filter \
+                    & tag_filter
         # & query_filter
 
         qs = Product.objects.all()
@@ -80,10 +80,12 @@ class MyQuery(graphene.ObjectType):
         qs = qs.filter(qs_filter)
 
         if order == OrderEnum.Random.value: qs = qs.order_by('?')
-        if order == OrderEnum.Order.value: qs = qs.order_by("?")
-        if order == OrderEnum.PriceInc.value: qs = qs.order_by('price')
-        if order == OrderEnum.PriceDec.value: qs = qs.order_by('-price')
-        if order == OrderEnum.Sale.value: qs = qs.order_by('sale')
+        if order == OrderEnum.OrderInc.value: qs = qs.order_by('my_order')
+        if order == OrderEnum.OrderDec.value: qs = qs.order_by('-my_order')
+        if order == OrderEnum.PriceInc.value: qs = qs.order_by('price', 'my_order')
+        if order == OrderEnum.PriceDec.value: qs = qs.order_by('-price', 'my_order')
+        if order == OrderEnum.SaleInc.value: qs = qs.order_by('sale', 'my_order')
+        if order == OrderEnum.SaleDec.value: qs = qs.order_by('-sale', 'my_order')
 
         qs = Paginator(qs, per_page).page(page)
 
@@ -140,16 +142,18 @@ class MyQuery(graphene.ObjectType):
         effect_glow_in_the_uv = 'Светится в ультрафиолете' in effects_list
 
         colors_filter = Q()
-        print(colors_list)
         if len(colors_list) > 0:
             colors_filter = colors_filter & Q(colors__name__in=colors_list)
         # colors_filter =  Q(colors__name__in=colors_list)
+
+        print(colors_filter)
 
         effects_filter = Q()
         if effect_glow_in_the_dark:
             effects_filter = effects_filter & Q(glow_in_the_dark=True)
         if effect_glow_in_the_uv:
             effects_filter = effects_filter & Q(glow_in_the_uv=True)
+
 
         products_qs = Product.objects.filter(categories__path=route)
         color_qs = products_qs \

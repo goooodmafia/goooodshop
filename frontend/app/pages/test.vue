@@ -17,10 +17,30 @@
 <script>
 
 import Wrapper from "~/components/layout/Wrapper";
+import FETCHPRODUCTS from "~/api/query/fetchproducts.graphql"
 
 export default {
-  middleware: 'auth',
+  // middleware: 'auth',
 
-  components: {Wrapper}
+  components: {Wrapper},
+
+  apollo:{
+    fetchproducts: {
+      query: FETCHPRODUCTS,
+      variables() {
+        return {
+          languageCode: this.$i18n.locale.toUpperCase(),
+          perPage: 12,
+          page: 1,
+          route: '/category',
+          colors: '',
+          effects: '',
+          tags: '',
+          query:'',
+          order:'Random'
+        }
+      },
+    },
+  }
 }
 </script>
