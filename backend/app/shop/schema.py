@@ -7,12 +7,8 @@ from graphene.types.generic import GenericScalar
 import graphene_django
 from graphene_django_extras import DjangoObjectType, DjangoListObjectType, LimitOffsetGraphqlPagination, \
     DjangoListObjectField
-
+from shop.translatable import myresolver
 from shop.models import Category, Product, MediaFile, Tag
-
-
-def myresolver(instance, _info, language_code):
-    return instance.safe_translation_getter(_info.field_name, language_code=language_code)
 
 
 class MediaFileType(DjangoObjectType):
@@ -118,7 +114,7 @@ class ProductType(DjangoObjectType):
         return self.thumbnail.link
 
     def resolve_breadcrumbs(self, info):
-        return  self.categories.all()[0].breadcrumbs
+        return self.categories.all()[0].breadcrumbs
 
     class Meta:
         model = Product

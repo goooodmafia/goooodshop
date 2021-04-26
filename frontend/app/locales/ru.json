@@ -33,7 +33,7 @@
       "passfield": "Пароль",
       "loginbutton": "Войти",
       "password_reset": "Забыли пароль?",
-      "register": "Зарегистрироваться"
+      "register": "Регистрация"
     },
     "password_reset": {
       "title": "Воccтановление пароля",

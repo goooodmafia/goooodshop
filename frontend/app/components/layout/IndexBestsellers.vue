@@ -32,12 +32,24 @@ export default {
   data() {
     return {
       settings: {
-        itemsToShow: 4,
+        itemsToShow: 1,
         mouseDrag: true,
         touchDrag: true,
         wheelControl: false,
         keysControl: false,
-        infiniteScroll: true
+        infiniteScroll: true,
+
+        breakpoints: {
+          576: {
+            itemsToShow: 2
+          },
+          768: {
+            itemsToShow: 3
+          },
+          992: {
+            itemsToShow: 4
+          },
+        }
       }
     }
   },

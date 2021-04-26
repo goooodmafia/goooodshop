@@ -1,0 +1,17 @@
+query (
+  $perPage:Int!
+  $page:Int!
+  $languageCode:LanguageCodeEnum!
+){
+  news(
+    perPage:$perPage
+    page:$page
+  ){
+    title
+    description(languageCode:$languageCode)
+    image
+    link
+    slug
+    viewDate
+  }
+}

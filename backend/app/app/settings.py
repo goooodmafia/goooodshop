@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'parler',
     'users',
     'shop',
+    'news',
     'content',
     'pagedown.apps.PagedownConfig',
     'mptt',

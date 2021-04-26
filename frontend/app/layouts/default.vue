@@ -6,6 +6,9 @@
     <Nuxt/>
 
     <Footer :class="border?'footer':'footer--border'"></Footer>
+    <transition name="fade">
+      <div v-if="showOverlay" class="overlay" style="display: block;" @click="onOverlayClick()"/>
+    </transition>
   </div>
 </template>
 
@@ -17,6 +20,11 @@ import Footer from "~/components/layout/Footer";
 export default {
   components: {Header, Footer},
 
+  data() {
+    return {
+      showOverlay: false
+    }
+  },
 
   computed: {
     border() {
@@ -26,5 +34,34 @@ export default {
     },
   },
 
+  mounted() {
+    this.$bus.$on('MOBILEMENU_HIDE', () => {
+      this.showOverlay = false
+    })
+
+    this.$bus.$on('MOBILEMENU_SHOW', () => {
+      this.showOverlay = true
+    })
+  },
+
+  methods:{
+    onOverlayClick(){
+      this.$bus.$emit('MOBILEMENU_HIDE')
+    }
+  }
+
 }
 </script>
+
+<style>
+.fade-enter-active, .fade-leave-active {
+  display: block;
+  transition: opacity .5s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+{
+  display: block;
+  opacity: 0;
+}
+</style>

@@ -130,7 +130,7 @@ class ProductAdmin( TranslatableAdmin, ImportExportMixinAdmin, SortableAdminMixi
     list_filter = ['brand', 'enable', 'colors', 'tags']
 
     class Meta:
-        ordering = ['id']
+        ordering = ['my_order']
 
 
 @register(Tag)

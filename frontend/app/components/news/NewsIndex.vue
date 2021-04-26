@@ -1,14 +1,28 @@
 <template>
-<div class="news news--index">
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <h1>### news</h1>
-        <p>news</p>
-        <p>news</p>
-        <p>news</p>
+  <div class="news news--index">
+    <div class="container">
+      <div class="row">
+        <div class="col-auto">
+          <div class="heading heading--h2">
+            <h2>Новинки</h2>
+          </div>
+        </div>
+        <div class="col">
+          <div class="news__all">
+            <nuxt-link :to="localePath('/news')">все номинки</nuxt-link>
+          </div>
+        </div>
       </div>
     </div>
+    <NewsWidget :items="items"/>
   </div>
-</div>
 </template>
+<script>
+import NewsWidget from "./NewsWidget";
+
+export default {
+  components: {NewsWidget},
+
+  props: ['items']
+}
+</script>

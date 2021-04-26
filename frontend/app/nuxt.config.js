@@ -72,7 +72,9 @@ export default {
     // '@nuxtjs/axios',
     // '@nuxtjs/auth',
 
-    '~/modules/markdown'
+    '~/modules/markdown',
+
+    'portal-vue/nuxt'
   ],
 
 
