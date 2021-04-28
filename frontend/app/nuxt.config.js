@@ -54,6 +54,7 @@ export default {
     {src: '~/plugins/vee-validate'},
     {src: '~/plugins/vue-inner-image-zoom'},
     // {src: '~/plugins/vue-media-query-mixin.js', ssr: false},
+    {src: '~/plugins/v-video-embed.js', ssr: false}
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

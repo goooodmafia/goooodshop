@@ -210,13 +210,13 @@ export default {
         touchDrag: false,
         wheelControl: false,
         keysControl: false,
-        // infiniteScroll: true,
+        infiniteScroll: true,
       },
 
       options_nav: {
         vertical: true,
         itemsToShow: 4,
-        // infiniteScroll: true,
+        infiniteScroll: true,
       },
 
       fetchproducts: [],

@@ -12556,6 +12556,13 @@ uuid@^8.0.0:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
+v-video-embed@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/v-video-embed/-/v-video-embed-1.0.8.tgz#529b6dde745d6fbec0a3d18b98f2a8b11694ec58"
+  integrity sha512-1PyN5gSkqTB/LJDOyDm22YIUX2nx50FwV2EaWXbkR4ZyaCLBImQ3bCgMcZ3qhGtObj0Y19akzJ0u0ab4ud+bEw==
+  dependencies:
+    vue "^2.6.10"
+
 valid-url@1.0.9:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/valid-url/-/valid-url-1.0.9.tgz#1c14479b40f1397a75782f115e4086447433a200"
@@ -12773,7 +12780,7 @@ vue-yandex-maps@^0.10.9:
   resolved "https://registry.yarnpkg.com/vue-yandex-maps/-/vue-yandex-maps-0.10.10.tgz#2d88802d3006a9eae5d4ca0331d5b6c35c78fc45"
   integrity sha512-Gx1kfV8aEOTXJu0i4U9bE7o5N11DzGzn1xqf79g5vxlGajGzJiFM22dUecdv/86G+Yoc54zTDLYmJlbo5wmHSw==
 
-vue@^2.6.12:
+vue@^2.6.10, vue@^2.6.12:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
