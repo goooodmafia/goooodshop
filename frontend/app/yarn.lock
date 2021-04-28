@@ -12664,6 +12664,11 @@ vue-client-only@^2.0.0:
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.0.0.tgz#ddad8d675ee02c761a14229f0e440e219de1da1c"
   integrity sha512-arhk1wtWAfLsJyxGMoEYhoBowM87/i6HLSG2LH/03Yog6i2d9JEN1peMP0Ceis+/n9DxdenGYZZTxbPPJyHciA==
 
+vue-component-media-queries@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vue-component-media-queries/-/vue-component-media-queries-1.0.0.tgz#3be97b6b2ed32facfce7cb90d436ad3ecf741210"
+  integrity sha512-fcGjDNqfOjPkk9hfs4x+K8d0nYUSwDzpcrNwLyHCaGWImEoQXGU2gROCBMXnBTErgzIRNgyYwCqCeB+p6guLtQ==
+
 vue-functional-data-merge@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/vue-functional-data-merge/-/vue-functional-data-merge-3.1.0.tgz#08a7797583b7f35680587f8a1d51d729aa1dc657"

@@ -1,0 +1,185 @@
+@import "_vars";
+@import "_mixins";
+
+.carousel-3d {
+  //height: 519px;
+  @include aspect-ratio(1250,520);
+  @include maw(991) {
+    @include aspect-ratio(1250,530);
+  }
+  @include maw(767) {
+    @include aspect-ratio(1250,535);
+  }
+  @include maw(575) {
+    @include aspect-ratio(1250,688);
+  }
+
+  &:after {
+    content: '';
+    background: url(~assets/img/gallery-shadow.png) 50% 0 no-repeat;
+    background-size: cover;
+    width: 100%;
+    @include vwHeight(110);
+    position: absolute;
+    @include bottomVW(-55);
+    left: 0;
+    @include maw(575) {
+      @include bottomVW(-45);
+    }
+  }
+
+  &__slide {
+    @include vwWidth(930);
+    @include marginLeftVW(-465);
+    @include aspect-ratio(930,520);
+    position: absolute;
+    height: auto;
+    top: 0;
+    margin-top: auto;
+    &:after {
+      content: '';
+      background: rgba(0,0,0,.5);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transition: all .2s;
+    }
+
+    @include maw(575) {
+      @include vwWidth(1240);
+      @include marginLeftVW(-620);
+    }
+
+    &.bee3D--before {
+      display: none;
+    }
+    &.bee3D--before-3 {
+      transform: translateX(-31.5%) scale(0.7);
+      opacity: 1;
+      z-index: 6;
+      display: block;
+    }
+    &.bee3D--before-3 {
+      transform: translateX(-31.5%) scale(0.7);
+      opacity: 1;
+      z-index: 7;
+      display: block;
+    }
+    &.bee3D--before-2 {
+      transform: translateX(-31.5%) scale(0.7);
+      opacity: 1;
+      z-index: 8;
+      display: block;
+    }
+    &.bee3D--before-1 {
+      transform: translateX(-18.5%) scale(0.82);
+      opacity: 1;
+      z-index: 9;
+      display: block;
+    }
+    &.bee3D--slide__active {
+      z-index: 100;
+      display: block;
+      &:after {
+        content: none;
+      }
+    }
+    &.bee3D--after {
+      display: none;
+    }
+    &.bee3D--after-1 {
+      transform: translateX(18.5%) scale(0.82);
+      opacity: 1;
+      z-index: 9;
+      display: block;
+    }
+    &.bee3D--after-2 {
+      transform: translateX(31.5%) scale(0.7);
+      opacity: 1;
+      z-index: 8;
+      display: block;
+    }
+    &.bee3D--after-3 {
+      transform: translateX(31.5%) scale(0.7);
+      opacity: 1;
+      z-index: 7;
+      display: block;
+    }
+    &.bee3D--after-4 {
+      transform: translateX(31.5%) scale(0.7);
+      opacity: 1;
+      z-index: 6;
+      display: block;
+    }
+  }
+  &__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  &__video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .bee3D--nav {
+    position: absolute;
+    cursor: pointer;
+    top: 50%;
+    user-select: none;
+    transition: color 0.7s ease;
+    transform: translateY(-50%);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width:  47px;
+    height: 87px;
+    z-index: 999;
+    @include maw(991) {
+      @include vwWidth(47);
+      @include vwHeight(87);
+      min-width: 25px;
+      min-height: 47px;
+    }
+    @include maw(575) {
+      width:  25px;
+      height: 47px;
+    }
+  }
+  .bee3D--nav__prev {
+    background-image: url(/static/img/layout/arrow.svg);
+    @include leftVW(90);
+    transform: rotate(180deg);
+    @include marginTopVW(-43);
+    @include maw(1199) {
+      @include leftVW(75);
+    }
+    @include maw(991) {
+      @include leftVW(70);
+    }
+    @include maw(767) {
+      @include leftVW(60);
+    }
+    @include maw(640) {
+      @include leftVW(50);
+    }
+    @include maw(575) {
+      left: 10px;
+      margin-top: -27.5px;
+    }
+  }
+
+  .bee3D--nav__next {
+    background-image: url(/static/img/layout/arrow.svg);
+    @include rightVW(90);
+    @include maw(575) {
+      right: 10px;
+    }
+  }
+}

@@ -3,7 +3,7 @@
 
     <template v-slot:header>
       <IndexBanner :items="banners"/>
-      <NewsIndex :items="indexnews.slice(0,4)"/>
+      <NewsIndex :items="news"/>
     </template>
 
     <template>
@@ -31,6 +31,7 @@ import FETCHPRODUCTS from "~/api/query/fetchproducts.graphql"
 import NEWS from "~/api/query/news.graphql"
 
 export default {
+  name:'index',
   footerBorder: true,
   components: {
     IndexBestsellers,
@@ -42,7 +43,7 @@ export default {
   data() {
     return {
       fetchproducts: [],
-      indexnews: [],
+      news: [],
     }
   },
 
@@ -59,6 +60,16 @@ export default {
   },
 
   apollo: {
+    news: {
+      query: NEWS,
+      variables() {
+        return {
+          languageCode: this.$i18n.locale.toUpperCase(),
+          perPage: 4,
+          page: 1,
+        }
+      },
+    },
     fetchproducts: {
       query: FETCHPRODUCTS,
       variables() {
@@ -75,17 +86,7 @@ export default {
         }
       },
     },
-    indexnews: {
-      query: NEWS,
-      variables() {
-        return {
-          languageCode: this.$i18n.locale.toUpperCase(),
-          perPage: 4,
-          page: 1,
-        }
-      },
-      update: data => data.news
-    }
+
   }
 
 }

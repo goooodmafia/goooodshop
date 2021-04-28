@@ -1,0 +1,124 @@
+@import "_vars";
+@import "_mixins";
+
+.product-details {
+  position: relative;
+
+  margin: -11px 0 0;
+  @include maw(1280) {
+    width: 526px;
+  }
+}
+
+.product-heading {
+  padding: 0 30px 8px 0;
+}
+.product-article {
+  padding: 0 0 40px;
+}
+.product-share {
+  background: url(~assets/img/icon__share.svg) 0 0 no-repeat;
+  width: 20px;
+  height: 22px;
+  position: absolute;
+  top: 10px;
+  right: 0;
+}
+.product-price {
+  display: flex;
+  align-items: flex-start;
+  padding: 0 0 52px;
+  flex-wrap: wrap;
+  &__new {
+    font-weight: 700;
+    font-size: 27px;
+    padding: 0 14px 0 0;
+    white-space: nowrap;
+  }
+  &__holder {
+    display: flex;
+  }
+  &__old {
+    font-size: 18px;
+    color: $light-blue;
+    text-decoration: line-through;
+    position: relative;
+    top: 7px;
+    padding: 0 12px 0 0;
+    white-space: nowrap;
+  }
+  &__sale {
+    background: #91b9ff;
+    font-size: 18px;
+    font-weight: 700;
+    position: relative;
+    top: 7px;
+    padding: 0 4px 0;
+    white-space: nowrap;
+  }
+}
+
+.product-options {
+  padding: 0 0 19px;
+  &__item {
+    display: flex;
+    @include maw(400) {
+      flex-wrap: wrap;
+    }
+  }
+  &__title {
+    width: 71px;
+    line-height: 36px;
+    @include maw(767) {
+      width: 77px;
+    }
+    @include maw(400) {
+      width: 100%;
+    }
+  }
+}
+
+.product-color {
+  padding: 0 0 13px;
+}
+.product-size {
+  padding: 0 0 9px;
+  &__count {
+    margin: 0 16px 0 0;
+  }
+}
+
+.product-additionally {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0 48px;
+  &__size {
+    margin: 0 33px 30px 0;
+  }
+  &__reviews {
+    margin: 0 33px 30px 0;
+  }
+}
+
+.product-actions {
+  flex-wrap: wrap;
+  width: calc(100% + 20px);
+  display: flex;
+  justify-content: space-between;
+  @include maw(1280) {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  &__btn {
+    margin-right: 20px;
+    margin-bottom: 20px;
+    @include maw(1280) {
+      margin-right: 28px;
+    }
+  }
+  &__to-fav {
+    display: flex;
+    align-items: center;
+    height: 50px;
+  }
+}

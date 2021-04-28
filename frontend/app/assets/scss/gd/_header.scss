@@ -1,0 +1,89 @@
+@import "_vars";
+@import "_mixins";
+
+.header {
+  background: #07215e;
+  position: relative;
+  z-index: 105;
+  flex: 0 0 auto;
+
+  &__top {
+    background: #07215e;
+    border-bottom: 1px solid #4d6eb0;
+    height: 59px;
+    position: relative;
+    z-index: 105;
+    @include maw(575) {
+      height: 41px;
+    }
+  }
+  &__main {}
+  &__logo {
+    height: 123px;
+    display: flex;
+    align-items: center;
+    @include maw(575) {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+  }
+  &__slogan {
+    @include maw(991) {
+      .header__main & {
+        display: none;
+      }
+    }
+    @include maw(575) {
+      height: 40px;
+    }
+  }
+  &__cart {
+    height: 123px;
+    @include maw(575) {
+      display: none;
+    }
+  }
+  &__nav {
+    display: flex;
+    @include maw(991) {
+      display: none;
+    }
+  }
+  &__auth {
+    display: flex;
+    justify-content: flex-end;
+    @include maw(991) {
+      display: none;
+    }
+  }
+  &__lang {
+    @include maw(575) {
+      display: none;
+    }
+  }
+  &__contacts {
+    display: flex;
+    @include maw(991) {
+      justify-content: center;
+    }
+    @include maw(767) {
+      display: none;
+    }
+    @include miw(992) {
+      justify-content: flex-end;
+    }
+  }
+  &__search {
+    display: flex;
+    align-items: center;
+    @include maw(991) {
+      display: none;
+    }
+  }
+  &__menu {
+    background-color: #4e82e0;
+    @include maw(991) {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+@import "_vars";
+@import "_mixins";
+
+.to-basket {
+  position: relative;
+  padding: 0 0 0 35px;
+  color: #fff;
+  white-space: nowrap;
+  &:before {
+    content: '';
+    background: url(~assets/img/icon__cart--orange.svg) 0 0 no-repeat;
+    background-size: cover;
+    width: 21px;
+    height: 28px;
+    position: absolute;
+    top: -5px;
+    left: 0;
+  }
+}

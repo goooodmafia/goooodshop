@@ -1,17 +1,13 @@
 
 
-
-
-
-
-
 //body {
 //  background-color: $body-bg;
 //}
 
-@import "vars";
+@import "gd/vars";
 
-@import 'node_modules/bootstrap/scss/bootstrap.scss';
+//@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'mybootstrap.scss';
 @import 'node_modules/bootstrap-vue/src/index.scss';
 
 @import 'colors';

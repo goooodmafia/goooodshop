@@ -1,8 +1,6 @@
 <template>
-  <div class="container">
-    <portal to="mobile-portal" :disabled="!mobileShow" :order="1">
-      <div class="menu">
 
+      <div class="menu">
         <HeaderMenuItem :item="item" v-for="(item,index) in this.categories.concat(this.menu)" :key="index"/>
 
 
@@ -22,8 +20,7 @@
 <!--          <div class="dropdown-toggle" @click="dropdown=!dropdown"></div>-->
 <!--        </div>-->
       </div>
-    </portal>
-  </div>
+
 </template>
 <script>
 import CATEGORIES from '~/api/query/categories.graphql'

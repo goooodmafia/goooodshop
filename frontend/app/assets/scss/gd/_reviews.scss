@@ -1,0 +1,82 @@
+@import "_vars";
+@import "_mixins";
+
+.reviews {
+
+  &__item {
+    padding: 0 0 70px;
+    position: relative;
+  }
+  &__item-in {
+    .active & {
+        position: absolute;
+        top:  -23px;
+        left: -23px;
+        z-index: 20;
+        background-color: #1f4ea3;
+        width: calc(100% + 46px);
+        border: 2px solid $light-blue;
+        padding: 21px 21px 30px;
+    }
+  }
+  &__date {
+    background-color: #07215e;
+    color: #fff;
+    display: inline-block;
+    padding: 1px 8px 2px;
+    margin: 0 0 4px;
+  }
+  &__name {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 4px;
+  }
+  &__city {
+    color: $light-blue;
+    margin: 0 0 19px;
+  }
+  &__text {}
+  &__text-hide {
+    display: none;
+    .active & {
+      display: block;
+    }
+  }
+  &__more {
+    text-decoration: underline;
+    position: relative;
+    top: -1em;
+    &:hover {
+      text-decoration: none;
+    }
+    .active & {
+      display: none;
+    }
+  }
+  &__photo {}
+  &__close {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width:  40px;
+    height: 40px;
+    cursor: pointer;
+    color: $light-blue;
+    text-align: center;
+    overflow: hidden;
+    .active & {
+      display: block;
+    }
+    &:before {
+      content: '+';
+      line-height: 40px;
+      position: absolute;
+      width: 40px;
+      left: 0;
+      top: 0;
+      transform: rotate(45deg);
+      font-size: 35px;
+    }
+  }
+}

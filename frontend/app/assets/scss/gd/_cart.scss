@@ -1,0 +1,47 @@
+@import "_vars";
+@import "_mixins";
+
+.cart {
+  display: flex;
+  width: 161px;
+  background: #fc972d;
+  background: linear-gradient(to bottom,  #fc972d 0%,#ee7b02 100%);
+  height: 100%;
+  color: #fff;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 18px;
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+  }
+  @include maw(575) {
+    width: calc(100% + 50px);
+    margin-left: -25px;
+    margin-top: -25px;
+    margin-bottom: 30px;
+    height: 80px;
+  }
+
+  &__in {
+    padding: 0 0 0 30px;
+    position: relative;
+    &:before {
+      content: '';
+      background: url(~assets/img/icon__cart.svg) 0 0 no-repeat;
+      background-size: cover;
+      width: 18px;
+      height: 22px;
+      position: absolute;
+      top: 10px;
+      left: 0;
+    }
+  }
+  &__item {
+    &--sum {
+      font-weight: 700;
+    }
+  }
+}

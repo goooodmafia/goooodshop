@@ -1,0 +1,25 @@
+@import "_vars";
+@import "_mixins";
+
+.personal-data {
+
+  &__item {
+    padding: 0 0 13px;
+  }
+  &__value {
+    font-size: 18px;
+    font-weight: 700;
+    padding: 0 18px 0 0;
+    display: inline;
+  }
+  &__label {
+    font-weight: 400;
+  }
+  &__edit {
+    display: inline;
+    padding: 0 14px 0 0;
+  }
+  &__consent {
+    display: inline-block;
+  }
+}

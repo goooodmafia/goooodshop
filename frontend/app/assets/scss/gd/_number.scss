@@ -1,0 +1,48 @@
+@import "_vars";
+@import "_mixins";
+
+.number {
+  width: 98px;
+  font-size: 16px;
+
+  .fs-number {
+    text-align: center;
+  }
+  &__input {
+    height: 36px;
+    border: 1px solid $light-blue;
+    background-color: transparent;
+    color: #fff;
+    text-align: center;
+    padding: 7px 0;
+    width: 36px;
+  }
+  .fs-number-arrow {
+    background-color: transparent;
+    position: absolute;
+    width: 32px;
+    height: 100%;
+    border: 1px solid $light-blue;
+    color: #fff;
+  }
+  .fs-number-down {
+    left: 0;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+    &:before {
+      content: '';
+      @include align;
+      height: 1px;
+      width: 7px;
+      background: #fff;
+    }
+  }
+  .fs-number-up {
+    right: 0;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    &:before {
+      content: '+';
+    }
+  }
+}

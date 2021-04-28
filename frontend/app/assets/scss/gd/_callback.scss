@@ -1,0 +1,14 @@
+@import "_vars";
+@import "_mixins";
+
+.callback {
+  white-space: nowrap;
+
+  &__link {
+    font-size: 18px;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

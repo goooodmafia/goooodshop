@@ -14,7 +14,9 @@
         </div>
       </div>
     </div>
-    <NewsWidget :items="items"/>
+    <client-only>
+      <NewsWidget :items="items"/>
+    </client-only>
   </div>
 </template>
 <script>

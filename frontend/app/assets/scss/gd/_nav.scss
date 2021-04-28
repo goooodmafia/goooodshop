@@ -1,0 +1,39 @@
+@import "_vars";
+@import "_mixins";
+
+.nav {
+  width: 100%;
+  display: block;
+  @include maw(991) {
+    padding-bottom: 20px;
+  }
+
+  &__in {
+    @include miw(992) {
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+      margin-right: -25px;
+      height: 59px;
+      align-items: center;
+    }
+  }
+  //&__in {
+    @include miw(1200) {
+      width: calc(100% + 60px);
+    }
+  //}
+  &__item {
+    @include maw(991) {
+      padding: 0 0 10px;
+    }
+  }
+  &__link {
+    color: #fff;
+    @include maw(991) {
+      color: #fff;
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+}

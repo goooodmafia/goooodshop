@@ -1,0 +1,17 @@
+@import "_vars";
+@import "_mixins";
+
+.reviews-link {
+  color: $light-blue;
+  position: relative;
+  padding: 0 0 0 32px;
+  &:before {
+    content: '';
+    background: url(~assets/img/icon__review.svg) 0 0 no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:  23px;
+    height: 20px;
+  }
+}

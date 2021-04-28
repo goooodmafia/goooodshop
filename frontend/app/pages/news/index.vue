@@ -55,7 +55,7 @@ export default {
       variables() {
         return {
           languageCode: this.$i18n.locale.toUpperCase(),
-          perPage: 4,
+          perPage: 12,
           page: 1,
         }
       },
