@@ -17,6 +17,9 @@
         :currentpath="currentpath"
         :level="0"
         :key="item.name"/>
+      <li class="catalog-menu__item">
+        <nuxt-link :to="localePath('/news')" class="catalog-menu__link">Новинки</nuxt-link>
+      </li>
     </ul>
 
     <slot></slot>
@@ -28,7 +31,6 @@
 import CategoryMenuItem from './CategoryMenuItem.vue'
 
 
-
 export default {
 
   components: {
@@ -36,7 +38,6 @@ export default {
   },
 
 
-
-  props: ['filters', 'currentpath' , 'items'],
+  props: ['filters', 'currentpath', 'items'],
 }
 </script>

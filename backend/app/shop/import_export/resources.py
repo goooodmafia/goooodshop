@@ -21,7 +21,7 @@ def remove_prefix(text, prefix):
 
 
 def get_images(brand, sku):
-    static_dir = (settings.BASE_DIR / 'static' ).resolve()
+    static_dir = (settings.BASE_DIR / 'static').resolve()
     path = static_dir / 'img' / 'products' / brand / sku
     files = []
     # print(path)
@@ -117,23 +117,27 @@ class ProductResource(VerboseNameModelResource):
         widget=widgets.IntegerWidget()
     )
 
-    price_ret   = Field(default=0,attribute='price_ret', column_name='Розничная цена, р', widget=widgets.IntegerWidget())
-    price_opt_m = Field(default=0,attribute='price_opt_m', column_name='Мелкий опт от 10шт.', widget=widgets.IntegerWidget())
-    price_opt_1 = Field(default=0,attribute='price_opt_1', column_name='Опт. от 15000р', widget=widgets.IntegerWidget())
-    price_opt_2 = Field(default=0,attribute='price_opt_2', column_name='- 3% от 30000р', widget=widgets.IntegerWidget())
-    price_opt_3 = Field(default=0,attribute='price_opt_3', column_name='- 7% от 70000р', widget=widgets.IntegerWidget())
-    price_opt_4 = Field(default=0,attribute='price_opt_4', column_name='- 11% от 110000р', widget=widgets.IntegerWidget())
+    price_ret = Field(default=0, attribute='price_ret', column_name='Розничная цена, р', widget=widgets.IntegerWidget())
+    price_opt_m = Field(default=0, attribute='price_opt_m', column_name='Мелкий опт от 10шт.',
+                        widget=widgets.IntegerWidget())
+    price_opt_1 = Field(default=0, attribute='price_opt_1', column_name='Опт. от 15000р',
+                        widget=widgets.IntegerWidget())
+    price_opt_2 = Field(default=0, attribute='price_opt_2', column_name='- 3% от 30000р',
+                        widget=widgets.IntegerWidget())
+    price_opt_3 = Field(default=0, attribute='price_opt_3', column_name='- 7% от 70000р',
+                        widget=widgets.IntegerWidget())
+    price_opt_4 = Field(default=0, attribute='price_opt_4', column_name='- 11% от 110000р',
+                        widget=widgets.IntegerWidget())
 
-    size_ns     = Field(default=0, attribute='size_ns', column_name='*', widget=widgets.IntegerWidget())
-    size_xs     = Field(default=0, attribute='size_xs', column_name='XS (42)', widget=widgets.IntegerWidget())
-    size_s      = Field(default=0, attribute='size_s', column_name='S (44)', widget=widgets.IntegerWidget())
-    size_m      = Field(default=0, attribute='size_m', column_name='M (46)', widget=widgets.IntegerWidget())
-    size_l      = Field(default=0, attribute='size_l', column_name='L (48)', widget=widgets.IntegerWidget())
-    size_xl     = Field(default=0, attribute='size_xl', column_name='XL (50)', widget=widgets.IntegerWidget())
-    size_2xl    = Field(default=0, attribute='size_2xl', column_name='XXL (52)', widget=widgets.IntegerWidget())
-    size_3xl    = Field(default=0, attribute='size_3xl', column_name='XXХL (54-56)', widget=widgets.IntegerWidget())
-    size_4xl    = Field(default=0, attribute='size_4xl', column_name='4ХL (58)', widget=widgets.IntegerWidget())
-
+    size_ns = Field(default=0, attribute='size_ns', column_name='*', widget=widgets.IntegerWidget())
+    size_xs = Field(default=0, attribute='size_xs', column_name='XS (42)', widget=widgets.IntegerWidget())
+    size_s = Field(default=0, attribute='size_s', column_name='S (44)', widget=widgets.IntegerWidget())
+    size_m = Field(default=0, attribute='size_m', column_name='M (46)', widget=widgets.IntegerWidget())
+    size_l = Field(default=0, attribute='size_l', column_name='L (48)', widget=widgets.IntegerWidget())
+    size_xl = Field(default=0, attribute='size_xl', column_name='XL (50)', widget=widgets.IntegerWidget())
+    size_2xl = Field(default=0, attribute='size_2xl', column_name='XXL (52)', widget=widgets.IntegerWidget())
+    size_3xl = Field(default=0, attribute='size_3xl', column_name='XXХL (54-56)', widget=widgets.IntegerWidget())
+    size_4xl = Field(default=0, attribute='size_4xl', column_name='4ХL (58)', widget=widgets.IntegerWidget())
 
     def skip_row(self, instance, original):
         if instance.total_count is None:
@@ -228,8 +232,8 @@ class ProductResource(VerboseNameModelResource):
             'L (48)',
             'XL (50)',
             'XXL (52)',
-            'XXХL (54)',
-            '4ХL (56)'
+            'XXХL (54-56)',
+            '4ХL (58)'
         )
 
     class Meta:

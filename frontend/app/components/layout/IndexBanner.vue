@@ -2,28 +2,7 @@
   <div class="main-slider">
     <div class="js-slider slider main-slider__wrapper">
       <hooper style="height: 100%" :settings="settings">
-        <slide>
-          <client-only>
-            <div style="
-              height: 459px;
-              width: auto;
-              background: radial-gradient(black, transparent);"
-            >
-              <video-embed class="h-100" src="https://coub.com/view/u7bqv"></video-embed>
-            </div>
-          </client-only>
-        </slide>
-        <slide>
-          <client-only>
-            <div style="
-              height: 459px;
-              width: auto;
-              background: radial-gradient(black, transparent);"
-            >
-              <video-embed class="h-100" src="https://www.youtube.com/watch?v=0CwAi4lKlSA&list=PLrTgFeRLRdBLDXMIi86uXpnRQEspQkrbQ&index=2"></video-embed>
-            </div>
-          </client-only>
-        </slide>
+
         <slide v-for="(item,key) in items" :key="key">
           <div class="main-slider__slide slider__slide"
                :style="{backgroundImage: 'url(' + item.img + ')', backgroundColor:item.color}">
@@ -45,6 +24,29 @@
               </div>
             </div>
           </div>
+        </slide>
+
+        <slide>
+          <client-only>
+            <div style="
+              height: 459px;
+              width: auto;
+              background: radial-gradient(black, transparent);"
+            >
+              <video-embed class="h-100" src="https://coub.com/view/u7bqv"></video-embed>
+            </div>
+          </client-only>
+        </slide>
+        <slide>
+          <client-only>
+            <div style="
+              height: 459px;
+              width: auto;
+              background: radial-gradient(black, transparent);"
+            >
+              <video-embed class="h-100" src="https://www.youtube.com/watch?v=0CwAi4lKlSA&list=PLrTgFeRLRdBLDXMIi86uXpnRQEspQkrbQ&index=2"></video-embed>
+            </div>
+          </client-only>
         </slide>
 
         <navigation slot="hooper-addons"></navigation>

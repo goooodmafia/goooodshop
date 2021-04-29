@@ -123,6 +123,7 @@ export default {
           perPage: this.pageSize,
           page: 1,
           route: this.getRoute(),
+          sizes: '',
           colors: '',
           effects: '',
           tags: '',
@@ -136,6 +137,7 @@ export default {
       variables() {
         return {
           route: this.getRoute(),
+          sizes: '',
           colors: '',
           effects: ''
         }
@@ -194,7 +196,7 @@ export default {
       let route = this.getRoute()
       let colors = this.getColors()
       let effects = this.getEffects()
-      let sizes = ''
+      let sizes = this.getSizes()
 
       this.page = 1
 
@@ -207,6 +209,7 @@ export default {
 
       this.$apollo.queries.fetchproductscount.refetch({
         route: route,
+        sizes: sizes,
         colors: colors,
         effects: effects,
       })
@@ -216,6 +219,7 @@ export default {
         languageCode: this.$i18n.locale.toUpperCase(),
         perPage: this.pageSize,
         page: 1,
+        sizes: sizes,
         colors: colors,
         effects: effects,
         query: '',
@@ -245,6 +249,22 @@ export default {
         .replace('\/\/', '/')
     },
 
+    getSizes() {
+      var sizeFilters = [];
+      if (this.$data.filters) {
+        for (let sfilter of this.$data.filters) {
+          if (sfilter.name === 'size') {
+            for (let s of sfilter.items) {
+              if (s.value) {
+                sizeFilters.push(s.lable)
+              }
+            }
+          }
+        }
+      }
+      return sizeFilters.join()
+    },
+
     getEffects() {
       var effectFilter = [];
       if (this.$data.filters) {
@@ -260,6 +280,7 @@ export default {
       }
       return effectFilter.join()
     },
+
     breadcrumbs() {
       return {
         title: this.category && this.category.name,
@@ -284,7 +305,7 @@ export default {
       let s = current.sortOrder ? 'Inc' : 'Dec'
 
       // console.log(s)
-      this.myorder = current.sortEnum+s
+      this.myorder = current.sortEnum + s
       // console.log(this.order)
 
       this.refetchProducts()

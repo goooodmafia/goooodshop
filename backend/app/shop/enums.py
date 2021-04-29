@@ -11,6 +11,8 @@ class OrderEnum(Enum):
     PriceDec = 'price_dec'
     SaleInc = 'sale_inc'
     SaleDec = 'sale_dec'
+    HitInc = 'hit_inc'
+    HitDec = 'hit_dec'
 
 
 GrapheneOrderEnum = graphene.Enum.from_enum(OrderEnum)
