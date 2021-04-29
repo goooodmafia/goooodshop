@@ -56,6 +56,10 @@ class MediaFileAdmin(admin.ModelAdmin):
     search_fields = ['link']
 
 
+# @register(Price)
+# class PriceAdmin(admin.ModelAdmin):
+#     pass
+
 class ProductInline(admin.TabularInline):
     # class ProductInline(admin.StackedInline):
     model = Category.products.through
@@ -83,13 +87,12 @@ class CategoryAdmin(TranslatableAdmin, MPTTModelAdmin):
     )
 
 
-
 # class TagInline(admin.TabularInline):
 #     model = Tag
 
 @register(Product)
 # class ProductAdmin(TranslatableAdmin,ImportExportModelAdmin, ImportExportMixinAdmin):
-class ProductAdmin( TranslatableAdmin, ImportExportMixinAdmin, SortableAdminMixin):
+class ProductAdmin(TranslatableAdmin, ImportExportMixinAdmin, SortableAdminMixin):
     resource_class = ProductResource
     readonly_fields = ['pub_date', 'mod_date']
     # autocomplete_fields = ['media_files','video_files', 'thumbnail', 'categories']
@@ -103,7 +106,7 @@ class ProductAdmin( TranslatableAdmin, ImportExportMixinAdmin, SortableAdminMixi
         'get_tags',
         'get_colors',
         'enable',
-        'price',
+        # 'price',
         'pub_date',
         'mod_date'
     )
@@ -128,6 +131,50 @@ class ProductAdmin( TranslatableAdmin, ImportExportMixinAdmin, SortableAdminMixi
 
     search_fields = ['sku', 'model', 'tags__name', 'colors__name', 'categories__full_name']
     list_filter = ['brand', 'enable', 'colors', 'tags']
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'sku',
+                'model',
+                'slug',
+                'brand',
+                # 'price',
+                'description',
+                'content',
+                'categories',
+                'tags',
+                'colors',
+                'thumbnail',
+                'media_files',
+                'price_ret',
+                'price_opt_m',
+                'price_opt_1',
+                'price_opt_2',
+                'price_opt_3',
+                'price_opt_4',
+                'total_count',
+                'size_ns',
+                'size_xs',
+                'size_s',
+                'size_m',
+                'size_l',
+                'size_xl',
+                'size_2xl',
+                'size_3xl',
+                'size_4xl',
+                'new',
+                'hit',
+                'sale',
+                'glow_in_the_dark',
+                'glow_in_the_uv',
+                'enable',
+
+                'pub_date',
+                'mod_date',
+            ),
+        }),
+    )
 
     class Meta:
         ordering = ['my_order']

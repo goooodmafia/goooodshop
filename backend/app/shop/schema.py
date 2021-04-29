@@ -92,6 +92,9 @@ class ProductType(DjangoObjectType):
     brand = graphene.String()
     category = GenericScalar()
 
+    price = graphene.Field(graphene.Int)
+    sizes = graphene.List(GenericScalar)
+
     breadcrumbs = graphene.List(GenericScalar)
 
     def resolve_colors(self, info):
@@ -116,8 +119,53 @@ class ProductType(DjangoObjectType):
     def resolve_breadcrumbs(self, info):
         return self.categories.all()[0].breadcrumbs
 
+    def resolve_price(self, info):
+        return self.price_ret
+
+    def resolve_sizes(self, info):
+        return [
+            {'size_ns': self.size_ns},
+            {'size_xs': self.size_xs},
+            {'size_s': self.size_s},
+            {'size_m': self.size_m},
+            {'size_l': self.size_l},
+            {'size_xl': self.size_xl},
+            {'size_2xl': self.size_2xl},
+            {'size_3xl': self.size_3xl},
+            {'size_4xl': self.size_4xl},
+        ]
+
     class Meta:
         model = Product
+        # exclude = (
+        #     'price_ret',
+        #     'price_opt_m',
+        #     'price_opt_1',
+        #     'price_opt_2',
+        #     'price_opt_3',
+        #     'price_opt_4',
+        # )
+
+        only_fields = (
+            'model',
+            'sku',
+            'slug',
+            'thumbnail',
+            'mediaFiles',
+            'colors',
+            'category',
+            'new',
+            'hit',
+            'sale',
+            'glow_in_the_dark',
+            'glow_in_the_uv',
+            'description',
+            'content',
+            'price',
+
+            'sizes',
+
+        )
 
 
 class ProductListType(DjangoListObjectType):

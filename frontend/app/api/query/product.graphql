@@ -20,5 +20,7 @@ query(
     glowInTheDark
     glowInTheUv
     slug
+    price
+    sizes
   }
 }

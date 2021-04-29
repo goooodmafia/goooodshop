@@ -42,5 +42,7 @@ query(
     glowInTheUv
     description(languageCode:$languageCode)
     content(languageCode:$languageCode)
+    sizes
+    price
   }
 }

@@ -107,6 +107,7 @@ export default {
       variables() {
         return {
           route: this.getRoute(),
+          sizes: '',
           colors: '',
           effects: ''
         }
@@ -193,11 +194,13 @@ export default {
       let route = this.getRoute()
       let colors = this.getColors()
       let effects = this.getEffects()
+      let sizes = ''
 
       this.page = 1
 
       this.$apollo.queries.filters.refetch({
         route: route,
+        sizes: sizes,
         colors: colors,
         effects: effects,
       })

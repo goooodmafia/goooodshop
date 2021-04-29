@@ -73,6 +73,7 @@ class MyQuery(graphene.ObjectType):
     filters = graphene.List(
         FiltersType,
         route=graphene.Argument(graphene.String),
+        sizes=graphene.Argument(graphene.String),
         colors=graphene.Argument(graphene.String),
         effects=graphene.Argument(graphene.String)
     )
@@ -98,13 +99,23 @@ class MyQuery(graphene.ObjectType):
     def resolve_product(self, info, sku):
         return Product.objects.get(sku=sku)
 
-    def resolve_filters(self, info, route, colors, effects):
+    def resolve_filters(self, info, route, sizes, colors, effects):
 
+        sizes_list = list(filter(None, map(str.strip, sizes.split(','))))
         colors_list = list(filter(None, map(str.strip, colors.split(','))))
         effects_list = list(filter(None, map(str.strip, effects.split(','))))
 
         effect_glow_in_the_dark = 'Светится в темноте' in effects_list
         effect_glow_in_the_uv = 'Светится в ультрафиолете' in effects_list
+
+        sizes_filter = Q()
+
+        print(sizes_list)
+
+        for size in sizes_list:
+            sizes_filter |= Q(**{size + '__gt': 0})
+
+        print(sizes_filter)
 
         colors_filter = Q()
         if len(colors_list) > 0:
@@ -117,6 +128,33 @@ class MyQuery(graphene.ObjectType):
             effects_filter = effects_filter & Q(glow_in_the_uv=True)
 
         products_qs = Product.objects.filter(categories__path__icontains=route)
+
+        sizes_qs = products_qs
+        # .filter(colors_filter) \
+        # .filter(effects_filter)
+
+        s_list = {
+            'size_ns': 'Без размера',
+            'size_xs': 'XS',
+            'size_s': 'S',
+            'size_m': 'M',
+            'size_l': 'L',
+            'size_xl': 'XL',
+            'size_2xl': 'XXL',
+            'size_3xl': 'XXXL',
+            'size_4xl': 'XXXXL',
+        }
+
+        sizes = [
+            {'lable': value,
+             'count': sizes_qs.values(key).filter(Q(**{key + '__gt': 0})).count(),
+             'value': False} for (key, value) in s_list.items()
+        ]
+        #
+        # print(sizes_qs.values('size_ns').filter(Q(**{'size_ns' + '__gt': 0})).count())
+        #
+        # print(s)
+
         color_qs = products_qs \
             .annotate(lable=F('colors__name')).values('lable') \
             .exclude(lable__isnull=True) \
@@ -147,6 +185,7 @@ class MyQuery(graphene.ObjectType):
                 color['value'] = True
 
         return [
+            FiltersType(title='Размер', name='size', items=sizes),
             FiltersType(title='Цвет', name='color', items=colors),
             FiltersType(title='Спецэффекты', name='effects', items=list(products_dark_qs) + list(products_uv_qs)),
         ]
@@ -186,8 +225,8 @@ class MyQuery(graphene.ObjectType):
         if order == OrderEnum.Random.value: qs = qs.order_by('?')
         if order == OrderEnum.OrderInc.value: qs = qs.order_by('my_order')
         if order == OrderEnum.OrderDec.value: qs = qs.order_by('-my_order')
-        if order == OrderEnum.PriceInc.value: qs = qs.order_by('price', 'my_order')
-        if order == OrderEnum.PriceDec.value: qs = qs.order_by('-price', 'my_order')
+        if order == OrderEnum.PriceInc.value: qs = qs.order_by('price_ret', 'my_order')
+        if order == OrderEnum.PriceDec.value: qs = qs.order_by('-price_ret', 'my_order')
         if order == OrderEnum.SaleInc.value: qs = qs.order_by('sale', 'my_order')
         if order == OrderEnum.SaleDec.value: qs = qs.order_by('-sale', 'my_order')
 

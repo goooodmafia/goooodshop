@@ -30,6 +30,20 @@ class Brand(models.Model):
         verbose_name_plural = 'бренды'
 
 
+# class Price(models.Model):
+#     price_ret = models.IntegerField(blank=False, default=0, verbose_name='Розничная цена')
+#     price_opt_m = models.IntegerField(blank=False, default=0, verbose_name='Мелкий Опт')
+#     price_opt_1 = models.IntegerField(blank=False, default=0, verbose_name='Опт от 11000')
+#     price_opt_2 = models.IntegerField(blank=False, default=0, verbose_name='Опт от 30000')
+#     price_opt_3 = models.IntegerField(blank=False, default=0, verbose_name='Опт от 70000')
+#     price_opt_4 = models.IntegerField(blank=False, default=0, verbose_name='Опт от 110000')
+#
+#     mod_date = models.DateTimeField(auto_now=True, verbose_name='Изменен')
+#     class Meta:
+#         verbose_name = 'Цена'
+#         verbose_name_plural = 'Цены'
+
+
 class Category(MPTTModel, TranslatableModel):
     parent = models.ForeignKey(
         'self',
@@ -139,14 +153,11 @@ class Tag(models.Model):
         verbose_name_plural = 'теги'
 
 
-
-
-
 class Product(TranslatableModel):
     sku = models.CharField(max_length=256, unique=True, verbose_name='Артикул')
     model = models.CharField(blank=False, default='', max_length=128, verbose_name='Модель')
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True, verbose_name='Бренд')
-    price = models.IntegerField(blank=True, default=0, verbose_name='Цена')
+    # price = models.IntegerField(blank=True, default=0, verbose_name='Цена')
     translations = TranslatedFields(
         description=models.TextField(blank=True, default='', verbose_name='Описание'),
         content=models.TextField(blank=True, default='', verbose_name='Состав'),
@@ -189,6 +200,31 @@ class Product(TranslatableModel):
     )
 
     total_count = models.IntegerField(verbose_name='Остаток')
+
+    # myprice = models.OneToOneField(
+    #     Price,
+    #     null=True,
+    #     on_delete=models.SET_NULL,
+    #     related_name="product_price",
+    #     verbose_name='Цены'
+    # )
+
+    price_ret = models.IntegerField(blank=False, default=0, verbose_name='Розничная цена')
+    price_opt_m = models.IntegerField(blank=False, default=0, verbose_name='Мелкий Опт')
+    price_opt_1 = models.IntegerField(blank=False, default=0, verbose_name='Опт от 11000')
+    price_opt_2 = models.IntegerField(blank=False, default=0, verbose_name='Опт от 30000')
+    price_opt_3 = models.IntegerField(blank=False, default=0, verbose_name='Опт от 70000')
+    price_opt_4 = models.IntegerField(blank=False, default=0, verbose_name='Опт от 110000')
+
+    size_ns = models.IntegerField(blank=False, default=0, verbose_name='Без размера')
+    size_xs = models.IntegerField(blank=False, default=0, verbose_name='XS размер')
+    size_s = models.IntegerField(blank=False, default=0, verbose_name='S размер')
+    size_m = models.IntegerField(blank=False, default=0, verbose_name='M размер')
+    size_l = models.IntegerField(blank=False, default=0, verbose_name='L размер')
+    size_xl = models.IntegerField(blank=False, default=0, verbose_name='XL размер')
+    size_2xl = models.IntegerField(blank=False, default=0, verbose_name='2XL размер')
+    size_3xl = models.IntegerField(blank=False, default=0, verbose_name='3XL размер')
+    size_4xl = models.IntegerField(blank=False, default=0, verbose_name='4XL размер')
 
     new = models.BooleanField(default=True, verbose_name='Новинка')
     hit = models.BooleanField(default=False, verbose_name='Хит')

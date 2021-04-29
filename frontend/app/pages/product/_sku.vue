@@ -90,11 +90,11 @@
                                                                          title="Поделиться"></a>
               </div>
               <div class="product-price">
-                <div class="product-price__new">1530 руб.</div>
-                <div class="product-price__holder">
-                  <div class="product-price__old">2000 руб.</div>
-                  <div class="product-price__sale">-30%</div>
-                </div>
+                <div class="product-price__new">{{ product.price }} руб.</div>
+<!--                <div class="product-price__holder">-->
+<!--                  <div class="product-price__old">2000 руб.</div>-->
+<!--                  <div class="product-price__sale">-30%</div>-->
+<!--                </div>-->
               </div>
 
               <div class="product-additionally">
