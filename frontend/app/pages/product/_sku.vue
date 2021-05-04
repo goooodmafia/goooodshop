@@ -252,6 +252,7 @@ export default {
           perPage: 2,
           page: 1,
           route: '',
+          sizes:'',
           colors: '',
           effects: '',
           tags: this.product.tags.join(),

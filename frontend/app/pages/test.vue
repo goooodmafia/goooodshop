@@ -5,12 +5,17 @@
         <div class="row">
           <div class="col">
             <h1>###test</h1>
-            <p>xs: {{ mediaQueries.xs }}</p>
-            <p>sm: {{ mediaQueries.sm }}</p>
-            <p>md: {{ mediaQueries.md }}</p>
-            <p>lg: {{ mediaQueries.lg }}</p>
-            <p>xl: {{ mediaQueries.xl }}</p>
-            <p>xxl: {{ mediaQueries.xxl }}</p>
+
+            <div>В корзине {{ cartCount }} товаров</div>
+            <div>
+              <ul>
+                <li v-for="product in cart">
+                  {{ product }}
+                </li>
+              </ul>
+            </div>
+            <div class="btn" @click="onClick">Купить</div>
+
           </div>
         </div>
       </div>
@@ -23,32 +28,25 @@
 <script>
 
 import Wrapper from "~/components/layout/Wrapper";
-import FETCHPRODUCTS from "~/api/query/fetchproducts.graphql"
+
+import {mapMutations} from 'vuex'
+import {mapGetters} from 'vuex'
+import {mapState} from 'vuex'
 
 export default {
   // middleware: 'auth',
 
-  inject: ['mediaQueries'],
 
   components: {Wrapper},
-
-  apollo:{
-    fetchproducts: {
-      query: FETCHPRODUCTS,
-      variables() {
-        return {
-          languageCode: this.$i18n.locale.toUpperCase(),
-          perPage: 12,
-          page: 1,
-          route: '/category',
-          colors: '',
-          effects: '',
-          tags: '',
-          query:'',
-          order:'Random'
-        }
-      },
-    },
+  computed: {
+    ...mapState('cart', ['cart', 'wishes']),
+    ...mapGetters('cart', ['cartCount', 'wishesCount']),
+  },
+  methods: {
+    onClick(sku) {
+      this.$store.dispatch('cart/addToCart', '14-1817')
+    }
   }
+
 }
 </script>

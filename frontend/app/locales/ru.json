@@ -1,4 +1,14 @@
 {
+  "layout": {
+    "header": {
+      "cart": {
+        "title0": "Корзина пуста",
+        "title1": "{count} товар на",
+        "title2": "{count} товара на",
+        "title5": "{count} товаров на"
+      }
+    }
+  },
   "page": {
     "contacts": {
       "title": "Контакты"
@@ -47,6 +57,9 @@
     },
     "profile": {
       "title": "Личный кабинет"
+    },
+    "cart": {
+      "title": "Корзина"
     }
   }
 }
