@@ -1,10 +1,10 @@
 <template>
-  <a href="#" class="cart cart--header">
+  <nuxt-link :to="localePath('cart')" class="cart cart--header">
     <div class="cart__in">
       <div class="cart__item">{{ getCartTitle }}</div>
-      <div class="cart__item cart__item--sum">1500 руб.</div>
+      <div v-if="cartCount>0" class="cart__item cart__item--sum">1500 руб.</div>
     </div>
-  </a>
+  </nuxt-link>
 </template>
 
 <script>

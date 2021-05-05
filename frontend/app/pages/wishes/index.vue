@@ -15,8 +15,8 @@
         <div class="row">
           <div class="col">
             <div class="toggle-heading">
-              <nuxt-link :to="localePath('cart')" class="toggle-heading__item toggle-heading__item--active">Корзина</nuxt-link>
-              <nuxt-link :to="localePath('wishes')" class="toggle-heading__item">Избранное</nuxt-link>
+              <nuxt-link :to="localePath('/cart')" class="toggle-heading__item">Корзина</nuxt-link>
+              <nuxt-link :to="localePath('/cart/wishes')" class="toggle-heading__item toggle-heading__item--active">Избранное</nuxt-link>
             </div>
           </div>
         </div>
@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       breadcrumbs: {
-        title: this.$t('page.cart.title'),
+        title: this.$t('page.wishes.title'),
         breadcrumbs: [],
       },
     }

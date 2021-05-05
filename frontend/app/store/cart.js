@@ -1,57 +1,66 @@
 import PRODUCT from "~/api/query/product.graphql"
 
 export const state = () => ({
-  cart: [],
-  wishes: []
+  products: {},
+  productsSkuList: [],
+
+  wishes: {}
 })
 
 export const getters = {
   cartCount(state,) {
-    return state.cart.length
+    return state.productsSkuList.length
   },
-  wishesCount(state,) {
-    return state.wishes.length
+  is_in_cart: (state) => (sku) => {
+    return state.productsSkuList.includes(sku)
   }
 }
 
 
 export const mutations = {
-  // ADD_TO_CART(state, product) {
-  //   state.cart.push(product)
-  // }
+  ADD_TO_CART(state, sku) {
+
+    let obj = {}
+    obj[sku] = {
+      size: {
+        'size_ns': 0,
+        'size_xs': 0,
+        'size_s': 0,
+        'size_m': 0,
+        'size_l': 0,
+        'size_xl': 0,
+        'size_2xl': 0,
+        'size_3xl': 0,
+        'size_4xl': 0,
+      },
+      price: 0
+    }
+    state.products = {...state.cart, ...obj}
+    state.productsSkuList.push(sku)
+  },
 
   INCREASE_SIZE(state, sku, size) {
-    if (state.cart[sku]) {
-      state.cart[sku].size[size] += 1
-    } else {
-      state.cart[sku] = {
-        size: {
-          'size_ns': 0,
-          'size_xs': 0,
-          'size_s': 0,
-          'size_m': 0,
-          'size_l': 0,
-          'size_xl': 0,
-          'size_2xl': 0,
-          'size_3xl': 0,
-          'size_4xl': 0,
-        }
-      }
-      state.cart[sku].size[size] += 1
-    }
+    // state.cart[sku].size[size] += 1
   }
 }
 
 export const actions = {
-  addToCart({commit}, sku) {
-  },
-  removeFromCart({commit}, sku) {
+  addToCart({commit, getters}, payload) {
+    if (!getters.is_in_cart(payload.sku)) {
+      commit('ADD_TO_CART', payload.sku)
+    }
   },
 
-  increaseSize({commit}, sku, size) {
-    commit('INCREASE_SIZE', sku, size)
+
+  removeFromCart({commit}, payload) {
   },
-  decreaseSize({commit}, sku, size) {
+
+  increaseSize({commit, getters, dispatch}, payload) {
+    dispatch('addToCart', payload)
+    commit('INCREASE_SIZE', payload.sku, payload.size)
+  },
+
+  decreaseSize({commit}, payload) {
   }
 }
 
