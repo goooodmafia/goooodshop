@@ -46,11 +46,6 @@ class MyQuery(graphene.ObjectType):
     def resolve_newscount(self, info):
         return News.objects.filter(enable=True).count()
 
-    # fetchproducts = DjangoFilterPaginateListField(
-    #     ProductType,
-    #     pagination=LimitOffsetGraphqlPagination(ordering="?"),
-    #     filterset_class=ProductFilter
-    # )
 
     fetchproducts = graphene.List(
         ProductType,
@@ -69,7 +64,8 @@ class MyQuery(graphene.ObjectType):
         route=graphene.Argument(graphene.String),
         sizes=graphene.Argument(graphene.String),
         colors=graphene.Argument(graphene.String),
-        effects=graphene.Argument(graphene.String)
+        effects=graphene.Argument(graphene.String),
+        query=graphene.Argument(graphene.String)
     )
 
     filters = graphene.List(
@@ -77,7 +73,8 @@ class MyQuery(graphene.ObjectType):
         route=graphene.Argument(graphene.String),
         sizes=graphene.Argument(graphene.String),
         colors=graphene.Argument(graphene.String),
-        effects=graphene.Argument(graphene.String)
+        effects=graphene.Argument(graphene.String),
+        query=graphene.Argument(graphene.String)
     )
 
     def resolve_content(self, info, route, position):
@@ -101,7 +98,7 @@ class MyQuery(graphene.ObjectType):
     def resolve_product(self, info, sku):
         return Product.objects.get(sku=sku)
 
-    def resolve_filters(self, info, route, sizes, colors, effects):
+    def resolve_filters(self, info, route, sizes, colors, effects, query):
 
         colors_list = list(filter(None, map(str.strip, colors.split(','))))
         effects_list = list(filter(None, map(str.strip, effects.split(','))))
@@ -138,9 +135,14 @@ class MyQuery(graphene.ObjectType):
         if effect_glow_in_the_uv:
             effects_filter = effects_filter & Q(glow_in_the_uv=True)
 
-        qs = Product.objects.filter(enable=True,total_count__gt=0).filter(categories__path__icontains=route)
+        query_filter = Q(translations__description__icontains=query) \
+                       | Q(model__icontains=query) \
+                       | Q(sku__icontains=query)
 
-        qs = qs.distinct()
+        qs = Product.objects.filter(enable=True, total_count__gt=0)
+        qs = qs.filter(categories__path__icontains=route)
+        qs = qs.filter(query_filter)
+        # qs = qs.distinct()
 
         sizes_qs = qs \
             .filter(colors_filter) \
@@ -149,9 +151,8 @@ class MyQuery(graphene.ObjectType):
         sizes_qs = [
             {'lable': value,
              'count': sizes_qs.values(key).filter(Q(**{key + '__gt': 0})).count(),
-             'value': True if key in s else False} for key,value in s_list.items()
+             'value': True if key in s else False} for key, value in s_list.items()
         ]
-
 
         color_qs = qs \
             .annotate(lable=F('colors__name')).values('lable') \
@@ -188,7 +189,19 @@ class MyQuery(graphene.ObjectType):
             FiltersType(title='Спецэффекты', name='effects', items=list(products_dark_qs) + list(products_uv_qs)),
         ]
 
-    def resolve_fetchproducts(self, info, per_page, page, route, sizes, colors, effects, tags, query, order):
+    def resolve_fetchproducts(
+            self,
+            info,
+            per_page,
+            page,
+            route,
+            sizes,
+            colors,
+            effects,
+            tags,
+            query,
+            order
+    ):
 
         route_filter = Q(categories__path__icontains=route)
 
@@ -255,7 +268,7 @@ class MyQuery(graphene.ObjectType):
 
         return qs
 
-    def resolve_fetchproductscount(self, info, route, sizes, colors, effects):
+    def resolve_fetchproductscount(self, info, route, sizes, colors, effects, query):
         qs = Product.objects.filter(enable=True, total_count__gt=0).filter(categories__path__icontains=route)
         # qs = Category.objects.get(path=route).products.filter(enable=True, total_count__gt=0)
         if (colors):
@@ -289,15 +302,19 @@ class MyQuery(graphene.ObjectType):
         for size in s:
             sizes_filter |= Q(**{size + '__gt': 0})
 
-
         effects_filter = Q()
         if effect_glow_in_the_dark:
             effects_filter = effects_filter & Q(glow_in_the_dark=True)
         if effect_glow_in_the_uv:
             effects_filter = effects_filter & Q(glow_in_the_uv=True)
 
+        query_filter = Q(translations__description__icontains=query) \
+                       | Q(model__icontains=query) \
+                       | Q(sku__icontains=query)
+
         qs = qs.filter(effects_filter)
         qs = qs.filter(sizes_filter)
+        qs = qs.filter(query_filter)
         qs = qs.distinct()
         return qs.count()
 

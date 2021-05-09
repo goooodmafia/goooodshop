@@ -43,7 +43,8 @@
     &.active {
       color: $accent;
       text-decoration: underline;
-      padding-right: 16px;
+      //padding-right: 16px;
+      padding-right: 36px;
     }
     &--increase.active {
       &:before {
@@ -52,7 +53,8 @@
         width: 6px;
         height: 12px;
         position: absolute;
-        right: 0;
+        //right: 0;
+        right: 16px;
         top: 6px;
         transform: rotate(-90deg);
       }
@@ -64,7 +66,8 @@
         width: 6px;
         height: 12px;
         position: absolute;
-        right: 0;
+        //right: 0;
+        right: 16px;
         top: 6px;
         transform: rotate(90deg);
       }

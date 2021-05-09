@@ -1,7 +1,7 @@
 <template>
   <div class="menu__item">
     <nuxt-link @click.native="onLinkClick" :to="localePath(item.path)" class="menu__link">{{ item.name }}</nuxt-link>
-    <div v-if="dropdown" class="menu-dropdown" style="display: block">
+    <div class="menu-dropdown" :style="{display: dropdown ? 'block':'none'}">
       <div class="menu-dropdown__item" v-for="(child,index) in item.children" :key="index">
         <nuxt-link
           @click.native="onLinkClick"
@@ -24,7 +24,7 @@ export default {
     }
   },
 
-  methods:{
+  methods: {
     onLinkClick() {
       this.$bus.$emit('MOBILEMENU_HIDE')
     }

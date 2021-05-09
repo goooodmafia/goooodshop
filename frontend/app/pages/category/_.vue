@@ -12,23 +12,7 @@
 
 
         <template>
-
-          <div class="sorting sorting--catalog">
-            <div class="sorting__title">Сортировать по:</div>
-            <div class="sorting__list">
-              <div
-                @click="sort(item)"
-                v-for="item in sortingItems"
-                :class="[
-                  'sorting__item',
-                  {'sorting__item--decrease':item.sortOrder},
-                  {'sorting__item--increase':!item.sortOrder},
-                  {'active':item.active}
-                  ]"
-              >{{ item.title }}
-              </div>
-            </div>
-          </div>
+          <Sorter :order="myorder"/>
 
           <div class="catalog">
             <div class="catalog__in">
@@ -38,17 +22,11 @@
             </div>
           </div>
 
-          <div ref="scrollmonitor">
-            <div v-if="this.$apollo.loading" class="text-center">
-              <font-awesome-icon :icon="['fas', 'circle-notch']" class="orange-text" spin size="6x"/>
-            </div>
-          </div>
+          <Scrollmonitor/>
+
         </template>
-
       </Breadcrumbs>
-
     </div>
-    <!--    </div>-->
   </Wrapper>
 </template>
 <script>
@@ -63,13 +41,14 @@ import Filters from "~/components/category/Filters";
 import Breadcrumbs from "~/components/layout/Breadcrumbs";
 import Sidebar from "~/components/category/Sidebar";
 import CatalogItemHover from "~/components/category/catalog-unit/CatalogItemHover"
-import scrollMonitor from "scrollmonitor";
+import Sorter from "../../components/category/Sorter";
+import Scrollmonitor from "../../components/category/Scrollmonitor";
 
 
 export default {
   name: 'category',
 
-  components: {Wrapper, Filters, Breadcrumbs, Sidebar, CatalogItemHover},
+  components: {Scrollmonitor, Sorter, Wrapper, Filters, Breadcrumbs, Sidebar, CatalogItemHover},
 
   data() {
     return {
@@ -77,31 +56,12 @@ export default {
       fetchproductscount: 0,
       page: 1,
       pageSize: 12,
-      sortingItems: [
-        {
-          title: 'новизне',
-          sortEnum: 'Order',
-          active: true,
-          sortOrder: true
-        },
-        {
-          title: 'цене',
-          sortEnum: 'Price',
-          active: false,
-          sortOrder: true
-        },
-        {
-          title: 'скидкам',
-          sortEnum: 'Sale',
-          active: false,
-          sortOrder: true
-        }
-      ],
       myorder: 'OrderInc'
     }
   },
 
   apollo: {
+
     filters: {
       query: FILTERS,
       variables() {
@@ -109,7 +69,8 @@ export default {
           route: this.getRoute(),
           sizes: '',
           colors: '',
-          effects: ''
+          effects: '',
+          query: this.getQuery(),
         }
       },
       update: data => data.filters
@@ -127,11 +88,12 @@ export default {
           colors: '',
           effects: '',
           tags: '',
-          query: '',
+          query: this.getQuery(),
           order: "OrderInc"
         }
       },
     },
+
     fetchproductscount: {
       query: FETCHPRODUCTSCOUNT,
       variables() {
@@ -139,7 +101,8 @@ export default {
           route: this.getRoute(),
           sizes: '',
           colors: '',
-          effects: ''
+          effects: '',
+          query: this.getQuery(),
         }
       },
     },
@@ -152,8 +115,6 @@ export default {
         }
       },
     },
-
-
     category: {
       query: CATEGORY,
       variables() {
@@ -181,7 +142,6 @@ export default {
         this.$apollo.queries.fetchproducts.fetchMore({
           variables: {
             page: this.page
-
           },
           updateQuery: function (existing, incoming) {
             return {
@@ -189,29 +149,33 @@ export default {
             }
           },
         })
-
       }
     },
+
     refetchProducts() {
       let route = this.getRoute()
-      let colors = this.getColors()
-      let effects = this.getEffects()
-      let sizes = this.getSizes()
+      let colors = this.getFilter('color')
+      let effects = this.getFilter('effects')
+      let sizes = this.getFilter('size')
+      let query = this.getQuery()
 
       this.page = 1
 
-      this.$apollo.queries.filters.refetch({
-        route: route,
-        sizes: sizes,
-        colors: colors,
-        effects: effects,
-      })
+      this.$apollo.queries.filters.refetch(
+        {
+          route: route,
+          sizes: sizes,
+          colors: colors,
+          effects: effects,
+          query: query
+        })
 
       this.$apollo.queries.fetchproductscount.refetch({
         route: route,
         sizes: sizes,
         colors: colors,
         effects: effects,
+        query: query,
       })
 
       this.$apollo.queries.fetchproducts.refetch({
@@ -222,25 +186,33 @@ export default {
         sizes: sizes,
         colors: colors,
         effects: effects,
-        query: '',
+        query: query,
         order: this.myorder
       })
     },
 
-    getColors() {
-      var colorFilter = [];
+    getFilter(filter_name) {
+      var result_filter = [];
       if (this.$data.filters) {
         for (let filter of this.$data.filters) {
-          if (filter.name === 'color') {
-            for (let color of filter.items) {
-              if (color.value) {
-                colorFilter.push(color.lable)
+          if (filter.name === filter_name) {
+            for (let item of filter.items) {
+              if (item.value) {
+                result_filter.push(item.lable)
               }
             }
           }
         }
       }
-      return colorFilter.join()
+      return result_filter.join()
+    },
+
+    getQuery() {
+      if (this.$route.query.search === undefined || this.$route.query.search === null) {
+        return ''
+      } else {
+        return this.$route.query.search
+      }
     },
 
     getRoute() {
@@ -249,86 +221,58 @@ export default {
         .replace('\/\/', '/')
     },
 
-    getSizes() {
-      var sizeFilters = [];
-      if (this.$data.filters) {
-        for (let sfilter of this.$data.filters) {
-          if (sfilter.name === 'size') {
-            for (let s of sfilter.items) {
-              if (s.value) {
-                sizeFilters.push(s.lable)
-              }
-            }
-          }
-        }
-      }
-      return sizeFilters.join()
-    },
-
-    getEffects() {
-      var effectFilter = [];
-      if (this.$data.filters) {
-        for (let filter of this.$data.filters) {
-          if (filter.name === 'effects') {
-            for (let effect of filter.items) {
-              if (effect.value) {
-                effectFilter.push(effect.lable)
-              }
-            }
-          }
-        }
-      }
-      return effectFilter.join()
-    },
-
     breadcrumbs() {
+
+      let title = ''
+      let breadcrumbs = []
+      let query = this.getQuery()
+      let route = this.currentpath
+
+      if (query !== '') {
+        if (route.join() !== '') {
+          title = `Результат поиска "${query}" в категории "${this.category && this.category.name}":`
+        } else {
+          title = `Результат поиска "${query}":`
+        }
+        breadcrumbs = []
+      } else {
+        if (route.join() !== '') {
+          title = this.category && this.category.name
+          breadcrumbs = this.category && this.category.breadcrumbs.slice(0, -1)
+        } else {
+          title = `Каталог`
+          breadcrumbs = []
+        }
+      }
+
+
       return {
-        title: this.category && this.category.name,
-        breadcrumbs: this.category && this.category.breadcrumbs.slice(0, -1)
+        title: title,
+        breadcrumbs: breadcrumbs
       }
     },
-
-    sort(current) {
-      if (current.active) {
-        current.sortOrder = !current.sortOrder
-      } else {
-        current.sortOrder = true
-      }
-
-      this.sortingItems.forEach((element) => {
-        element.active = false
-      })
-
-      current.active = true
-
-      this.page = 1
-      let s = current.sortOrder ? 'Inc' : 'Dec'
-
-      // console.log(s)
-      this.myorder = current.sortEnum + s
-      // console.log(this.order)
-
-      this.refetchProducts()
-
-
-      // }else {
-      //   current.active = true
-      //   current.sortOrder = true
-      // }
-    }
   },
+
   mounted() {
-    const elementWatcher = scrollMonitor.create(this.$refs.scrollmonitor);
-    elementWatcher.enterViewport(() => {
-      if (this.fetchproducts) {
-        this.fetchMoreProducts();
-      }
-    });
+
+    this.$bus.$on('SET_PAGE', (page) => {
+      this.page = page
+    })
+    this.$bus.$on('SET_ORDER', (order) => {
+      this.myorder = order
+    })
+    this.$bus.$on('REFETCH', () => {
+      this.refetchProducts()
+    })
+    this.$bus.$on('FETCH_MORE', () => {
+      this.fetchMoreProducts();
+    })
+
   },
 
   computed: {
     currentpath() {
-      const pathArray = this.$route.fullPath.split('/')
+      const pathArray = this.$route.path.split('/')
       return pathArray.slice(pathArray.indexOf('category') + 1)
     }
   }

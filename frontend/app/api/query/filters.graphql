@@ -3,8 +3,9 @@ query(
   $sizes:String!
   $colors:String!
   $effects:String!
+  $query:String!
 ){
-  filters(route:$route sizes:$sizes colors:$colors effects:$effects){
+  filters(route:$route sizes:$sizes colors:$colors effects:$effects query:$query){
     title
     name
     items
