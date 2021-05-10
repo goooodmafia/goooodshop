@@ -16,6 +16,37 @@ from content.schema import ContentType
 from content.schema import PositionEnum
 from users.schema import Query as AuthQuery
 from users.schema import Mutations as AuthMutations
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+
+
+def get_paginator(qs, page, page_size, paginated_type, **kwargs):
+    p = Paginator(qs, page_size)
+    try:
+        page_obj = p.page(page)
+    except PageNotAnInteger:
+        page_obj = p.page(1)
+    except EmptyPage:
+        page_obj = p.page(p.num_pages)
+    return paginated_type(
+        items=page_obj.object_list,
+        total=qs.count(),
+        # page=page_obj.number,
+        pages=p.num_pages,
+        has_next=page_obj.has_next(),
+        has_prev=page_obj.has_previous(),
+        **kwargs
+    )
+
+
+class CountableType(graphene.ObjectType):
+    total = graphene.Int()
+    # page = graphene.Int()
+    pages = graphene.Int()
+    has_next = graphene.Boolean()
+    has_prev = graphene.Boolean()
+
+class ProductCountableType(CountableType):
+    items = graphene.List(ProductType)
 
 
 class MyQuery(graphene.ObjectType):
@@ -24,11 +55,6 @@ class MyQuery(graphene.ObjectType):
     categories = graphene.List(CategoryType)
 
     product = graphene.Field(ProductType, sku=graphene.String())
-
-    products = DjangoListObjectField(
-        ProductListType,
-        filterset_class=ProductFilter
-    )
 
     news = graphene.List(
         NewsType,
@@ -46,6 +72,34 @@ class MyQuery(graphene.ObjectType):
     def resolve_newscount(self, info):
         return News.objects.filter(enable=True).count()
 
+    products = graphene.Field(
+        ProductCountableType,
+        page=graphene.Argument(graphene.Int),
+        page_size=graphene.Argument(graphene.Int),
+        route=graphene.Argument(graphene.String),
+        colors=graphene.Argument(graphene.String),
+        sizes=graphene.Argument(graphene.String),
+        effects=graphene.Argument(graphene.String),
+        tags=graphene.Argument(graphene.String),
+        query=graphene.Argument(graphene.String),
+        order=graphene.Argument(GrapheneOrderEnum)
+    )
+
+    def resolve_products(
+            self,
+            info,
+            page,
+            page_size,
+            route,
+            sizes,
+            colors,
+            effects,
+            tags,
+            query,
+            order
+    ):
+        qs = Product.objects.all()
+        return get_paginator(qs, page, page_size, ProductCountableType)
 
     fetchproducts = graphene.List(
         ProductType,

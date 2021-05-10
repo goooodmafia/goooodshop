@@ -10,17 +10,6 @@
 
 
         <template>
-<!--          <div class="product-head">-->
-<!--            <div class="btn btn&#45;&#45;back" @click="$router.back()">Назад</div>-->
-<!--            <nav aria-label="breadcrumb">-->
-<!--              <ol class="mybreadcrumb">-->
-<!--                <li class="mybreadcrumb__item" v-for="(item, index) in breadcrumbs.breadcrumbs">-->
-<!--                  <nuxt-link :to="localePath(item.link)" :class="['mybreadcrumb__link']">{{ item.title }}</nuxt-link>-->
-<!--                </li>-->
-<!--                <li class="mybreadcrumb__item active">{{ breadcrumbs.title }}</li>-->
-<!--              </ol>-->
-<!--            </nav>-->
-<!--          </div>-->
 
           <div class="product-wrap">
             <div class="product-slider">
@@ -191,7 +180,6 @@ import CatalogItem from "../../components/category/catalog-unit/CatalogItem";
 import {Hooper, Slide, Navigation} from 'hooper';
 
 import PRODUCT from "~/api/query/product.graphql"
-import CATEGORIES from '~/api/query/categories.graphql'
 import FETCHPRODUCTS from "~/api/query/fetchproducts.graphql"
 
 
@@ -272,15 +260,6 @@ export default {
       },
     },
 
-    categories: {
-      query: CATEGORIES,
-      variables() {
-        return {
-          languageCode: this.$i18n.locale.toUpperCase(),
-        }
-      },
-    },
-
   },
 
   watch: {
@@ -313,6 +292,13 @@ export default {
     },
 
   },
+    computed: {
+
+    categories(){
+      return this.$store.state.categories.list
+    }
+
+  }
 
 }
 </script>

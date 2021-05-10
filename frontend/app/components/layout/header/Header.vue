@@ -118,6 +118,7 @@
   </header>
 </template>
 <script>
+
 import Logo from "~/components/layout/Logo";
 import Search from "~/components/search/Search";
 import HeaderCart from "~/components/cart/HeaderCart";

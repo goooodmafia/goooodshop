@@ -1,14 +1,34 @@
-query($limit:Int! $offset:Int! $route:String! $languageCode:LanguageCodeEnum!){
-  products(categories_Path_Iexact:$route query:""){
-    totalCount
-    results(limit:$limit offset:$offset){
+query(
+  $pageSize:Int!
+  $page:Int!
+  $route:String!
+  $languageCode:LanguageCodeEnum!
+  $sizes:String!
+  $colors:String!
+  $effects:String!
+  $tags:String!
+  $query:String!
+  $order:OrderEnum!
+){
+  products(
+    pageSize:$pageSize
+    page:$page
+    route:$route
+    sizes:$sizes
+    colors:$colors
+    effects:$effects
+    tags:$tags
+    query:$query
+    order:$order
+  ){
+    items{
       model
       sku
       slug
-      thumbnail{
-        link
-      }
+      thumbnail
+      mediaFiles
       colors
+      category
       new
       hit
       sale
@@ -16,6 +36,12 @@ query($limit:Int! $offset:Int! $route:String! $languageCode:LanguageCodeEnum!){
       glowInTheUv
       description(languageCode:$languageCode)
       content(languageCode:$languageCode)
+      sizes
+      price
     }
+    pages
+    hasNext
+    hasPrev
+    total
   }
 }

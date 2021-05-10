@@ -51,7 +51,6 @@ export const actions = {
     }
   },
 
-
   removeFromCart({commit}, payload) {
   },
 

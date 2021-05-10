@@ -7,3 +7,10 @@ export const mutations = {
     state.counter++
   }
 }
+
+export const actions = {
+  async nuxtServerInit ({dispatch}) {
+    dispatch('categories/loadCategories')
+    dispatch('categories/loadFilters', {route:'/category/muzhskoe/futbolki-korotkii-rukav'})
+  }
+}

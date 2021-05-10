@@ -27,6 +27,7 @@ export default {
       {name: "msapplication-TileColor", content: "#ffffff"},
       {name: "msapplication-TileImage", content: "/static/favicon/ms-icon-144x144.png"},
       {name: "theme-color", content: "#ffffff"},
+      {rel:'stylesheet', href:'https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700&display=swap&subset=cyrillic-ext'}
     ],
   },
 

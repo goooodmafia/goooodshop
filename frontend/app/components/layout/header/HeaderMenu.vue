@@ -23,7 +23,8 @@
 
 </template>
 <script>
-import CATEGORIES from '~/api/query/categories.graphql'
+
+// import CATEGORIES from '~/api/query/categories.graphql'
 import HeaderMenuItem from "./HeaderMenuItem";
 
 export default {
@@ -41,27 +42,27 @@ export default {
         },
         {name: 'Новинки', path: 'news', slug: '', children: []},
       ],
-      categories: [],
+      // categories: [],
 
       mobileShow: false,
       dropdown: false
     }
   },
 
-  apollo: {
-    categories: {
-      query: CATEGORIES,
-      variables() {
-        return {
-          languageCode: this.$i18n.locale.toUpperCase(),
-        }
-      },
-      // update:function(categories){
-      //   const
-      //   return categories.concat(menu)
-      // },
-    }
-  },
+  // apollo: {
+  //   categories: {
+  //     query: CATEGORIES,
+  //     variables() {
+  //       return {
+  //         languageCode: this.$i18n.locale.toUpperCase(),
+  //       }
+  //     },
+  //     // update:function(categories){
+  //     //   const
+  //     //   return categories.concat(menu)
+  //     // },
+  //   }
+  // },
 
   mounted() {
     this.$bus.$on('MOBILEMENU_SHOW', () => {
@@ -70,6 +71,12 @@ export default {
     this.$bus.$on('MOBILEMENU_HIDE', () => {
       this.mobileShow = false
     })
+  },
+
+  computed:{
+    categories(){
+      return this.$store.state.categories.list
+    }
   }
 
 }

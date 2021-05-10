@@ -20,15 +20,6 @@ query(
     tags:$tags
     query:$query
     order:$order
-
-#    perPage:12
-#    page:1
-#    route:"/category"
-#    colors:""
-#    effects:""
-#    tags:""
-#    query:""
-#    order: $order
   ){
     model
     sku
