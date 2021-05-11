@@ -98,7 +98,67 @@ class MyQuery(graphene.ObjectType):
             query,
             order
     ):
-        qs = Product.objects.all()
+        route_filter = Q(categories__path__icontains=route)
+
+        sizes_list = list(filter(None, map(str.strip, sizes.split(','))))
+        all_sizes_list = {
+            'size_ns': 'Без размера',
+            'size_xs': 'XS',
+            'size_s': 'S',
+            'size_m': 'M',
+            'size_l': 'L',
+            'size_xl': 'XL',
+            'size_2xl': 'XXL',
+            'size_3xl': 'XXXL',
+            'size_4xl': 'XXXXL',
+        }
+        all_sizes_list_rev = dict(zip(all_sizes_list.values(), all_sizes_list.keys()))
+        avaliable_sizes = [all_sizes_list_rev[key] for key in sizes_list]
+
+        sizes_filter = Q()
+        for size in avaliable_sizes:
+            sizes_filter |= Q(**{size + '__gt': 0})
+
+        color_list = list(filter(None, map(str.strip, colors.split(','))))
+        color_filter = Q(colors__name__in=color_list) if color_list else Q()
+
+        effects_list = list(filter(None, map(str.strip, effects.split(','))))
+        effect_glow_in_the_dark = 'Светится в темноте' in effects_list
+        effect_glow_in_the_uv = 'Светится в ультрафиолете' in effects_list
+        effects_filter = Q()
+        if effect_glow_in_the_dark:
+            effects_filter = effects_filter & Q(glow_in_the_dark=True)
+        if effect_glow_in_the_uv:
+            effects_filter = effects_filter & Q(glow_in_the_uv=True)
+
+        tag_list = list(filter(None, map(str.strip, tags.split(','))))
+        tag_filter = Q(tags__name__in=tag_list) if tag_list else Q()
+
+        query_filter = Q(translations__description__icontains=query) \
+                       | Q(model__icontains=query) \
+                       | Q(sku__icontains=query)
+
+        qs_filter = route_filter \
+                    & color_filter \
+                    & effects_filter \
+                    & sizes_filter \
+                    & tag_filter \
+                    & query_filter
+
+        qs = Product.objects.filter(enable=True, total_count__gt=0)
+        qs = qs.filter(qs_filter)
+        qs = qs.distinct()
+
+        if order == OrderEnum.Random.value: qs = qs.order_by('?')
+        if order == OrderEnum.OrderInc.value: qs = qs.order_by('my_order')
+        if order == OrderEnum.OrderDec.value: qs = qs.order_by('-my_order')
+        if order == OrderEnum.PriceInc.value: qs = qs.order_by('price_ret', 'my_order')
+        if order == OrderEnum.PriceDec.value: qs = qs.order_by('-price_ret', 'my_order')
+        if order == OrderEnum.SaleInc.value: qs = qs.order_by('sale', 'my_order')
+        if order == OrderEnum.SaleDec.value: qs = qs.order_by('-sale', 'my_order')
+        if order == OrderEnum.HitInc.value: qs = qs.order_by('hit', 'my_order')
+        if order == OrderEnum.HitDec.value: qs = qs.order_by('-hit', 'my_order')
+
         return get_paginator(qs, page, page_size, ProductCountableType)
 
     fetchproducts = graphene.List(
