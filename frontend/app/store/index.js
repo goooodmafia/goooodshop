@@ -11,6 +11,6 @@ export const mutations = {
 export const actions = {
   async nuxtServerInit ({dispatch}) {
     dispatch('categories/loadCategories')
-    dispatch('categories/loadFilters', {route:'/category/muzhskoe/futbolki-korotkii-rukav'})
+    // dispatch('categories/loadFilters', {route:'/category/muzhskoe/futbolki-korotkii-rukav'})
   }
 }

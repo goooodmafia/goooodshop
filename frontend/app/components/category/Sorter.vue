@@ -62,7 +62,7 @@ export default {
 
       this.$bus.$emit('SET_PAGE', 1)
       this.$bus.$emit('SET_ORDER', (current.sortEnum + (current.sortOrder ? 'Inc' : 'Dec')))
-      this.$bus.$emit('REFETCH')
+      // this.$bus.$emit('REFETCH')
     }
   }
 }

@@ -3,16 +3,16 @@ import FILTERS from "~/api/query/filters.graphql"
 
 export const state = () => ({
   list: [],
-  filters: [],
+  // filters: [],
 })
 
 export const mutations = {
   SET_CATEGORIES(state, categories) {
     state.list = categories
   },
-  SET_FILTERS(state, filters) {
-    state.filters = filters
-  }
+  // SET_FILTERS(state, filters) {
+  //   state.filters = filters
+  // }
 }
 
 export const actions = {
@@ -27,18 +27,18 @@ export const actions = {
     commit('SET_CATEGORIES', data.categories)
   },
 
-  async loadFilters({commit}, payload) {
-    let client = this.app.apolloProvider.defaultClient
-    const {data} = await client.query({
-      query: FILTERS,
-      variables: {
-        route: payload.route,
-        sizes: '',
-        colors: '',
-        effects: '',
-        query: '',
-      },
-    })
-    commit('SET_FILTERS', data.filters)
-  }
+  // async loadFilters({commit}, payload) {
+  //   let client = this.app.apolloProvider.defaultClient
+  //   const {data} = await client.query({
+  //     query: FILTERS,
+  //     variables: {
+  //       route: payload.route,
+  //       sizes: '',
+  //       colors: '',
+  //       effects: '',
+  //       query: '',
+  //     },
+  //   })
+  //   commit('SET_FILTERS', data.filters)
+  // }
 }
