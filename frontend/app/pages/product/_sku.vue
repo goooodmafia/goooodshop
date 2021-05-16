@@ -57,9 +57,9 @@
                   <template v-if="product.mediaFiles.length>0">
                     <slide v-for="(item, index) in product.mediaFiles" :key="index">
                       <inner-image-zoom :src="item.src" :zoomSrc="item.src" :fullscreenOnMobile="true"/>
-<!--                      <div @click="openGallery(index)">-->
-<!--                        <b-img-lazy blank-color="rgba(255, 255, 255, .3)" height="554px" center :src="item.src"/>-->
-<!--                      </div>-->
+                      <!--                      <div @click="openGallery(index)">-->
+                      <!--                        <b-img-lazy blank-color="rgba(255, 255, 255, .3)" height="554px" center :src="item.src"/>-->
+                      <!--                      </div>-->
                     </slide>
                   </template>
                   <template v-else>
@@ -80,10 +80,10 @@
               </div>
               <div class="product-price">
                 <div class="product-price__new">{{ product.price }} руб.</div>
-<!--                <div class="product-price__holder">-->
-<!--                  <div class="product-price__old">2000 руб.</div>-->
-<!--                  <div class="product-price__sale">-30%</div>-->
-<!--                </div>-->
+                <!--                <div class="product-price__holder">-->
+                <!--                  <div class="product-price__old">2000 руб.</div>-->
+                <!--                  <div class="product-price__sale">-30%</div>-->
+                <!--                </div>-->
               </div>
 
               <div class="product-additionally">
@@ -153,7 +153,7 @@
                 <h3>Товары с этим дизайном</h3>
               </div>
               <div class="same-design__list">
-                <CatalogItem :item="item" v-for="(item, index) in fetchproducts" :key="index"/>
+                <CatalogItem :item="item" v-for="(item, index) in products.items" :key="index"/>
               </div>
             </div>
 
@@ -165,7 +165,8 @@
       </Breadcrumbs>
 
     </div>
-    <light-box v-if="product && product.mediaFiles.length>0" ref="lightbox" :media="product.mediaFiles" :showThumbs="false" :showLightBox="false"></light-box>
+    <light-box v-if="product && product.mediaFiles.length>0" ref="lightbox" :media="product.mediaFiles"
+               :showThumbs="false" :showLightBox="false"></light-box>
 
   </Wrapper>
 </template>
@@ -180,7 +181,7 @@ import CatalogItem from "../../components/category/catalog-unit/CatalogItem";
 import {Hooper, Slide, Navigation} from 'hooper';
 
 import PRODUCT from "~/api/query/product.graphql"
-import FETCHPRODUCTS from "~/api/query/fetchproducts.graphql"
+import PRODUCTS from "~/api/query/products.graphql"
 
 
 export default {
@@ -206,9 +207,6 @@ export default {
         itemsToShow: 4,
         infiniteScroll: true,
       },
-
-      fetchproducts: [],
-
       product: {
         sku: '',
         model: '',
@@ -226,30 +224,13 @@ export default {
         glowInTheDark: '',
         glowInTheUv: '',
         slug: '',
-      }
-
+      },
+      products: {items: []},
     }
   },
 
   apollo: {
-    fetchproducts: {
-      query: FETCHPRODUCTS,
-      variables() {
-        return {
-          languageCode: this.$i18n.locale.toUpperCase(),
-          perPage: 2,
-          page: 1,
-          route: '',
-          sizes:'',
-          colors: '',
-          effects: '',
-          tags: this.product.tags.join(),
-          query: '',
-          order: 'Random'
-        }
-      },
-      skip: true,
-    },
+
     product: {
       query: PRODUCT,
       variables() {
@@ -259,13 +240,32 @@ export default {
         }
       },
     },
-
+    products: {
+      query: PRODUCTS,
+      variables() {
+        return {
+          languageCode: this.$i18n.locale.toUpperCase(),
+          pageSize: 2,
+          page: 1,
+          route: '',
+          sizes: '',
+          colors: '',
+          effects: '',
+          tags: this.product.tags.join(),
+          hit: false,
+          new: false,
+          query: '',
+          order: 'Random'
+        }
+      },
+      skip: true,
+    },
   },
 
   watch: {
     product() {
-      this.$apollo.queries.fetchproducts.skip = false
-      this.$apollo.queries.fetchproducts.refetch({
+      this.$apollo.queries.products.skip = false
+      this.$apollo.queries.products.refetch({
         tags: this.product.tags.join()
       })
 
@@ -292,12 +292,10 @@ export default {
     },
 
   },
-    computed: {
-
-    categories(){
+  computed: {
+    categories() {
       return this.$store.state.categories.list
-    }
-
+    },
   }
 
 }

@@ -31,8 +31,7 @@ export default {
 
   methods: {
     submit() {
-      // this.$router.push({path: '/category/', query: {search: this.search}})
-      // this.$router.push({path: this.localePath('category'), query: {search: this.search}});
+      this.$bus.$emit('CLEAR_FILTERS')
       this.$nuxt.$options.router.push(
         {
           path: this.localePath('/category/'),
@@ -41,10 +40,7 @@ export default {
           }
         }
       );
-      console.log('search submit',this.search)
       this.search = ''
-      this.$bus.$emit('CLEAR_FILTERS')
-
     }
   }
 }

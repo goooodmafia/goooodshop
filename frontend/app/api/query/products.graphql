@@ -7,6 +7,8 @@ query(
   $colors:String!
   $effects:String!
   $tags:String!
+  $hit:Boolean!
+  $new:Boolean!
   $query:String!
   $order:OrderEnum!
 ){
@@ -18,6 +20,8 @@ query(
     colors:$colors
     effects:$effects
     tags:$tags
+    hit:$hit
+    new:$new
     query:$query
     order:$order
   ){

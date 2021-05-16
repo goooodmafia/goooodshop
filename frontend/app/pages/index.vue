@@ -8,7 +8,7 @@
 
     <template>
       <section class="section section--gradi section--negative-indent">
-        <IndexBestsellers :items="fetchproducts"/>
+        <IndexBestsellers :items="products.items"/>
         <div class="wholesale" v-html="wholesale"/>
       </section>
     </template>
@@ -27,11 +27,12 @@ import Wrapper from "../components/layout/Wrapper";
 import IndexBanner from "../components/layout/IndexBanner";
 import NewsIndex from "../components/news/NewsIndex";
 import IndexBestsellers from "../components/layout/IndexBestsellers";
-import FETCHPRODUCTS from "~/api/query/fetchproducts.graphql"
+// import FETCHPRODUCTS from "~/api/query/fetchproducts.graphql"
+import PRODUCTS from "~/api/query/products.graphql"
 import NEWS from "~/api/query/news.graphql"
 
 export default {
-  name:'index',
+  name: 'index',
   footerBorder: true,
   components: {
     IndexBestsellers,
@@ -42,7 +43,7 @@ export default {
 
   data() {
     return {
-      fetchproducts: [],
+      products: {items:[]},
       news: [],
     }
   },
@@ -70,23 +71,44 @@ export default {
         }
       },
     },
-    fetchproducts: {
-      query: FETCHPRODUCTS,
+    products: {
+      query: PRODUCTS,
+      fetchPolicy: 'network-only',
       variables() {
         return {
           languageCode: this.$i18n.locale.toUpperCase(),
-          perPage: 12,
+          pageSize: 12,
           page: 1,
           route: '',
-          sizes:'',
+          sizes: '',
           colors: '',
           effects: '',
           tags: '',
+          hit:true,
+          new:false,
           query: '',
-          order: 'Random'
+          order: 'Random',
         }
       },
     },
+    //
+    // fetchproducts: {
+    //   query: FETCHPRODUCTS,
+    //   variables() {
+    //     return {
+    //       languageCode: this.$i18n.locale.toUpperCase(),
+    //       perPage: 12,
+    //       page: 1,
+    //       route: '',
+    //       sizes:'',
+    //       colors: '',
+    //       effects: '',
+    //       tags: '',
+    //       query: '',
+    //       order: 'Random'
+    //     }
+    //   },
+    // },
 
   }
 

@@ -83,6 +83,8 @@ class MyQuery(graphene.ObjectType):
         sizes=graphene.Argument(graphene.String),
         effects=graphene.Argument(graphene.String),
         tags=graphene.Argument(graphene.String),
+        hit=graphene.Argument(graphene.Boolean),
+        new=graphene.Argument(graphene.Boolean),
         query=graphene.Argument(graphene.String),
         order=graphene.Argument(GrapheneOrderEnum)
     )
@@ -97,6 +99,8 @@ class MyQuery(graphene.ObjectType):
             colors,
             effects,
             tags,
+            hit,
+            new,
             query,
             order
     ):
@@ -136,21 +140,28 @@ class MyQuery(graphene.ObjectType):
         tag_list = list(filter(None, map(str.strip, tags.split(','))))
         tag_filter = Q(tags__name__in=tag_list) if tag_list else Q()
 
+        hit_filter = Q()
+        if hit:
+            hit_filter = hit_filter & Q(hit=True)
+        new_filter = Q()
+        if hit:
+            new_filter = new_filter & Q(hit=True)
+
         query_filter = Q(translations__description__icontains=query) \
                        | Q(model__icontains=query) \
                        | Q(sku__icontains=query)
 
-
         pqs = Product.objects.filter(enable=True, total_count__gt=0)
         pqs = pqs.filter(route_filter)
         pqs = pqs.filter(query_filter)
+        pqs = pqs.filter(hit_filter)
+        pqs = pqs.filter(new_filter)
 
         qs = pqs.filter(color_filter)
         qs = qs.filter(effects_filter)
         qs = qs.filter(sizes_filter)
         qs = qs.filter(tag_filter)
         qs = qs.distinct()
-
 
         sizes_qs = [
             {'lable': value,
@@ -163,9 +174,8 @@ class MyQuery(graphene.ObjectType):
             .annotate(lable=F('colors__name')).values('lable') \
             .exclude(lable__isnull=True) \
             .annotate(count=Count('lable', filter=effects_filter & sizes_filter)) \
-            .order_by('lable')\
+            .order_by('lable') \
             # .annotate(value=Value(False, output_field=BooleanField())) \
-
 
         products_dark_qs = pqs \
             .values('glow_in_the_dark') \
@@ -173,8 +183,8 @@ class MyQuery(graphene.ObjectType):
             .annotate(count=Count('glow_in_the_dark', filter=color_filter & sizes_filter)) \
             .annotate(lable=Value('Светится в темноте', output_field=CharField())) \
             .values('lable', 'count')
-            # .annotate(value=Value(effect_glow_in_the_dark, output_field=BooleanField())) \
-            # .values('lable', 'count', 'value')
+        # .annotate(value=Value(effect_glow_in_the_dark, output_field=BooleanField())) \
+        # .values('lable', 'count', 'value')
 
         products_uv_qs = pqs \
             .values('glow_in_the_uv') \
@@ -182,8 +192,8 @@ class MyQuery(graphene.ObjectType):
             .annotate(count=Count('glow_in_the_uv', filter=color_filter & sizes_filter)) \
             .annotate(lable=Value('Светится в ультрафиолете', output_field=CharField())) \
             .values('lable', 'count')
-            # .annotate(value=Value(effect_glow_in_the_uv, output_field=BooleanField())) \
-            # .values('lable', 'count', 'value')
+        # .annotate(value=Value(effect_glow_in_the_uv, output_field=BooleanField())) \
+        # .values('lable', 'count', 'value')
 
         colors = list(color_qs)
 
@@ -204,8 +214,8 @@ class MyQuery(graphene.ObjectType):
         if order == OrderEnum.PriceDec.value: qs = qs.order_by('-price_ret', 'my_order')
         if order == OrderEnum.SaleInc.value: qs = qs.order_by('sale', 'my_order')
         if order == OrderEnum.SaleDec.value: qs = qs.order_by('-sale', 'my_order')
-        if order == OrderEnum.HitInc.value: qs = qs.order_by('hit', 'my_order')
-        if order == OrderEnum.HitDec.value: qs = qs.order_by('-hit', 'my_order')
+        # if order == OrderEnum.HitInc.value: qs = qs.order_by('hit', 'my_order')
+        # if order == OrderEnum.HitDec.value: qs = qs.order_by('-hit', 'my_order')
 
         return get_paginator(qs, page, page_size, ProductCountableType, filters=filters)
 
@@ -257,8 +267,8 @@ class MyQuery(graphene.ObjectType):
             )
         ).filter(num_children__gt=0)
 
-    # def resolve_product(self, info, sku):
-    #     return Product.objects.get(sku=sku)
+    def resolve_product(self, info, sku):
+        return Product.objects.get(sku=sku)
 
     def resolve_filters(self, info, route, sizes, colors, effects, query):
         print(sizes)

@@ -79,7 +79,6 @@ export default {
 
   components: {Scrollmonitor, Sorter, Wrapper, Filters, Breadcrumbs, Sidebar, CatalogItemHover},
 
-  // watchQuery: ['search'],
 
   data() {
     return {
@@ -91,34 +90,10 @@ export default {
       productscount: 0,
       page: 1,
       pageSize: 12,
-
-
-      // myvariables: {
-      //   route: this.getRoute(),
-      //   sizes: '',
-      //   colors: '',
-      //   effects: '',
-      //   query: '',
-      //
-      // },
     }
   },
 
   apollo: {
-    // filters: {
-    //   query: FILTERS,
-    //   variables() {
-    //     return {
-    //       route: this.getRoute(),
-    //       sizes: this.getFilter('size'),
-    //       colors: this.getFilter('color'),
-    //       effects: this.getFilter('effects'),
-    //       query: this.getQuery(),
-    //     }
-    //   },
-    //   update: data => data.filters
-    // },
-
     category: {
       query: CATEGORY,
       variables() {
@@ -142,47 +117,18 @@ export default {
           colors: this.getFilter('color'),
           effects: this.getFilter('effects'),
           tags: '',
+          hit:false,
+          new:false,
           query: this.getQuery(),
           order: this.getOrder(),
         }
       },
-      // update(data) {
-      //   console.log(data)
-      //   this.filters = data.products.filters
-      //   return data.products
-      // },
-      // skip: true,
-      // manual: true,
-      // result({data,loading}){
-      //   if (!loading) {
-      //     this.filters = data.products.filters
-      //     this.products = data.products
-      //   }
-      // }
     },
 
   },
 
-  // watch: {
-  // filters: {
-  //   handler(val) {
-  //     console.log('filters change')
-  //     this.refetchProducts()
-  //   },
-  //   deep: true,
-  // },
-  // size:{
-  //   handler(val) {
-  //     console.log('size change')
-  //     console.log(val)
-  //   },
-  //   deep: true,
-  // }
-  // },
-
   methods: {
     fetchMoreProducts() {
-      // console.log('fetchMore')
       if (this.products.hasNext) {
         this.page++
         this.$apollo.queries.products.fetchMore({
@@ -204,81 +150,15 @@ export default {
           }
         })
       }
-      //   if (this.fetchproductscount > this.fetchproducts.length) {
-      //     this.page++
-      //     this.$apollo.queries.fetchproducts.fetchMore({
-      //       variables: {
-      //         page: this.page
-      //       },
-      //       updateQuery: function (existing, incoming) {
-      //         return {
-      //           fetchproducts: [...existing.fetchproducts, ...incoming.fetchMoreResult.fetchproducts]
-      //         }
-      //       },
-      //     })
-      //   }
+
     },
 
     refetchProducts() {
-
-      console.log('refetch')
-
-      // let route = this.getRoute()
-      // let colors = this.getFilter('color')
-      // let effects = this.getFilter('effects')
-      // let sizes = this.getFilter('size')
-      // let query = this.getQuery()
-      // let order = this.getOrder()
-
-      // this.$apollo.queries.products.skip = false
-      // await this.$apollo.queries.products.refetch({
-      //
-      //   languageCode: this.$i18n.locale.toUpperCase(),
-      //   perPage: this.pageSize,
-      //   page: 1,
-      //   route: route,
-      //   sizes: sizes,
-      //   colors: colors,
-      //   effects: effects,
-      //   tags: '',
-      //   query: query,
-      //   order: order,
-
-
-      // languageCode: this.$i18n.locale.toUpperCase(),
-      // pageSize: this.pageSize,
-      // page: 1,
-      // route: this.getRoute(),
-      // sizes: this.getFilter('size'),
-      // colors: this.getFilter('color'),
-      // effects: this.getFilter('effects'),
-      // tags: '',
-      // query: this.getQuery(),
-      // order: this.getOrder(),
-      // })
-      // this.$apollo.queries.products.skip = true
-
-      //
-      // this.$apollo.queries.filters.refetch({
-      //   route: this.getRoute(),
-      //   sizes: this.getFilter('size'),
-      //   colors: this.getFilter('color'),
-      //   effects: this.getFilter('effects'),
-      //   query: this.getQuery(),
-      // })
+      // console.log('refetch')
     },
 
     getFilter(filter_name) {
       if (this.filters[filter_name]) {
-        // for (let filter of this.filters) {
-        //   if (filter.name === filter_name) {
-        //     for (let item of filter.items) {
-        //       if (item.value) {
-        //         result_filter.push(item.lable)
-        //       }
-        //     }
-        //   }
-        // }
         return this.filters[filter_name].join()
       } else {
         return ''
@@ -332,10 +212,6 @@ export default {
         }
       }
 
-      // title = `Каталог`
-      // breadcrumbs = []
-
-
       return {
         title: title,
         breadcrumbs: breadcrumbs
@@ -344,8 +220,6 @@ export default {
   },
 
   mounted() {
-
-    // console.log('mounted')
 
     this.$bus.$on('SET_PAGE', (page) => {
       this.page = page
@@ -370,7 +244,7 @@ export default {
     })
 
     this.$bus.$on('CLEAR_FILTERS', () => {
-      console.log('filters cleared')
+      // console.log('filters cleared')
       this.filters = {}
     })
 
@@ -382,9 +256,7 @@ export default {
     })
 
     this.$bus.$on('SET_FILTER', (filter, lable, value) => {
-      console.log('set filter ' + filter + ' ' + lable + ' ' + value)
-
-
+      // console.log('set filter ' + filter + ' ' + lable + ' ' + value)
       if (!this.filters[filter]) {
         this.filters[filter] = []
       }
@@ -415,8 +287,6 @@ export default {
       return this.$store.state.categories.list
     },
     size() {
-      // console.log(this.filters)
-      // console.log(this.$data)
       return this.$data.filters['size']
     }
   }

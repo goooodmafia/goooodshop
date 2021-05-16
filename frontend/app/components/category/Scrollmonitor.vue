@@ -18,7 +18,6 @@ export default {
     elementWatcher.enterViewport(() => {
       if (this.products_has_more) {
         this.$bus.$emit('FETCH_MORE')
-        // this.$bus.$emit('NEXT_PAGE')
       }
     });
   }

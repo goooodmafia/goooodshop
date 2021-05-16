@@ -17,6 +17,7 @@ export const mutations = {
 
 export const actions = {
   async loadCategories({commit}) {
+    console.log('loadCategories')
     let client = this.app.apolloProvider.defaultClient
     const {data} = await client.query({
       query: CATEGORIES,
