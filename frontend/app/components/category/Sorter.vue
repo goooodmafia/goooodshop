@@ -21,7 +21,7 @@
 
 export default {
 
-  props:['order'],
+  // props:['order'],
 
   data() {
     return {

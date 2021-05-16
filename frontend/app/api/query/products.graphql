@@ -43,5 +43,10 @@ query(
     hasNext
     hasPrev
     total
+    filters {
+      title
+      name
+      items
+    }
   }
 }

@@ -36,14 +36,15 @@ export default {
       this.$nuxt.$options.router.push(
         {
           path: this.localePath('/category/'),
-          // params: {
-          //
-          // },s
           query: {
             search: this.search
           }
         }
       );
+      console.log('search submit',this.search)
+      this.search = ''
+      this.$bus.$emit('CLEAR_FILTERS')
+
     }
   }
 }
