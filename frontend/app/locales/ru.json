@@ -45,15 +45,23 @@
       "password_reset": "Забыли пароль?",
       "register": "Регистрация"
     },
+    "register": {
+      "title": "Регистрация нового аккаунта",
+      "name_field": "Имя",
+      "first_name_field": "Фамилия",
+      "second_name_field": "Отчество",
+      "birth_date_field": "Дата рождения",
+      "email_field": "Email",
+      "pass_field1": "Пароль",
+      "pass_field2": "Повторите пароль",
+      "registerbutton": "Зарегистрироваться"
+    },
     "password_reset": {
       "title": "Воccтановление пароля",
       "emailfield": "Введите Ваш email",
       "password1": "Введите новый пароль",
       "password2": "Повторите пароль",
       "submit": "Восстановить пароль"
-    },
-    "register": {
-      "title": "Регистрация"
     },
     "profile": {
       "title": "Личный кабинет"

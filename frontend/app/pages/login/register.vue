@@ -9,7 +9,7 @@
       <div class="container">
         <div class="row justify-content-md-center my-5">
           <div class="col-sm-12 col-md-6">
-            ### register
+            <Register />
           </div>
         </div>
       </div>
@@ -20,9 +20,10 @@
 <script>
 import Wrapper from "~/components/layout/Wrapper";
 import Breadcrumbs from "~/components/layout/Breadcrumbs";
+import Register from '~/components/auth/Register'
 
 export default {
-  components: {Breadcrumbs, Wrapper},
+  components: {Breadcrumbs, Wrapper, Register},
 
   data() {
     return {
