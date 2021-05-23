@@ -96,7 +96,7 @@
               </div>
               <div class="product-actions">
                 <div class="product-actions__btn">
-                  <a href="#" class="btn btn--orange-bg btn--to-order">Купить</a>
+                  <a href="#" class="gd-btn gd-btn--orange-bg gd-btn--to-order">Купить</a>
                 </div>
                 <div class="product-actions__to-fav">
                   <a href="#" class="to-favourites">Добавить в избранное</a>

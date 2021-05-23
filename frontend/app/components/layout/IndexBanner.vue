@@ -16,7 +16,7 @@
                       </div>
                       <div class="main-slider__text" v-html="item.description"/>
                       <div class="main-slider__actions">
-                        <nuxt-link :to="localePath(item.link)" class="btn">Купить</nuxt-link>
+                        <nuxt-link :to="localePath(item.link)" class="gd-btn">Купить</nuxt-link>
                       </div>
                     </div>
                   </div>

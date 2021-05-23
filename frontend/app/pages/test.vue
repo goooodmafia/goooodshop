@@ -16,7 +16,7 @@
                 </li>
               </ul>
             </div>
-            <div class="btn" @click="onClick">Купить</div>
+            <div class="gd-btn" @click="onClick">Купить</div>
 
           </div>
         </div>

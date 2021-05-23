@@ -47,7 +47,7 @@
     <td class="basket__to-fav basket__cell">
       <a href="#" class="to-favourites">В избранное</a></td>
     <td class="basket__del basket__cell">
-      <a href="#" class="btn btn--delete" title="Удалить"></a>
+      <a href="#" class="gd-btn gd-btn--delete" title="Удалить"></a>
     </td>
 
   </tr>

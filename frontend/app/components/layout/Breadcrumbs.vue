@@ -5,7 +5,7 @@
 
       <template v-if="showBack">
         <div class="product-head">
-          <div class="btn btn--back" @click="$router.back()" v-if="showBack">Назад</div>
+          <div class="gd-btn gd-btn--back" @click="$router.back()" v-if="showBack">Назад</div>
           <div class="heading heading--h2 heading--breadcrumb" v-if="showTitle"><h1>{{ data.title }}</h1></div>
           <nav aria-label="breadcrumb breadcrumb--product">
             <ol class="mybreadcrumb">
