@@ -236,7 +236,22 @@ AUTHENTICATION_BACKENDS = [
 
 GRAPHQL_AUTH = {
     'LOGIN_ALLOWED_FIELDS': ['email', ],
-    'REGISTER_MUTATION_FIELDS': ["email", ],
+    'REGISTER_MUTATION_FIELDS': [
+        "email",
+        'name',
+        "phone",
+    ],
+
+
+
+    'REGISTER_MUTATION_FIELDS_OPTIONAL': [
+
+        'first_name',
+        'second_name',
+        'address',
+        'birth_date',
+
+    ],
     # 'EMAIL_FROM': 'test@test',
     'EMAIL_TEMPLATE_VARIABLES': {
         'frontend_domain': env('FRONTEND_DOMAIN'),
