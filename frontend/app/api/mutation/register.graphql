@@ -1,0 +1,27 @@
+mutation(
+  $name:String!
+  $firstName:String!
+  $secondName:String!
+  $birthDate:String!
+  $email:String!
+  $phone:String!
+  $address:String!
+  $password1:String!
+  $password2:String!
+){
+  register(
+    name:$name
+    firstName:$firstName
+    secondName:$secondName
+    birthDate:$birthDate
+    email:$email
+    phone:$phone
+    address:$address
+    password1:$password1
+    password2:$password2
+  ){
+    success
+    errors
+    token
+  }
+}

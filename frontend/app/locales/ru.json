@@ -47,15 +47,15 @@
     },
     "register": {
       "title": "Регистрация нового аккаунта",
-      "name_field": "Имя",
-      "phone_field": "Телефон",
+      "name_field": "Имя *",
+      "phone_field": "Телефон *",
       "first_name_field": "Фамилия",
       "second_name_field": "Отчество",
       "birth_date_field": "Дата рождения",
       "address_field": "Адресс",
-      "email_field": "Email",
-      "pass_field1": "Пароль",
-      "pass_field2": "Повторите пароль",
+      "email_field": "Email *",
+      "pass_field1": "Пароль *",
+      "pass_field2": "Повторите пароль *",
       "registerbutton": "Зарегистрироваться"
     },
     "password_reset": {
