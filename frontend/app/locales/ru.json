@@ -43,19 +43,24 @@
       "passfield": "Пароль",
       "loginbutton": "Войти",
       "password_reset": "Забыли пароль?",
-      "register": "Регистрация"
+      "register": "Регистрация",
+      "profile": "Личный кабинет",
+      "login": "Войти",
+      "logout": "Выйти"
     },
     "register": {
       "title": "Регистрация нового аккаунта",
       "name_field": "Имя *",
       "phone_field": "Телефон *",
       "first_name_field": "Фамилия",
+      "email_field": "Email *",
       "second_name_field": "Отчество",
       "birth_date_field": "Дата рождения",
+      "sex_field": "Пол",
       "address_field": "Адресс",
-      "email_field": "Email *",
       "pass_field1": "Пароль *",
       "pass_field2": "Повторите пароль *",
+      "personal_field": "Отправляя данную форму Вы выражаете согласие на обработку персональных данных.",
       "registerbutton": "Зарегистрироваться"
     },
     "password_reset": {

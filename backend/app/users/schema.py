@@ -50,7 +50,13 @@ class Mutations(AuthMutation, graphene.ObjectType):
 
 
 class Query(graphene.ObjectType):
+    user = graphene.Field(UserType)
     users = graphene.List(UserType)
+
+    def resolve_user(self, info):
+        print(info.context.user)
+        print(info.context.user.is_staff)
+        return info.context.user
 
     @permissions_checker([IsAuthenticated])
     def resolve_users(self, info):

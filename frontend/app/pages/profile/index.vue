@@ -11,7 +11,13 @@
 
         <template>
           ### Profile
+          <hr/>
+          {{ user }}
+          <hr/>
+          <pre>
           {{ users }}
+          </pre>
+          <hr/>
         </template>
       </Breadcrumbs>
     </div>
@@ -23,6 +29,7 @@
 import Wrapper from "~/components/layout/Wrapper";
 import Breadcrumbs from "~/components/layout/Breadcrumbs";
 import Sidebar from "~/components/category/Sidebar";
+import USER from "~/api/query/user.graphql"
 import USERS from "~/api/query/users.graphql"
 
 export default {
@@ -55,6 +62,9 @@ export default {
   apollo: {
     users: {
       query: USERS
+    },
+    user:{
+      query:USER
     }
   }
 

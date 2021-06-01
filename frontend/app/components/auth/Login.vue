@@ -1,62 +1,97 @@
 <template>
-  <validation-observer ref="loginobserver" v-slot="{ handleSubmit }">
-    <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-      <validation-provider
-        :name="$t('page.login.loginfield')"
-        :rules="{ required: true, min: 3 }"
-        v-slot="validationContext"
-      >
-        <b-form-group id="email-group" label="Email" label-for="email-input">
-          <b-form-input
-            id="email-input"
-            name="email-input"
-            type="email"
-            v-model="form.email"
-            autocomplete="on"
-            :state="getValidationState(validationContext)"
-            aria-describedby="email-live-feedback"
-          ></b-form-input>
 
-          <b-form-invalid-feedback id="login-live-feedback" v-for="(error, index) in validationContext.errors"
-                                   :key="index">{{ error }}
-          </b-form-invalid-feedback>
-        </b-form-group>
-      </validation-provider>
+  <div class="row">
+    <div class="col">
 
-      <validation-provider :name="$t('page.login.passfield')" :rules="{ required: true }" v-slot="validationContext">
-        <b-form-group id="password-group" label="Password" label-for="password-input">
-          <b-form-input
-            id="password-input"
-            name="password-input"
-            type="password"
-            v-model="form.password"
-            autocomplete="on"
-            :state="getValidationState(validationContext)"
-            aria-describedby="password-live-feedback"
-          ></b-form-input>
+      <validation-observer ref="loginobserver" v-slot="{ handleSubmit }">
+        <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
 
-          <b-form-invalid-feedback id="password-live-feedback" v-for="(error, index) in validationContext.errors"
-                                   :key="index">{{ error }}
-          </b-form-invalid-feedback>
-        </b-form-group>
-      </validation-provider>
+          <!--Email-->
+          <div class="row">
+            <div class="col-12">
+              <validation-provider
+                name="email"
+                :rules="{ required: true, min: 3 }"
+                v-slot="validationContext"
+              >
+                <b-form-group
+                  :label="$t('page.login.loginfield')">
+                  <b-form-input
+                    type="email"
+                    v-model="form.email"
+                    autocomplete="on"
+                    :state="getValidationState(validationContext)"
+                  ></b-form-input>
 
-      <ValidationProvider name="nonFieldErrors" v-slot="validationContext">
-        <div class="mb-3" style="color: #dc3545;" v-for="(error, index) in validationContext.errors" :key="index">
-          {{ error }}
-        </div>
-      </ValidationProvider>
+                  <b-form-invalid-feedback
+                    v-for="(error, index) in validationContext.errors"
+                    :key="index">{{ error }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
+              </validation-provider>
+            </div>
+          </div>
 
-      <div class="mb-3">
-        <nuxt-link :to="localePath('login-password-reset')">{{ $t('page.login.password_reset') }}</nuxt-link>
-      </div>
-      <div class="mb-3">
-        <nuxt-link :to="localePath('/login/register')">{{ $t('page.login.register') }}</nuxt-link>
-      </div>
+          <!--Пароль-->
+          <div class="row">
+            <div class="col-12">
+              <validation-provider
+                name="password"
+                :rules="{ required: true }"
+                v-slot="validationContext"
+              >
+                <b-form-group
+                  :label="$t('page.login.passfield')"
+                >
+                  <b-form-input
+                    type="password"
+                    v-model="form.password"
+                    autocomplete="on"
+                    :state="getValidationState(validationContext)"
+                  ></b-form-input>
 
-      <b-button type="submit" variant="primary">{{ $t('page.login.loginbutton') }}</b-button>
-    </b-form>
-  </validation-observer>
+                  <b-form-invalid-feedback
+                    v-for="(error, index) in validationContext.errors"
+                    :key="index">{{ error }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
+              </validation-provider>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <ValidationProvider name="nonFieldErrors" v-slot="validationContext">
+                <div class="mb-3" style="color: #dc3545;" v-for="(error, index) in validationContext.errors"
+                     :key="index">
+                  {{ error }}
+                </div>
+              </ValidationProvider>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-12 text-center">
+              <nuxt-link :to="localePath('login-password-reset')">{{ $t('page.login.password_reset') }}</nuxt-link>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12 text-center">
+              <nuxt-link :to="localePath('/login/register')">{{ $t('page.login.register') }}</nuxt-link>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-12 text-center">
+              <b-button class="gd-btn" type="submit">{{ $t('page.login.loginbutton') }}</b-button>
+            </div>
+          </div>
+
+        </b-form>
+      </validation-observer>
+
+    </div>
+  </div>
 </template>
 
 <script>
@@ -104,9 +139,9 @@ export default {
           this.$router.push(this.localePath('/'))
         } else {
 
-                    let e = {}
+          let e = {}
           for (let prop in res.errors) {
-            e[prop] = res.errors[prop].map((m)=>m.message)
+            e[prop] = res.errors[prop].map((m) => m.message)
           }
 
           this.$refs.loginobserver.setErrors(e)

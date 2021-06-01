@@ -9,5 +9,6 @@ extend("required", {
   message: "This field is required"
 });
 
+
 extend('email', email);
 extend('min', min);
