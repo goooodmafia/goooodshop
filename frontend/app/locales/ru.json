@@ -71,7 +71,9 @@
       "submit": "Восстановить пароль"
     },
     "profile": {
-      "title": "Личный кабинет"
+      "title": "Личный кабинет",
+      "email_field": "E-mail:",
+      "password_field": "Пароль:"
     },
     "cart": {
       "title": "Корзина"

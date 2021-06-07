@@ -72,7 +72,7 @@
                 </ValidationProvider>
 
 
-                <b-button type="submit" variant="primary">{{ $t('page.password_reset.submit') }}</b-button>
+                <b-button class="gd-btn" type="submit" variant="primary">{{ $t('page.password_reset.submit') }}</b-button>
               </b-form>
             </validation-observer>
 

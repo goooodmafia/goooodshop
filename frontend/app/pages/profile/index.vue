@@ -10,14 +10,37 @@
         </template>
 
         <template>
-          ### Profile
-          <hr/>
-          {{ user }}
-          <hr/>
-          <pre>
-          {{ users }}
-          </pre>
-          <hr/>
+
+          <div class="personal-data">
+
+            <div class="personal-data__item">
+              <div class="personal-data__value">{{ user.name}}</div>
+            </div>
+            <div class="personal-data__item">
+              <div class="personal-data__value">{{ user.firstName}}</div>
+            </div>
+            <div class="personal-data__item">
+              <div class="personal-data__value">{{ user.secondName}}</div>
+            </div>
+            <div class="personal-data__item">
+              <div class="personal-data__value">
+                <span class="personal-data__label">{{ $t('page.profile.email_field')}}</span> {{ user.email}}</div>
+            </div>
+            <div class="personal-data__item">
+              <div class="personal-data__value">
+                <span class="personal-data__label">{{ $t('page.profile.password_field')}}</span>  *******</div>
+              <div class="personal-data__edit">
+                <nuxt-link :to="localePath('/login/password-reset')" class="edit-link">Изменить</nuxt-link>
+              </div>
+            </div>
+          </div>
+<!--          <hr/>-->
+<!--          {{ user }}-->
+<!--          <hr/>-->
+<!--          <pre>-->
+<!--          {{ users }}-->
+<!--          </pre>-->
+<!--          <hr/>-->
         </template>
       </Breadcrumbs>
     </div>
@@ -63,8 +86,8 @@ export default {
     users: {
       query: USERS
     },
-    user:{
-      query:USER
+    user: {
+      query: USER
     }
   }
 
