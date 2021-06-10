@@ -3,6 +3,7 @@ query {
     name
     firstName
     secondName
+    phone
     email
   }
 }

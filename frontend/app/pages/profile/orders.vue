@@ -1,19 +1,33 @@
 <template>
   <Wrapper>
-    <div class="container">
-      <Breadcrumbs :data="breacrumbs">
-        <template v-slot:sidebar>
-          <div class="col-md-auto col-sm-12">
-            <Sidebar :currentpath="currentpath" :items="items">
-            </Sidebar>
-          </div>
-        </template>
+    <div class="container cabinet">
+      <Breadcrumbs :data="breacrumbs"/>
 
-        <template>
+      <div class="row">
+        <div class="col-lg-3">
+          <Sidebar :currentpath="currentpath" :items="items">
+          </Sidebar>
+        </div>
+        <div class="col-lg-9">
           ### Orders
-        </template>
-      </Breadcrumbs>
+        </div>
+      </div>
     </div>
+
+<!--    <div class="container">-->
+<!--      <Breadcrumbs :data="breacrumbs">-->
+<!--        <template v-slot:sidebar>-->
+<!--          <div class="col-md-auto col-sm-12">-->
+<!--            <Sidebar :currentpath="currentpath" :items="items">-->
+<!--            </Sidebar>-->
+<!--          </div>-->
+<!--        </template>-->
+
+<!--        <template>-->
+<!--          ### Orders-->
+<!--        </template>-->
+<!--      </Breadcrumbs>-->
+<!--    </div>-->
 
   </Wrapper>
 </template>

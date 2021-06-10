@@ -30,6 +30,8 @@
           </nav>
       </template>
 
+      <slot name="left"/>
+
       <slot name="default"/>
     </div>
     <slot name="right"/>

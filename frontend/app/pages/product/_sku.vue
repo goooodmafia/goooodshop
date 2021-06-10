@@ -43,7 +43,14 @@
                       />
                     </slide>
                   </template>
-                  <navigation slot="hooper-addons"></navigation>
+                  <!--                  <navigation slot="hooper-addons"></navigation>-->
+                  <navigation slot="hooper-addons">
+                    <div slot="hooper-prev"
+                         class="slider-button slider-button--prev"></div>
+                    <div slot="hooper-next"
+                         class="slider-button slider-button--next"></div>
+                  </navigation>
+
                 </hooper>
               </div>
 
@@ -316,17 +323,18 @@ export default {
 
 
 .hooper-navigation.is-vertical .hooper-prev, .hooper-navigation.is-vertical .hooper-next {
-  right: auto;
-  left: calc(50% - 26px);
-  fill: white;
+
+  left: calc(50% - 16px);
+  /*  right: auto;*/
+  /*  fill: white;*/
 }
 
-.hooper-navigation.is-vertical .hooper-prev {
-  top: -42px;
-}
+/*.hooper-navigation.is-vertical .hooper-prev {*/
+/*  top: -42px;*/
+/*}*/
 
-.hooper-navigation.is-vertical .hooper-next {
-  bottom: -32px;
-}
+/*.hooper-navigation.is-vertical .hooper-next {*/
+/*  bottom: -32px;*/
+/*}*/
 
 </style>
