@@ -26,7 +26,9 @@
 // Components
 @import "node_modules/bootstrap/scss/mixins/alert";
 @import "node_modules/bootstrap/scss/mixins/buttons";
-//@import "node_modules/bootstrap/scss/mixins/caret";
+
+@import "node_modules/bootstrap/scss/mixins/caret";
+
 @import "node_modules/bootstrap/scss/mixins/pagination";
 @import "node_modules/bootstrap/scss/mixins/lists";
 @import "node_modules/bootstrap/scss/mixins/list-group";
@@ -57,7 +59,9 @@
 @import "node_modules/bootstrap/scss/forms";
 @import "node_modules/bootstrap/scss/buttons";
 @import "node_modules/bootstrap/scss/transitions";
-//@import "node_modules/bootstrap/scss/dropdown";
+
+@import "node_modules/bootstrap/scss/dropdown";
+
 @import "node_modules/bootstrap/scss/button-group";
 @import "node_modules/bootstrap/scss/input-group";
 @import "node_modules/bootstrap/scss/custom-forms";

@@ -180,6 +180,10 @@ export default {
 
   publicRuntimeConfig: {
     httpEndpoint: process.env.APOLLO_CLIENT_HTTP || 'http://localhost:8000/graphql',
+    dadata_api_key: process.env.DADATA_API_KEY
+  },
+
+  privateRuntimeConfig: {
   },
 
   router: {

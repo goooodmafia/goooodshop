@@ -20,7 +20,7 @@
       <h4>"GOOD" создает Новое Качество Жизни!</h4>
     </div>
     <div class="about__actions">
-      <a href="/wholesale" class="btn">Присоединится</a>
+      <a href="/wholesale" class="gd-btn">Присоединится</a>
     </div>
   </div>
   <div class="about__col col-12 col-sm-6 col-lg-3">

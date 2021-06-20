@@ -1,535 +1,254 @@
 <template>
-<!--  <div class="container">-->
-    <div class="row">
-      <div class="col">
+  <!--  <div class="container">-->
+  <div class="row">
+    <div class="col">
 
-        <validation-observer ref="registerobserver" v-slot="{ handleSubmit }">
-          <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
+      <validation-observer ref="registerobserver" v-slot="{ handleSubmit }">
+        <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
 
-            <div class="row">
+          <div class="row">
 
-              <!--Имя-->
-              <div class="col-md-6 col-sm-12">
-                <validation-provider :rules="{}" name="name" v-slot="validationContext">
-                  <b-form-group :label="$t('page.register.name_field')">
-                    <b-form-input autofocus autocomplete="name" v-model="form.name" :state="getValidationState(validationContext)"/>
-                    <b-form-invalid-feedback
-                      v-for="(error, index) in validationContext.errors"
-                      :key="index"
-                    >
-                      {{ error }}
-                    </b-form-invalid-feedback>
-                  </b-form-group>
-                </validation-provider>
-              </div>
-
-              <!--Телефон-->
-              <div class="col-md-6 col-sm-12">
-                <validation-provider :rules="{required:true}" name="phone" v-slot="validationContext">
-                  <b-form-group :label="$t('page.register.phone_field')">
-                    <b-form-input autocomplete="tel" v-model="form.phone" type="tel" :state="getValidationState(validationContext)"/>
-                    <b-form-invalid-feedback
-                      v-for="(error, index) in validationContext.errors"
-                      :key="index"
-                    >
-                      {{ error }}
-                    </b-form-invalid-feedback>
-                  </b-form-group>
-                </validation-provider>
-              </div>
-
-              <!--Фамилия-->
-              <div class="col-md-6 col-sm-12">
-                <validation-provider :rules="{}" name="firstName"v-slot="validationContext">
-                  <b-form-group :label="$t('page.register.first_name_field')">
-                    <b-form-input v-model="form.firstName" :state="getValidationState(validationContext)"/>
-                    <b-form-invalid-feedback
-                      v-for="(error, index) in validationContext.errors"
-                      :key="index"
-                    >
-                      {{ error }}
-                    </b-form-invalid-feedback>
-                  </b-form-group>
-                </validation-provider>
-              </div>
-
-              <!--E-mail-->
-              <div class="col-md-6 col-sm-12">
-                <validation-provider :rules="{required:true, email:true}" name="email"v-slot="validationContext">
-                  <b-form-group :label="$t('page.register.email_field')">
-                    <b-form-input autocomplete="email" v-model="form.email" type="email" :state="getValidationState(validationContext)"/>
-                    <b-form-invalid-feedback
-                      v-for="(error, index) in validationContext.errors"
-                      :key="index"
-                    >
-                      {{ error }}
-                    </b-form-invalid-feedback>
-                  </b-form-group>
-                </validation-provider>
-              </div>
-
-              <!--Отчество-->
-              <div class="col-md-6 col-sm-12">
-                <validation-provider :rules="{}" name="secondName" v-slot="validationContext">
-                  <b-form-group :label="$t('page.register.second_name_field')">
-                    <b-form-input v-model="form.secondName" :state="getValidationState(validationContext)"/>
-
-                    <b-form-invalid-feedback
-                      v-for="(error, index) in validationContext.errors"
-                      :key="index"
-                    >
-                      {{ error }}
-                    </b-form-invalid-feedback>
-                  </b-form-group>
-                </validation-provider>
-              </div>
-
-              <!--Текст-->
-              <div class="col-md-6 col-sm-12 align-self-end">
-                <div class="form-group">
-                  <div class="pb-2">* поля, обязательные для заполнения</div>
-                </div>
-              </div>
-
-              <!--Дата рождения-->
-              <div class="col-md-4 col-sm-12">
-                <validation-provider :rules="{}" name="birthDate" v-slot="validationContext">
-                  <b-form-group :label="$t('page.register.birth_date_field')">
-                    <b-form-datepicker
-                      aria-autocomplete="bday"
-                      v-model="form.birthDate"
-                      :state="getValidationState(validationContext)"
-                    ></b-form-datepicker>
-                    <b-form-invalid-feedback
-                      v-for="(error, index) in validationContext.errors"
-                      :key="index"
-                    >
-                      {{ error }}
-                    </b-form-invalid-feedback>
-                  </b-form-group>
-                </validation-provider>
-              </div>
-
-              <!--Пол-->
-              <div class="col-md-8 col-sm-12">
-                <validation-provider :rules="{required:true}" name="sex" v-slot="validationContext">
-                  <b-form-group :label="$t('page.register.sex_field')">
-                    <b-form-radio-group v-model="form.sex" class="mt-1">
-                      <b-form-radio value="NA">Не указан</b-form-radio>
-                      <b-form-radio value="male">Мужской</b-form-radio>
-                      <b-form-radio value="female">Женский</b-form-radio>
-                    </b-form-radio-group>
-                    <b-form-invalid-feedback
-                      v-for="(error, index) in validationContext.errors"
-                      :key="index"
-                    >
-                      {{ error }}
-                    </b-form-invalid-feedback>
-                  </b-form-group>
-                </validation-provider>
-              </div>
-
-            </div>
-            <hr class="text-white">
-            <div class="row">
-
-              <!--Адрес-->
-              <div class="col-md-12 col-sm-12">
-                <validation-provider :rules="{}" v-slot="validationContext">
-                  <b-form-group :label="$t('page.register.address_field')">
-
-                    <client-only placeholder="loading...">
-                      <VueDadata
-                        token="91887366306ab608f3ce2fdb6577c82847376590"
-                        defaultClass="gd-dadata"
-                      ></VueDadata>
-                    </client-only>
-
-                    <!--                    <b-form-invalid-feedback-->
-                    <!--                      v-for="(error, index) in validationContext.errors"-->
-                    <!--                      :key="index"-->
-                    <!--                    >-->
-                    <!--                      {{ error }}-->
-                    <!--                    </b-form-invalid-feedback>-->
-                  </b-form-group>
-                </validation-provider>
-              </div>
-
-            </div>
-            <hr class="text-white">
-            <div class="row">
-
-              <!--Пароль1-->
-              <div class="col-md-6 col-sm-12">
-                <validation-provider :rules="{required:true}" name="password1" v-slot="validationContext">
-                  <b-form-group :label="$t('page.register.pass_field1')">
-                    <b-form-input autocomplete="new-password" v-model="form.password1" type="password"
-                                  :state="getValidationState(validationContext)"/>
-                    <b-form-invalid-feedback
-                      v-for="(error, index) in validationContext.errors"
-                      :key="index"
-                    >
-                      {{ error }}
-                    </b-form-invalid-feedback>
-                  </b-form-group>
-
-                </validation-provider>
-              </div>
-
-              <!--Пароль2-->
-              <div class="col-md-6 col-sm-12">
-                <validation-provider :rules="{required:true}" name="password2" v-slot="validationContext">
-                  <b-form-group :label="$t('page.register.pass_field2')">
-                    <b-form-input autocomplete="new-password" v-model="form.password2" type="password"
-                                  :state="getValidationState(validationContext)"/>
-                    <b-form-invalid-feedback
-                      v-for="(error, index) in validationContext.errors"
-                      :key="index"
-                    >
-                      {{ error }}
-                    </b-form-invalid-feedback>
-                  </b-form-group>
-
-                </validation-provider>
-              </div>
-            </div>
-
-            <hr class="text-white">
-
-            <div class="row">
-              <!--Согласие-->
-              <div class="col-md-12 col-sm-12">
-                <validation-provider
-                  :rules="{ required: { allowFalse: false } }"
-                  v-slot="validationContext">
-                  <b-form-group>
-                    <b-form-checkbox
-                      v-model="form.agree"
-                      :state="getValidationState(validationContext)"
-                    >{{ $t('page.register.personal_field') }}
-                    </b-form-checkbox>
-                    <b-form-invalid-feedback
-                      v-for="(error, index) in validationContext.errors"
-                      :key="index"
-                    >
-                      {{ error }}
-                    </b-form-invalid-feedback>
-                  </b-form-group>
-
-                </validation-provider>
-              </div>
-
-            </div>
-
-            <div class="row">
-              <div class="col-12">
-                <!--Ошибки-->
-                <ValidationProvider name="nonFieldErrors" v-slot="validationContext">
-                  <div class="mb-3" style="color: #dc3545;" v-for="(error, index) in validationContext.errors"
-                       :key="index">
+            <!--Имя-->
+            <div class="col-md-6 col-sm-12">
+              <validation-provider :rules="{}" name="name" v-slot="validationContext">
+                <b-form-group :label="$t('page.register.name_field')">
+                  <b-form-input autofocus autocomplete="name" v-model="form.name"
+                                :state="getValidationState(validationContext)"/>
+                  <b-form-invalid-feedback
+                    v-for="(error, index) in validationContext.errors"
+                    :key="index"
+                  >
                     {{ error }}
-                  </div>
-                </ValidationProvider>
+                  </b-form-invalid-feedback>
+                </b-form-group>
+              </validation-provider>
+            </div>
+
+            <!--Телефон-->
+            <div class="col-md-6 col-sm-12">
+              <validation-provider :rules="{required:true}" name="phone" v-slot="validationContext">
+                <b-form-group :label="$t('page.register.phone_field')">
+                  <b-form-input autocomplete="tel" v-model="form.phone" type="tel"
+                                :state="getValidationState(validationContext)"/>
+                  <b-form-invalid-feedback
+                    v-for="(error, index) in validationContext.errors"
+                    :key="index"
+                  >
+                    {{ error }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
+              </validation-provider>
+            </div>
+
+            <!--Фамилия-->
+            <div class="col-md-6 col-sm-12">
+              <validation-provider :rules="{}" name="firstName" v-slot="validationContext">
+                <b-form-group :label="$t('page.register.first_name_field')">
+                  <b-form-input v-model="form.firstName" :state="getValidationState(validationContext)"/>
+                  <b-form-invalid-feedback
+                    v-for="(error, index) in validationContext.errors"
+                    :key="index"
+                  >
+                    {{ error }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
+              </validation-provider>
+            </div>
+
+            <!--E-mail-->
+            <div class="col-md-6 col-sm-12">
+              <validation-provider :rules="{required:true, email:true}" name="email" v-slot="validationContext">
+                <b-form-group :label="$t('page.register.email_field')">
+                  <b-form-input autocomplete="email" v-model="form.email" type="email"
+                                :state="getValidationState(validationContext)"/>
+                  <b-form-invalid-feedback
+                    v-for="(error, index) in validationContext.errors"
+                    :key="index"
+                  >
+                    {{ error }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
+              </validation-provider>
+            </div>
+
+            <!--Отчество-->
+            <div class="col-md-6 col-sm-12">
+              <validation-provider :rules="{}" name="secondName" v-slot="validationContext">
+                <b-form-group :label="$t('page.register.second_name_field')">
+                  <b-form-input v-model="form.secondName" :state="getValidationState(validationContext)"/>
+
+                  <b-form-invalid-feedback
+                    v-for="(error, index) in validationContext.errors"
+                    :key="index"
+                  >
+                    {{ error }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
+              </validation-provider>
+            </div>
+
+            <!--Текст-->
+            <div class="col-md-6 col-sm-12 align-self-end">
+              <div class="form-group">
+                <div class="pb-2">* поля, обязательные для заполнения</div>
               </div>
             </div>
 
-            <div class="row mt-5">
-              <div class="col-12 text-center">
-                <b-button class="gd-btn" type="submit">{{
-                    $t('page.register.registerbutton')
-                  }}
-                </b-button>
-              </div>
+            <!--Дата рождения-->
+            <div class="col-md-4 col-sm-12">
+              <validation-provider :rules="{}" name="birthDate" v-slot="validationContext">
+                <b-form-group :label="$t('page.register.birth_date_field')">
+                  <b-form-datepicker
+                    aria-autocomplete="bday"
+                    v-model="form.birthDate"
+                    :state="getValidationState(validationContext)"
+                  ></b-form-datepicker>
+                  <b-form-invalid-feedback
+                    v-for="(error, index) in validationContext.errors"
+                    :key="index"
+                  >
+                    {{ error }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
+              </validation-provider>
             </div>
 
-          </b-form>
-        </validation-observer>
+            <!--Пол-->
+            <div class="col-md-8 col-sm-12">
+              <validation-provider :rules="{required:true}" name="sex" v-slot="validationContext">
+                <b-form-group :label="$t('page.register.sex_field')">
+                  <b-form-radio-group v-model="form.sex" class="mt-1">
+                    <b-form-radio value="NA">Не указан</b-form-radio>
+                    <b-form-radio value="male">Мужской</b-form-radio>
+                    <b-form-radio value="female">Женский</b-form-radio>
+                  </b-form-radio-group>
+                  <b-form-invalid-feedback
+                    v-for="(error, index) in validationContext.errors"
+                    :key="index"
+                  >
+                    {{ error }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
+              </validation-provider>
+            </div>
 
-      </div>
-<!--    </div>-->
+          </div>
+          <hr class="text-white">
+          <div class="row">
 
+            <!--Адрес-->
+            <div class="col-md-12 col-sm-12">
+              <validation-provider :rules="{}" v-slot="validationContext">
+                <b-form-group :label="$t('page.register.address_field')">
 
-    <!--    <validation-observer ref="registerobserver" v-slot="{ handleSubmit }">-->
-    <!--      <b-form @submit.stop.prevent="handleSubmit(onSubmit)">-->
+                  <client-only placeholder="loading...">
+                    <VueDadata
+                      :token="$config.dadata_api_key"
+                      defaultClass="gd-dadata"
+                    ></VueDadata>
+                  </client-only>
 
-    <!--        <div class="row">-->
+                  <!--                    <b-form-invalid-feedback-->
+                  <!--                      v-for="(error, index) in validationContext.errors"-->
+                  <!--                      :key="index"-->
+                  <!--                    >-->
+                  <!--                      {{ error }}-->
+                  <!--                    </b-form-invalid-feedback>-->
+                </b-form-group>
+              </validation-provider>
+            </div>
 
-    <!--          -->
-    <!--          -->
-    <!--          <div class="col-md-6 col-sm-12">-->
-    <!--Имя-->
-    <!--            <validation-provider-->
-    <!--              :rules="{ required: true, min: 3 }"-->
-    <!--              v-slot="validationContext"-->
-    <!--            >-->
-    <!--              <b-form-group id="name-group" :label="$t('page.register.name_field')" label-for="name-input">-->
-    <!--                <b-form-input-->
-    <!--                  id="name-input"-->
-    <!--                  name="name-input"-->
-    <!--                  type="text"-->
-    <!--                  v-model="form.name"-->
-    <!--                  autocomplete="on"-->
-    <!--                  :state="getValidationState(validationContext)"-->
-    <!--                  aria-describedby="name-live-feedback"-->
-    <!--                ></b-form-input>-->
+          </div>
+          <hr class="text-white">
+          <div class="row">
 
-    <!--                <b-form-invalid-feedback id="name-live-feedback" v-for="(error, index) in validationContext.errors"-->
-    <!--                                         :key="index">{{ error }}-->
-    <!--                </b-form-invalid-feedback>-->
-    <!--              </b-form-group>-->
-    <!--            </validation-provider>-->
-    <!--          </div>-->
+            <!--Пароль1-->
+            <div class="col-md-6 col-sm-12">
+              <validation-provider :rules="{required:true}" name="password1" v-slot="validationContext">
+                <b-form-group :label="$t('page.register.pass_field1')">
+                  <b-form-input autocomplete="new-password" v-model="form.password1" type="password"
+                                :state="getValidationState(validationContext)"/>
+                  <b-form-invalid-feedback
+                    v-for="(error, index) in validationContext.errors"
+                    :key="index"
+                  >
+                    {{ error }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
 
-    <!--          <div class="col-md-6 col-sm-12">-->
-    <!--            &lt;!&ndash;Телефон&ndash;&gt;-->
-    <!--            <validation-provider-->
-    <!--              :name="$t('page.register.phone_field')"-->
-    <!--              :rules="{ required: true}"-->
-    <!--              v-slot="validationContext"-->
-    <!--            >-->
-    <!--              <b-form-group id="phone-group" :label="$t('page.register.phone_field')" label-for="name-input">-->
-    <!--                <b-form-input-->
-    <!--                  id="phone-input"-->
-    <!--                  name="phone-input"-->
-    <!--                  type="text"-->
-    <!--                  v-model="form.phone"-->
-    <!--                  autocomplete="on"-->
-    <!--                  :state="getValidationState(validationContext)"-->
-    <!--                  aria-describedby="phone-live-feedback"-->
-    <!--                ></b-form-input>-->
+              </validation-provider>
+            </div>
 
-    <!--                <b-form-invalid-feedback id="phone-live-feedback" v-for="(error, index) in validationContext.errors"-->
-    <!--                                         :key="index">{{ error }}-->
-    <!--                </b-form-invalid-feedback>-->
-    <!--              </b-form-group>-->
-    <!--            </validation-provider>-->
-    <!--          </div>-->
+            <!--Пароль2-->
+            <div class="col-md-6 col-sm-12">
+              <validation-provider :rules="{required:true}" name="password2" v-slot="validationContext">
+                <b-form-group :label="$t('page.register.pass_field2')">
+                  <b-form-input autocomplete="new-password" v-model="form.password2" type="password"
+                                :state="getValidationState(validationContext)"/>
+                  <b-form-invalid-feedback
+                    v-for="(error, index) in validationContext.errors"
+                    :key="index"
+                  >
+                    {{ error }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
 
-    <!--        </div>-->
+              </validation-provider>
+            </div>
+          </div>
 
-    <!--        <div class="row">-->
-    <!--          <div class="col-md-6 col-sm-12">-->
-    <!--            &lt;!&ndash;Фамилия&ndash;&gt;-->
-    <!--            <validation-provider-->
-    <!--              :name="$t('page.register.first_name_field')"-->
-    <!--              :rules="{}"-->
-    <!--              v-slot="validationContext"-->
-    <!--            >-->
-    <!--              <b-form-group id="first_name-group" :label="$t('page.register.first_name_field')"-->
-    <!--                            label-for="first_name-input">-->
-    <!--                <b-form-input-->
-    <!--                  id="first_name-input"-->
-    <!--                  name="first_name-input"-->
-    <!--                  type="text"-->
-    <!--                  v-model="form.first_name"-->
-    <!--                  autocomplete="on"-->
-    <!--                  :state="getValidationState(validationContext)"-->
-    <!--                  aria-describedby="first_name-live-feedback"-->
-    <!--                ></b-form-input>-->
+          <hr class="text-white">
 
-    <!--                <b-form-invalid-feedback id="first_name-live-feedback"-->
-    <!--                                         v-for="(error, index) in validationContext.errors"-->
-    <!--                                         :key="index">{{ error }}-->
-    <!--                </b-form-invalid-feedback>-->
-    <!--              </b-form-group>-->
-    <!--            </validation-provider>-->
-    <!--          </div>-->
-    <!--          <div class="col-md-6 col-sm-12">-->
-    <!--            &lt;!&ndash;Email&ndash;&gt;-->
-    <!--            <validation-provider-->
-    <!--              :name="$t('page.register.email_field')"-->
-    <!--              :rules="{ required: true, min: 3 }"-->
-    <!--              v-slot="validationContext"-->
-    <!--            >-->
-    <!--              <b-form-group id="email-group" :label="$t('page.register.email_field')" label-for="email-input">-->
-    <!--                <b-form-input-->
-    <!--                  id="email-input"-->
-    <!--                  name="email-input"-->
-    <!--                  type="email"-->
-    <!--                  v-model="form.email"-->
-    <!--                  autocomplete="on"-->
-    <!--                  :state="getValidationState(validationContext)"-->
-    <!--                  aria-describedby="email-live-feedback"-->
-    <!--                ></b-form-input>-->
+          <div class="row">
+            <!--Согласие-->
+            <div class="col-md-12 col-sm-12">
+              <validation-provider
+                :rules="{ required: { allowFalse: false } }"
+                v-slot="validationContext">
+                <b-form-group>
+                  <b-form-checkbox
+                    v-model="form.agree"
+                    :state="getValidationState(validationContext)"
+                  >{{ $t('page.register.personal_field') }}
+                  </b-form-checkbox>
+                  <b-form-invalid-feedback
+                    v-for="(error, index) in validationContext.errors"
+                    :key="index"
+                  >
+                    {{ error }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
 
-    <!--                <b-form-invalid-feedback id="email-live-feedback" v-for="(error, index) in validationContext.errors"-->
-    <!--                                         :key="index">{{ error }}-->
-    <!--                </b-form-invalid-feedback>-->
-    <!--              </b-form-group>-->
-    <!--            </validation-provider>-->
-    <!--          </div>-->
-    <!--        </div>-->
+              </validation-provider>
+            </div>
 
-    <!--        <div class="row">-->
-    <!--          <div class="col-md-6 col-sm-12">-->
-    <!--            &lt;!&ndash;Отчество&ndash;&gt;-->
-    <!--            <validation-provider-->
-    <!--              :name="$t('page.register.second_name_field')"-->
-    <!--              :rules="{}"-->
-    <!--              v-slot="validationContext"-->
-    <!--            >-->
-    <!--              <b-form-group id="second_name-group" :label="$t('page.register.second_name_field')"-->
-    <!--                            label-for="second_name-input">-->
-    <!--                <b-form-input-->
-    <!--                  id="second_name-input"-->
-    <!--                  name="second_name-input"-->
-    <!--                  type="text"-->
-    <!--                  v-model="form.second_name"-->
-    <!--                  autocomplete="on"-->
-    <!--                  :state="getValidationState(validationContext)"-->
-    <!--                  aria-describedby="second_name-live-feedback"-->
-    <!--                ></b-form-input>-->
+          </div>
 
-    <!--                <b-form-invalid-feedback id="second_name-live-feedback"-->
-    <!--                                         v-for="(error, index) in validationContext.errors"-->
-    <!--                                         :key="index">{{ error }}-->
-    <!--                </b-form-invalid-feedback>-->
-    <!--              </b-form-group>-->
-    <!--            </validation-provider>-->
-    <!--          </div>-->
-    <!--          <div class="col-md-6 col-sm-12">-->
-    <!--            <b-form-group>-->
-    <!--              <span>* поля, обязательные для заполнения</span>-->
-    <!--            </b-form-group>-->
-    <!--          </div>-->
-    <!--        </div>-->
+          <div class="row">
+            <div class="col-12">
+              <!--Ошибки-->
+              <ValidationProvider name="nonFieldErrors" v-slot="validationContext">
+                <div class="mb-3" style="color: #dc3545;" v-for="(error, index) in validationContext.errors"
+                     :key="index">
+                  {{ error }}
+                </div>
+              </ValidationProvider>
+            </div>
+          </div>
 
-    <!--        <div class="row">-->
-    <!--          <div class="col-md-4 col-sm-12">-->
-    <!--            &lt;!&ndash;Дата рождения&ndash;&gt;-->
-    <!--            <validation-provider-->
-    <!--              :name="$t('page.register.birth_date_field')"-->
-    <!--              :rules="{}"-->
-    <!--              v-slot="validationContext"-->
-    <!--            >-->
-    <!--              <b-form-group id="birthDate-group" :label="$t('page.register.birth_date_field')"-->
-    <!--                            label-for="birthDate-input">-->
-    <!--                <b-form-datepicker-->
-    <!--                  id="birthDate-input"-->
-    <!--                  name="birthDate-input"-->
-    <!--                  v-model="form.birthDate"-->
-    <!--                  autocomplete="on"-->
-    <!--                  :state="getValidationState(validationContext)"-->
-    <!--                  aria-describedby="birtDate-live-feedback"-->
-    <!--                ></b-form-datepicker>-->
+          <div class="row mt-5">
+            <div class="col-12 text-center">
+              <b-button class="gd-btn" type="submit">{{
+                  $t('page.register.registerbutton')
+                }}
+              </b-button>
+            </div>
+          </div>
 
-    <!--                <b-form-invalid-feedback id="birthDate-live-feedback"-->
-    <!--                                         v-for="(error, index) in validationContext.errors"-->
-    <!--                                         :key="index">{{ error }}-->
-    <!--                </b-form-invalid-feedback>-->
-    <!--              </b-form-group>-->
-    <!--            </validation-provider>-->
-    <!--          </div>-->
-    <!--          <div class="col-md-8 col-sm-12 justify-content-md-right">-->
-    <!--            &lt;!&ndash;Пол&ndash;&gt;-->
-    <!--            <b-form-group label="Пол" v-slot="{ ariaDescribedby }">-->
-    <!--              <b-form-radio-group-->
-    <!--                id="radio-slots"-->
-    <!--                v-model="selected"-->
-    <!--                :options="options"-->
-    <!--                button-variant="warning"-->
-    <!--                :aria-describedby="ariaDescribedby"-->
-    <!--                name="radio-options-slots"-->
-    <!--              >-->
-    <!--              </b-form-radio-group>-->
-    <!--            </b-form-group>-->
-    <!--          </div>-->
-    <!--        </div>-->
+        </b-form>
+      </validation-observer>
 
-    <!--        <div class="row">-->
-    <!--          <div class="col-md-12 col-sm-12">-->
-    <!--            &lt;!&ndash;Адресс&ndash;&gt;-->
-    <!--            <validation-provider-->
-    <!--              name="address"-->
-    <!--              v-slot="validationContext"-->
-    <!--            >-->
-    <!--              <b-form-group-->
-    <!--                :label="$t('page.register.address_field')"-->
-    <!--              >-->
-
-    <!--                <client-only placeholder="loading...">-->
-    <!--                  <VueDadata-->
-    <!--                    token="91887366306ab608f3ce2fdb6577c82847376590"-->
-    <!--                    defaultClass="gd-dadata"-->
-    <!--                  ></VueDadata>-->
-    <!--                </client-only>-->
-
-    <!--                <b-form-invalid-feedback id="address-live-feedback"-->
-    <!--                                         v-for="(error, index) in validationContext.errors"-->
-    <!--                                         :key="index">{{ error }}-->
-    <!--                </b-form-invalid-feedback>-->
-
-    <!--              </b-form-group>-->
-    <!--            </validation-provider>-->
-    <!--          </div>-->
-    <!--        </div>-->
-
-    <!--        <div class="row">-->
-    <!--          <div class="col-md-6 col-sm-12">-->
-    <!--            &lt;!&ndash;Пароль1&ndash;&gt;-->
-    <!--            <validation-provider :name="$t('page.register.pass_field1')" :rules="{ required: true }"-->
-    <!--                                 v-slot="validationContext">-->
-    <!--              <b-form-group id="password1-group" :label="$t('page.register.pass_field1')" label-for="password1-input">-->
-    <!--                <b-form-input-->
-    <!--                  id="password1-input"-->
-    <!--                  name="password1-input"-->
-    <!--                  type="password"-->
-    <!--                  v-model="form.password1"-->
-    <!--                  autocomplete="on"-->
-    <!--                  :state="getValidationState(validationContext)"-->
-    <!--                  aria-describedby="password-live-feedback"-->
-    <!--                ></b-form-input>-->
-
-    <!--                <b-form-invalid-feedback id="password1-live-feedback" v-for="(error, index) in validationContext.errors"-->
-    <!--                                         :key="index">{{ error }}-->
-    <!--                </b-form-invalid-feedback>-->
-    <!--              </b-form-group>-->
-    <!--            </validation-provider>-->
-    <!--          </div>-->
-    <!--          <div class="col-md-6 col-sm-12">-->
-    <!--            &lt;!&ndash;Пароль2&ndash;&gt;-->
-    <!--            <validation-provider :name="$t('page.register.pass_field2')" :rules="{ required: true }"-->
-    <!--                                 v-slot="validationContext">-->
-    <!--              <b-form-group id="password2-group" :label="$t('page.register.pass_field2')" label-for="password2-input">-->
-    <!--                <b-form-input-->
-    <!--                  id="password2-input"-->
-    <!--                  name="password2-input"-->
-    <!--                  type="password"-->
-    <!--                  v-model="form.password2"-->
-    <!--                  autocomplete="on"-->
-    <!--                  :state="getValidationState(validationContext)"-->
-    <!--                  aria-describedby="password2-live-feedback"-->
-    <!--                ></b-form-input>-->
-
-    <!--                <b-form-invalid-feedback id="password2-live-feedback" v-for="(error, index) in validationContext.errors"-->
-    <!--                                         :key="index">{{ error }}-->
-    <!--                </b-form-invalid-feedback>-->
-    <!--              </b-form-group>-->
-    <!--            </validation-provider>-->
-    <!--          </div>-->
-    <!--        </div>-->
-
-    <!--        <div class="row">-->
-    <!--          <div class="col-12">-->
-    <!--            &lt;!&ndash;Ошибки&ndash;&gt;-->
-    <!--            <ValidationProvider name="nonFieldErrors" v-slot="validationContext">-->
-    <!--              <div class="mb-3" style="color: #dc3545;" v-for="(error, index) in validationContext.errors" :key="index">-->
-    <!--                {{ error }}-->
-    <!--              </div>-->
-    <!--            </ValidationProvider>-->
-    <!--          </div>-->
-    <!--        </div>-->
-
-    <!--        &lt;!&ndash;      <div class="mb-3">&ndash;&gt;-->
-    <!--        &lt;!&ndash;        <nuxt-link :to="localePath('login-password-reset')">{{ $t('page.login.password_reset') }}</nuxt-link>&ndash;&gt;-->
-    <!--        &lt;!&ndash;      </div>&ndash;&gt;-->
-    <!--        &lt;!&ndash;      <div class="mb-3">&ndash;&gt;-->
-    <!--        &lt;!&ndash;        <nuxt-link :to="localePath('/login/register')">{{ $t('page.login.register') }}</nuxt-link>&ndash;&gt;-->
-    <!--        &lt;!&ndash;      </div>&ndash;&gt;-->
-
-    <!--        <b-button class="gd-btn" type="submit" variant="primary">{{ $t('page.register.registerbutton') }}</b-button>-->
-    <!--      </b-form>-->
-    <!--    </validation-observer>-->
+    </div>
   </div>
 </template>
 
@@ -547,9 +266,8 @@ export default {
   },
 
   data() {
-    const dadata_api_key = process.env.DADATA_API_KEY
+
     return {
-      dadata_api_key: dadata_api_key,
       form: {
         name: '',
         firstName: '',
@@ -572,6 +290,8 @@ export default {
     },
 
     async onSubmit() {
+
+      console.log(this.form)
       try {
         const res = await this.$apollo.mutate({
           mutation: REGISTER,
@@ -596,9 +316,7 @@ export default {
       }
     }
   },
-  created() {
 
-  }
 }
 </script>
 

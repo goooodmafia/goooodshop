@@ -10,7 +10,6 @@
 
 
         <template>
-
           <div class="product-wrap">
             <div class="product-slider">
               <div class="product-slider__nav">
@@ -93,6 +92,10 @@
                 <!--                </div>-->
               </div>
 
+
+
+                <AddSize/>
+
               <div class="product-additionally">
                 <div class="product-additionally__size">
                   <nuxt-link :to="localePath('size')" class="size-link">Таблица размеров</nuxt-link>
@@ -101,6 +104,8 @@
                 <!--   <a href="#" class="reviews-link">Отзывы</a>-->
                 <!-- </div>-->
               </div>
+
+
               <div class="product-actions">
                 <div class="product-actions__btn">
                   <a href="#" class="gd-btn gd-btn--orange-bg gd-btn--to-order">Купить</a>
@@ -189,13 +194,14 @@ import {Hooper, Slide, Navigation} from 'hooper';
 
 import PRODUCT from "~/api/query/product.graphql"
 import PRODUCTS from "~/api/query/products.graphql"
+import AddSize from "../../components/product/AddSize";
 
 
 export default {
 
   name: 'product',
 
-  components: {CatalogItem, Wrapper, Breadcrumbs, Sidebar, Hooper, Slide, Navigation},
+  components: {AddSize, CatalogItem, Wrapper, Breadcrumbs, Sidebar, Hooper, Slide, Navigation},
 
   data() {
     return {
@@ -247,6 +253,7 @@ export default {
         }
       },
     },
+
     products: {
       query: PRODUCTS,
       variables() {
@@ -300,10 +307,11 @@ export default {
 
   },
   computed: {
+
     categories() {
       return this.$store.state.categories.list
     },
-  }
+  },
 
 }
 </script>
@@ -323,7 +331,6 @@ export default {
 
 
 .hooper-navigation.is-vertical .hooper-prev, .hooper-navigation.is-vertical .hooper-next {
-
   left: calc(50% - 16px);
   /*  right: auto;*/
   /*  fill: white;*/

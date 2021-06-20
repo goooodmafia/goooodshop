@@ -15,7 +15,7 @@
           <p>GOOD clothing will become a bright and popular segment of your store's sales.</p>
           <p>The most favorable terms of purchase both in large wholesale and from 10 pieces. Product</p>
           <div class="wholesale__actions">
-            <a href="/wholesale" class="btn">Learn more</a>
+            <a href="/wholesale" class="gd-btn">Learn more</a>
           </div>
         </div>
       </div>
