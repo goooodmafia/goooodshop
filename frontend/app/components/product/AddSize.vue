@@ -33,12 +33,14 @@
 
       <b-button v-if="index === (sizes.length-1)"
                 variant="outline-warning"
-                class="gd-add-btn" @click="addSize()">+
+                class="gd-add-btn"
+                @click="addSize()">+
       </b-button>
 
       <b-button v-else
                 variant="outline-danger"
-                class="gd-add-btn gd-add-btn-del">+
+                class="gd-add-btn gd-add-btn-del"
+                @click="removeSize(index)">+
       </b-button>
 
       <!--    <div class="product-size__select">-->
@@ -113,42 +115,54 @@ export default {
     return {
       sizes: [{size: "M", count: 1,}],
       avaliable: [
-        {value: '2XS', text: '2XS'},
-        {value: 'XS', text: 'XS'},
-        {value: 'S', text: 'S'},
-        {value: 'S', text: 'S'},
-        {value: 'M', text: 'M'},
-        {value: 'L', text: 'L'},
-        {value: 'XL', text: 'XL'},
-        {value: '2XL', text: '2XL'},
-        {value: '3XL', text: '3XL'},
-        {value: '4XL', text: '4XL'},
+        '2XS',
+        'XS',
+        'S',
+        'S',
+        'M',
+        'L',
+        'XL',
+        '2XL',
+        '3XL',
+        '4XL',
       ]
     }
   },
 
   methods: {
-    addSize() {
-      this.sizes.push(
-        {
-          size: this.getAvailableSizes[0],
-          count: 1,
-        }
-      )
-    },
-  
+
     getAvailableSizes() {
+      console.log('call')
       let res = []
-      this.avaliable.forEach((element)=>{
-        this.sizes.forEach((size)=>{
-          if (element.value!==size.size){
-            res.push(element.value)
+      this.avaliable.forEach((element) => {
+        this.sizes.forEach((size) => {
+
+          if (element === size.size) {
+            // console.log(`${element} === ${size.size}`)
+            res.push(element)
           }
         })
       })
-      return res
-    }
-  }
+      return this.avaliable.filter((el) => !res.includes(el))
+    },
+
+    addSize() {
+      let a = this.getAvailableSizes()
+      console.log(a)
+      console.log(this.sizes)
+      if (a.length - this.sizes.length> 0) {
+        this.sizes.push(
+          {
+            size: a[0],
+            count: 1,
+          }
+        )
+      }
+    },
+    removeSize(index) {
+      this.sizes.splice(index, 1)
+    },
+  },
 }
 </script>
 
