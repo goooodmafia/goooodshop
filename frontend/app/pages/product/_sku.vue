@@ -94,7 +94,7 @@
 
 
 
-                <AddSize/>
+                <AddSize :avaliable="['NS', 'M', '3XL']"/>
 
               <div class="product-additionally">
                 <div class="product-additionally__size">
@@ -311,6 +311,13 @@ export default {
     categories() {
       return this.$store.state.categories.list
     },
+
+    avaliableSizes() {
+      let res = []
+      this.product.sizes.forEach((el)=>{
+      })
+      return
+    }
   },
 
 }

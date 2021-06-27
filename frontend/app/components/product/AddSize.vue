@@ -111,21 +111,23 @@ export default {
 
   components: {MySpinButton},
 
+  props:['avaliable'],
+
   data() {
     return {
       sizes: [{size: "M", count: 1,}],
-      avaliable: [
-        '2XS',
-        'XS',
-        'S',
-        'S',
-        'M',
-        'L',
-        'XL',
-        '2XL',
-        '3XL',
-        '4XL',
-      ]
+      // avaliable: [
+      //   '2XS',
+      //   'XS',
+      //   'S',
+      //   'S',
+      //   'M',
+      //   'L',
+      //   'XL',
+      //   '2XL',
+      //   '3XL',
+      //   '4XL',
+      // ]
     }
   },
 
@@ -150,7 +152,7 @@ export default {
       let a = this.getAvailableSizes()
       console.log(a)
       console.log(this.sizes)
-      if (a.length - this.sizes.length> 0) {
+      if (a.length > 0) {
         this.sizes.push(
           {
             size: a[0],
