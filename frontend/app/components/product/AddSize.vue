@@ -30,8 +30,9 @@
       <!--    <MySpinButton :value="value" @input="someMethod($event)"/>-->
 
       <!--    <b-badge variant="success">В корзине</b-badge>-->
+<!--      <template v-if="index === (avaliable.length-1)"/>-->
 
-      <b-button v-if="index === (sizes.length-1)"
+      <b-button v-if="(index === (sizes.length-1)) & (index !== (avaliable.length-1))"
                 variant="outline-warning"
                 class="gd-add-btn"
                 @click="addSize()">+
@@ -115,7 +116,8 @@ export default {
 
   data() {
     return {
-      sizes: [{size: "M", count: 1,}],
+      sizes: [],
+      // sizes: [{size: "M", count: 1,}],
       // avaliable: [
       //   '2XS',
       //   'XS',
@@ -132,7 +134,6 @@ export default {
   },
 
   methods: {
-
     getAvailableSizes() {
       console.log('call')
       let res = []
@@ -165,6 +166,10 @@ export default {
       this.sizes.splice(index, 1)
     },
   },
+
+  created() {
+    this.addSize()
+  }
 }
 </script>
 
@@ -204,6 +209,11 @@ export default {
 .gd-add-btn {
   color: white;
   border-radius: 50%;
+}
+
+.gd-add-btn:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .gd-add-btn-del {

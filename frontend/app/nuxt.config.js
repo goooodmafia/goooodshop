@@ -144,6 +144,22 @@ export default {
     },
     differentDomains: true,
     detectBrowserLanguage: false,
+
+    parsePages: false,
+    pages: {
+      size: {
+        ru: '/sizes',
+        en: '/sizes',
+      },
+      wholesale:{
+        ru:'/molodezhnaya-odezhda-optom',
+        en:'/wholesale'
+      },
+      reviews:{
+        ru:'/otzyvy',
+        en:'/reviews'
+      }
+    }
   },
 
   apollo: {

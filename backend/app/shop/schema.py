@@ -124,15 +124,15 @@ class ProductType(DjangoObjectType):
 
     def resolve_sizes(self, info):
         return [
-            {'size':'size_ns', 'count': self.size_ns},
-            {'size':'size_xs', 'count': self.size_xs},
-            {'size':'size_s', 'count': self.size_s},
-            {'size':'size_m', 'count': self.size_m},
-            {'size':'size_l', 'count': self.size_l},
-            {'size':'size_xl', 'count': self.size_xl},
-            {'size':'size_2xl', 'count': self.size_2xl},
-            {'size':'size_3xl', 'count': self.size_3xl},
-            {'size':'size_4xl', 'count': self.size_4xl},
+            {'size':'NoSize', 'count': self.size_ns},
+            {'size':'XS', 'count': self.size_xs},
+            {'size':'S', 'count': self.size_s},
+            {'size':'M', 'count': self.size_m},
+            {'size':'L', 'count': self.size_l},
+            {'size':'XL', 'count': self.size_xl},
+            {'size':'2XL', 'count': self.size_2xl},
+            {'size':'3XL', 'count': self.size_3xl},
+            {'size':'4XL', 'count': self.size_4xl},
         ]
 
     class Meta:

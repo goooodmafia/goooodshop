@@ -94,7 +94,7 @@
 
 
 
-                <AddSize :avaliable="['NS', 'M', '3XL']"/>
+                <AddSize :avaliable="avaliableSizes"/>
 
               <div class="product-additionally">
                 <div class="product-additionally__size">
@@ -314,9 +314,14 @@ export default {
 
     avaliableSizes() {
       let res = []
-      this.product.sizes.forEach((el)=>{
-      })
-      return
+      if(this.product.sizes) {
+        this.product.sizes.forEach((el) => {
+          if (el.count > 0) {
+            res.push(el.size)
+          }
+        })
+      }
+      return res
     }
   },
 

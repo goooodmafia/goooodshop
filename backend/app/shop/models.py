@@ -217,6 +217,9 @@ class Product(TranslatableModel):
     price_opt_4 = models.IntegerField(blank=False, default=0, verbose_name='Опт от 110000')
 
     size_ns = models.IntegerField(blank=False, default=0, verbose_name='Без размера')
+    size_4xs = models.IntegerField(blank=False, default=0, verbose_name='4XS размер')
+    size_3xs = models.IntegerField(blank=False, default=0, verbose_name='3XS размер')
+    size_2xs = models.IntegerField(blank=False, default=0, verbose_name='2XS размер')
     size_xs = models.IntegerField(blank=False, default=0, verbose_name='XS размер')
     size_s = models.IntegerField(blank=False, default=0, verbose_name='S размер')
     size_m = models.IntegerField(blank=False, default=0, verbose_name='M размер')
