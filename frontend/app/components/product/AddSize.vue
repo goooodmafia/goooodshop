@@ -1,5 +1,5 @@
 <template>
-  <div class="product-options">
+  <div class="product-options" v-if="sizes.length > 0">
     <div class="product-size" v-for="item,index in sizes" :key="index">
       <!--  <div class="product-size">-->
       <div class="product-options__title">Размер:</div>
@@ -16,7 +16,7 @@
 
       <b-form-select
         v-model="item.size"
-        :options="avaliable"
+        :options="getAvailableSizes().push(item.size)"
         class="rounded-0 product-size__count"
       ></b-form-select>
 
@@ -30,7 +30,7 @@
       <!--    <MySpinButton :value="value" @input="someMethod($event)"/>-->
 
       <!--    <b-badge variant="success">В корзине</b-badge>-->
-<!--      <template v-if="index === (avaliable.length-1)"/>-->
+      <!--      <template v-if="index === (avaliable.length-1)"/>-->
 
       <b-button v-if="(index === (sizes.length-1)) & (index !== (avaliable.length-1))"
                 variant="outline-warning"
@@ -102,122 +102,127 @@
     </div>
   </div>
 
+
+  <div class="product-options" v-else>
+    <div class="product-size">{{ $t('page.product.not_in_stock') }}</div>
+  </div>
+
 </template>
 
 <script>
 
-import MySpinButton from '~/components/layout/MySpinButton.vue'
+  import MySpinButton from '~/components/layout/MySpinButton.vue'
 
-export default {
+  export default {
 
-  components: {MySpinButton},
+    components: {MySpinButton},
 
-  props:['avaliable'],
+    props: ['avaliable'],
 
-  data() {
-    return {
-      sizes: [],
-      // sizes: [{size: "M", count: 1,}],
-      // avaliable: [
-      //   '2XS',
-      //   'XS',
-      //   'S',
-      //   'S',
-      //   'M',
-      //   'L',
-      //   'XL',
-      //   '2XL',
-      //   '3XL',
-      //   '4XL',
-      // ]
-    }
-  },
-
-  methods: {
-    getAvailableSizes() {
-      console.log('call')
-      let res = []
-      this.avaliable.forEach((element) => {
-        this.sizes.forEach((size) => {
-
-          if (element === size.size) {
-            // console.log(`${element} === ${size.size}`)
-            res.push(element)
-          }
-        })
-      })
-      return this.avaliable.filter((el) => !res.includes(el))
-    },
-
-    addSize() {
-      let a = this.getAvailableSizes()
-      console.log(a)
-      console.log(this.sizes)
-      if (a.length > 0) {
-        this.sizes.push(
-          {
-            size: a[0],
-            count: 1,
-          }
-        )
+    data() {
+      return {
+        sizes: [],
+        // sizes: [{size: "M", count: 1,}],
+        // avaliable: [
+        //   '2XS',
+        //   'XS',
+        //   'S',
+        //   'S',
+        //   'M',
+        //   'L',
+        //   'XL',
+        //   '2XL',
+        //   '3XL',
+        //   '4XL',
+        // ]
       }
     },
-    removeSize(index) {
-      this.sizes.splice(index, 1)
-    },
-  },
 
-  created() {
-    this.addSize()
+    methods: {
+      getAvailableSizes() {
+        console.log('call')
+        let res = []
+        this.avaliable.forEach((element) => {
+          this.sizes.forEach((size) => {
+
+            if (element === size.size) {
+              // console.log(`${element} === ${size.size}`)
+              res.push(element)
+            }
+          })
+        })
+        return this.avaliable.filter((el) => !res.includes(el))
+      },
+
+      addSize() {
+        let a = this.getAvailableSizes()
+        console.log(a)
+        console.log(this.sizes)
+        if (a.length > 0) {
+          this.sizes.push(
+            {
+              size: a[0],
+              count: 1,
+            }
+          )
+        }
+      },
+      removeSize(index) {
+        this.sizes.splice(index, 1)
+      },
+    },
+
+    created() {
+      this.addSize()
+    }
   }
-}
 </script>
 
 <style lang="scss">
 
-//@import "gd/vars";
+  //@import "gd/vars";
 
-.gd-prod {
-  color: white;
-  background-color: transparent;
-}
+  .gd-prod {
+    color: white;
+    background-color: transparent;
+  }
 
-.product-options__title {
-  display: inline-block;
-}
+  .product-options__title {
+    display: inline-block;
+  }
 
-.product-size div.form-control, .custom-select {
-  vertical-align: middle;
-  background-color: transparent;
-  color: white;
-  border: 1px solid #91b9ff;
-}
+  .product-size div.form-control, .custom-select {
+    vertical-align: middle;
+    background-color: transparent;
+    color: white;
+    border: 1px solid #91b9ff;
+  }
 
-.product-size .custom-select {
-  width: auto;
-}
+  .product-size .custom-select {
+    width: auto;
+  }
 
-.product-size .custom-select option {
-  background-color: #1f4ea3;
-}
+  .product-size .custom-select option {
+    background-color: #1f4ea3;
+  }
 
-.product-size div.form-control.focus {
-  color: white;
-  background-color: transparent;
-}
+  .product-size div.form-control.focus {
+    color: white;
+    background-color: transparent;
+  }
 
-.gd-add-btn {
-  color: white;
-  border-radius: 50%;
-}
+  .gd-add-btn {
+    color: white;
+    border-radius: 50%;
+  }
 
-.gd-add-btn:focus {
-  outline: none;
-  box-shadow: none;
-}
+  .gd-add-btn:focus {
+    outline: none;
+    box-shadow: none;
+  }
 
-.gd-add-btn-del {
-  transform: rotate(45deg);
-}
+  .gd-add-btn-del {
+    transform: rotate(45deg);
+  }
 
 </style>
