@@ -156,7 +156,10 @@
 
       getAvailableSizeOptions(current_size){
         let r = this.getAvailableSizes()
-        return r.push(current_size)
+        r.push(current_size)
+
+        console.log(r)
+        return r
       },
 
       addSize() {
@@ -193,18 +196,24 @@
   }
 
   .product-options__title {
-    display: inline-block;
+    //display: inline-block;
   }
 
   .product-size div.form-control, .custom-select {
-    vertical-align: middle;
+    //vertical-align: middle;
     background-color: transparent;
     color: white;
     border: 1px solid #91b9ff;
   }
 
+    .product-size{
+      display: flex;
+      justify-content: space-between;
+    }
+
   .product-size .custom-select {
-    width: auto;
+    width: 100px;
+    //width: auto;
   }
 
   .product-size .custom-select option {
