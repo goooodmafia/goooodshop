@@ -1,6 +1,6 @@
 <template>
   <div class="product-options" v-if="sizes.length > 0">
-    <div class="product-size" v-for="item,index in sizes" :key="index">
+    <div class="product-size" v-for="(item,index) in sizes" :key="index">
       <!--  <div class="product-size">-->
       <div class="product-options__title">Размер:</div>
       <!--    <p class="">Размер:</p>-->
@@ -16,7 +16,7 @@
 
       <b-form-select
         v-model="item.size"
-        :options="getAvailableSizes().push(item.size)"
+        :options="getAvailableSizeOptions(item.size)"
         class="rounded-0 product-size__count"
       ></b-form-select>
 
@@ -152,6 +152,11 @@
           })
         })
         return this.avaliable.filter((el) => !res.includes(el))
+      },
+
+      getAvailableSizeOptions(current_size){
+        let r = this.getAvailableSizes()
+        return r.push(current_size)
       },
 
       addSize() {
