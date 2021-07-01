@@ -94,7 +94,7 @@
 
 
 
-                <AddSize :avaliable="avaliableSizes"/>
+                <AddSize :avaliable="avaliableSizes()"/>
 
               <div class="product-additionally">
                 <div class="product-additionally__size">
@@ -305,13 +305,6 @@ export default {
       }
     },
 
-  },
-  computed: {
-
-    categories() {
-      return this.$store.state.categories.list
-    },
-
     avaliableSizes() {
       let res = []
       if(this.product.sizes) {
@@ -323,6 +316,17 @@ export default {
       }
       return res
     }
+
+  },
+
+
+  computed: {
+
+    categories() {
+      return this.$store.state.categories.list
+    },
+
+
   },
 
 }
