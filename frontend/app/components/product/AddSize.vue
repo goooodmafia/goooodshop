@@ -138,6 +138,12 @@
       }
     },
 
+    watch:{
+      avaliable:function () {
+        this.initSize()
+      }
+    },
+
     methods: {
       getAvailableSizes() {
         console.log('call')
@@ -178,10 +184,14 @@
       removeSize(index) {
         this.sizes.splice(index, 1)
       },
+
+      initSize(){
+        this.sizes = []
+        this.addSize()
+      }
     },
 
     created() {
-      this.addSize()
     }
   }
 </script>
