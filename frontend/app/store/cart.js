@@ -19,14 +19,13 @@ export const getters = {
 
 export const mutations = {
   ADD_TO_CART(state, sku) {
-
     let obj = {}
     obj[sku] = {
       size: {
-        'size_ns': 0,
-        'size_xs': 0,
-        'size_s': 0,
-        'size_m': 0,
+        'NoSizw': 0,
+        'XS': 0,
+        'S': 0,
+        'M': 0,
         'size_l': 0,
         'size_xl': 0,
         'size_2xl': 0,
@@ -35,12 +34,12 @@ export const mutations = {
       },
       price: 0
     }
-    state.products = {...state.cart, ...obj}
+    state.products = {...state.products, ...obj}
     state.productsSkuList.push(sku)
   },
 
-  INCREASE_SIZE(state, sku, size) {
-    // state.cart[sku].size[size] += 1
+  INCREASE_SIZE(state, payload) {
+    state.products[payload.sku].size[payload.size] += payload.count
   }
 }
 
@@ -56,7 +55,7 @@ export const actions = {
 
   increaseSize({commit, getters, dispatch}, payload) {
     dispatch('addToCart', payload)
-    commit('INCREASE_SIZE', payload.sku, payload.size)
+    commit('INCREASE_SIZE', payload)
   },
 
   decreaseSize({commit}, payload) {

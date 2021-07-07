@@ -23,7 +23,7 @@
 
         <div class="row">
           <div class="col">
-            <CartWidget :items="cart"/>
+            <CartWidget :items="products"/>
           </div>
         </div>
       </div>
@@ -57,12 +57,12 @@ export default {
   },
 
   computed:{
-    ...mapState('cart', ['cart', 'wishes']),
+    ...mapState('cart', ['products', 'wishes']),
   },
   methods: {
     onClick(sku) {
-      this.$store.dispatch('cart/addToCart', {sku:'14-1817', size:'XS'})
-      // this.$store.dispatch('cart/increaseSize', {sku:'14-1817', size:'XS'})
+      // this.$store.dispatch('cart/addToCart', {sku:'14-1817', size:'XS'})
+      this.$store.dispatch('cart/increaseSize', {sku:'14-1817', size:'XS', count:9})
     }
   }
 }

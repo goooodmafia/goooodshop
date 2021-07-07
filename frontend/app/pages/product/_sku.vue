@@ -86,36 +86,21 @@
               </div>
               <div class="product-price">
                 <div class="product-price__new">{{ product.price }} руб.</div>
-                <!--                <div class="product-price__holder">-->
-                <!--                  <div class="product-price__old">2000 руб.</div>-->
-                <!--                  <div class="product-price__sale">-30%</div>-->
-                <!--                </div>-->
-              </div>
-
-
-
-                <AddSize :avaliable="avaliableSizes()"/>
-
-              <div class="product-additionally">
-                <div class="product-additionally__size">
-                  <nuxt-link :to="localePath('size')" class="size-link">Таблица размеров</nuxt-link>
-                </div>
-                <!-- <div class="product-additionally__reviews">-->
-                <!--   <a href="#" class="reviews-link">Отзывы</a>-->
+                <!-- <div class="product-price__holder">-->
+                <!--   <div class="product-price__old">2000 руб.</div>-->
+                <!--   <div class="product-price__sale">-30%</div>-->
                 <!-- </div>-->
               </div>
 
 
-              <div class="product-actions">
-                <div class="product-actions__btn">
-                  <a href="#" class="gd-btn gd-btn--orange-bg gd-btn--to-order">Купить</a>
-                </div>
-                <div class="product-actions__to-fav">
-                  <a href="#" class="to-favourites">Добавить в избранное</a>
-                </div>
-              </div>
+
+              <AddSize :avaliable="avaliableSizes()" :sku="getSku()"/>
+
 
             </div>
+
+
+
           </div>
 
           <div class="product-wrap">
