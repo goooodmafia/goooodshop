@@ -2,7 +2,7 @@
   <div class="basket">
     <div class="basket__in">
       <table class="basket__table">
-        <CartWidgetItem v-for="(item,index) in items" :item="item" :sku="index" :key="index"/>
+        <CartWidgetItem v-for="(item,index) in items" :item="item" :sku="item.sku" :key="index"/>
       </table>
     </div>
   </div>

@@ -9,7 +9,7 @@
       <div class="container">
         <div class="row">
           <div class="col">
-            <div class="gd-btn" @click="onClick">Купить</div>
+            <div class="gd-btn" @click="onClick('14-1718')">Купить</div>
           </div>
         </div>
         <div class="row">
@@ -59,8 +59,12 @@ export default {
   computed:{
     ...mapState('cart', ['products', 'wishes']),
   },
+
   methods: {
+
     onClick(sku) {
+
+      console.log('click')
       // this.$store.dispatch('cart/addToCart', {sku:'14-1817', size:'XS'})
       this.$store.dispatch('cart/increaseSize', {sku:'14-1817', size:'XS', count:9})
     }

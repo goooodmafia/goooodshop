@@ -24,20 +24,22 @@
     <SizeCountWidget :item="item" :price="product.price"/>
 
     <td class="basket__to-fav basket__cell">
-      <a href="#" class="to-favourites">В избранное</a></td>
+      <a href="#" class="to-favourites">В избранное</a>
+    </td>
     <td class="basket__del basket__cell">
-      <a href="#" class="gd-btn gd-btn--delete" title="Удалить"></a>
+      <b-button @click="removeFromCart(product.sku)" class="gd-btn gd-btn--delete" title="Удалить"></b-button>
     </td>
 
   </tr>
 </template>
 <script>
 import PRODUCT from "~/api/query/product.graphql"
-import SizeCountWidget from "../../pages/cart/SizeCountWidget";
+import SizeCountWidget from "./SizeCountWidget";
 
 
 export default {
   components: {SizeCountWidget},
+
   props: ['item', 'sku'],
 
   data() {
@@ -58,6 +60,15 @@ export default {
         }
       },
     }
-  }
+  },
+  methods:{
+    removeFromCart(sku){
+      console.log(sku)
+      this.$store.dispatch(
+          'cart/removeFromCart',
+        {sku:sku}
+      )
+    }
+  },
 }
 </script>

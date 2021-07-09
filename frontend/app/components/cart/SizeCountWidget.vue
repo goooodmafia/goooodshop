@@ -7,10 +7,21 @@
     </div>
     <!-- <template v-for="s in getSizes">-->
     <template v-for="s in this.item.size">
-      <div class="row" v-if="s.count>0">
+      <div class="row" v-if="s.count > 0">
+<!--      <div class="row">-->
         <div class="col basket__value">{{ s.size }}</div>
-<!--        <div class="col basket__value">{{ s.count }}</div>-->
-<!--        <div class="col basket__value">{{ s.count * price }} руб.</div>-->
+        <div class="col basket__value">
+
+<!--          {{ s.count }}-->
+          <b-form-spinbutton
+            v-model="s.count"
+            inline
+            variant="outline-warning"
+            class="rounded-0 product-size__count"
+          ></b-form-spinbutton>
+
+        </div>
+        <div class="col basket__value">{{ s.count * price }} руб.</div>
       </div>
     </template>
 
@@ -23,25 +34,7 @@ export default {
 
   computed: {
     getSizes() {
-      let r = []
-      console.log(this.item.size)
-      console.log(this.item.sizes)
-      // this.item.size.forEach((el)=>{
-      //   if (el.count > 0){
-      //     r.push(el)
-      //   }
-      // })
 
-      for (var size in this.item.size) {
-        console.log(size)
-        console.log(this.item.size[size])
-        if (this.item.size[size] > 0) {
-          console.log('hit')
-          r.push({size: size, count: this.item.size[size]})
-        }
-      }
-      console.log(r)
-      return r
     }
   }
 }
@@ -52,6 +45,11 @@ export default {
   display: inline-grid;
   grid-template-columns: auto auto auto;
 }
+.col.basket__headline, .col.basket__value{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 </style>
 
 
