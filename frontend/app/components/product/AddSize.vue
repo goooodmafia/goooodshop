@@ -1,5 +1,8 @@
 <template>
   <div>
+<!--    <div class="product-options" v-if="messages.length > 0">-->
+<!--      <div class="alert alert-success" v-for="(message, index) in messages" :key="index">{{ message }}</div>-->
+<!--    </div>-->
     <div class="product-options" v-if="sizes.length > 0">
       <div class="product-size" v-for="(item,index) in sizes" :key="index">
 
@@ -68,11 +71,12 @@ export default {
 
   components: {MySpinButton},
 
-  props: ['avaliable', 'sku'],
+  props: ['avaliable', 'sku', 'price'],
 
   data() {
     return {
       sizes: [],
+      // messages: ['алерт']
     }
   },
 
@@ -83,6 +87,15 @@ export default {
   },
 
   methods: {
+
+    makeToast(sku, size, count) {
+      this.$bvToast.toast(`${size} - ${count}шт.`, {
+        title: `Арт ${sku} добавлен в корзину`,
+        variant: 'success',
+        solid: true
+      })
+    },
+
     getAvailableSizes() {
       let res = []
       this.avaliable.forEach((element) => {
@@ -130,10 +143,13 @@ export default {
           {
             sku: this.sku,
             size: item.size,
-            count: item.count
+            count: item.count,
+            price: this.price
           }
         )
         this.initSize()
+        this.makeToast(this.sku, item.size, item.count)
+        // this.messages.push(`Арт. ${this.sku}(${item.size}) - ${item.count} добавлен в корзину`)
 
       })
 

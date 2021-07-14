@@ -1,0 +1,13 @@
+mutation(
+  $email:String!
+  $password:String!
+){
+  getPrice(email:$email password:$password){
+    token
+    success
+    errors
+    user{
+      email
+    }
+  }
+}

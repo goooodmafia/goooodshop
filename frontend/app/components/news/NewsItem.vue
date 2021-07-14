@@ -9,7 +9,7 @@
     >
       <div class="news__date">{{ item.viewDate }}</div>
       <div class="news__actions">
-        <nuxt-link class="btn" :to="localePath(item.link)">Купить</nuxt-link>
+        <nuxt-link class="gd-btn" :to="localePath(item.link)">Купить</nuxt-link>
       </div>
     </nuxt-link>
     <div

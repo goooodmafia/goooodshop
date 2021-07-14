@@ -94,7 +94,7 @@
 
 
 
-              <AddSize :avaliable="avaliableSizes()" :sku="getSku()"/>
+              <AddSize :avaliable="avaliableSizes()" :sku="getSku()" :price="product.price"/>
 
 
             </div>

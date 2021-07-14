@@ -23,10 +23,30 @@ export const getters = {
     }
     return c
   },
-  //
-  // cartCount(state,) {
-  //   return state.productsSkuList.length
-  // },
+
+  getTotalCount: (state) => {
+    var c = 0
+    state.products.forEach((p) => {
+      p.size.forEach((s) => {
+        c += s.count
+      })
+    })
+    return c
+  },
+  getTotalPrice: (state) => {
+    var total = 0
+    state.products.forEach((p) => {
+      p.size.forEach((s) => {
+        total += s.count * p.price
+      })
+    })
+    return total
+  },
+
+  cartCount(state,) {
+    return state.products.length
+  },
+
   is_in_cart: (state) => (sku) => {
     console.log('is_in_cart')
     const index = state.products.findIndex(p => p.sku === sku)
@@ -36,10 +56,11 @@ export const getters = {
 
 
 export const mutations = {
-  ADD_TO_CART(state, sku) {
+  ADD_TO_CART(state, payload) {
     state.products.push(
       {
-        sku: sku,
+        sku: payload.sku,
+        price: payload.price,
         size: [
           {size: '4XS', count: 0},
           {size: '3XS', count: 0},
@@ -70,10 +91,13 @@ export const mutations = {
   },
 
   SET_SIZE(state, payload) {
+    console.log('SET_SIZE')
+    console.log(payload)
 
     const pindex = state.products.findIndex(p => p.sku === payload.sku)
     if (pindex !== -1) {
       const sindex = state.products[pindex].size.findIndex(s => s.size === payload.size)
+      state.products[pindex].price = payload.price
       state.products[pindex].size[sindex].count = payload.count
     }
     // let getSizeIndex = state.products[payload.sku]
@@ -87,8 +111,9 @@ export const mutations = {
 export const actions = {
   addToCart({commit, getters}, payload) {
     console.log('addToCart')
+    console.log(payload)
     if (!getters.is_in_cart(payload.sku)) {
-      commit('ADD_TO_CART', payload.sku)
+      commit('ADD_TO_CART', {sku:payload.sku, price:payload.price})
     }
   },
 
@@ -103,7 +128,7 @@ export const actions = {
 
     const c = getters.getCountBySize(payload.sku, payload.size)
 
-    commit('SET_SIZE', {sku: payload.sku, size: payload.size, count: c + payload.count})
+    commit('SET_SIZE', {sku: payload.sku, size: payload.size, count: c + payload.count, price: payload.price})
   },
 
   decreaseSize({commit, dispatch}, payload) {
@@ -112,7 +137,7 @@ export const actions = {
     if (c - payload.count < 1) {
       dispatch('removeFromCart', payload)
     } else {
-      commit('SET_SIZE', {sku: payload.sku, size: payload.size, count: c - payload.count})
+      commit('SET_SIZE', {sku: payload.sku, size: payload.size, count: c - payload.count, price: payload.price})
     }
   }
 }

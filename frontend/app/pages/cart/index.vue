@@ -7,11 +7,11 @@
     </template>
     <template>
       <div class="container">
-        <div class="row">
-          <div class="col">
-            <div class="gd-btn" @click="onClick('14-1718')">Купить</div>
-          </div>
-        </div>
+<!--        <div class="row">-->
+<!--          <div class="col">-->
+<!--            <div class="gd-btn" @click="onClick()">Купить</div>-->
+<!--          </div>-->
+<!--        </div>-->
         <div class="row">
           <div class="col">
             <div class="toggle-heading">
@@ -62,11 +62,14 @@ export default {
 
   methods: {
 
-    onClick(sku) {
+    onClick() {
+      this.$store.dispatch('cart/increaseSize', {sku:'14-1817', price:999, size:'XS', count:2})
+      this.$store.dispatch('cart/increaseSize', {sku:'14-1817', price:999, size:'S', count:3})
+      this.$store.dispatch('cart/increaseSize', {sku:'14-1817', price:999, size:'M', count:4})
 
-      console.log('click')
-      // this.$store.dispatch('cart/addToCart', {sku:'14-1817', size:'XS'})
-      this.$store.dispatch('cart/increaseSize', {sku:'14-1817', size:'XS', count:9})
+      this.$store.dispatch('cart/increaseSize', {sku:'14-1773', price:999, size:'L', count:2})
+      this.$store.dispatch('cart/increaseSize', {sku:'14-1773', price:999, size:'S', count:3})
+      this.$store.dispatch('cart/increaseSize', {sku:'14-1773', price:999, size:'M', count:4})
     }
   }
 }

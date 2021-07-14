@@ -43,7 +43,7 @@ export default {
 
   data() {
     return {
-      products: {items:[]},
+      products: {items: []},
       news: [],
     }
   },
@@ -84,8 +84,8 @@ export default {
           colors: '',
           effects: '',
           tags: '',
-          hit:true,
-          new:false,
+          hit: true,
+          new: false,
           query: '',
           order: 'Random',
         }
@@ -144,4 +144,3 @@ export default {
 /*}*/
 
 </style>
-

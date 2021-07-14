@@ -1,6 +1,6 @@
 <template>
-  <div :class="['help__item',{'is-active': show}]" @click="toggle()">
-    <div class="help__title">
+  <div :class="['help__item',{'is-active': show}]">
+    <div class="help__title" @click="toggle()">
       <div class="help__title-in">{{ item.title }}&nbsp;<span class="help__arrow"></span></div>
     </div>
     <div class="help__content" v-if="show">

@@ -2,6 +2,34 @@
   <div class="main-slider">
     <div class="js-slider slider main-slider__wrapper">
       <hooper style="height: 100%" :settings="settings">
+        <slide>
+          <div class="index-video-viewport">
+            <video autoplay muted loop class="index-video">
+              <source src="static/video/Good-fluro-power.mp4" type="video/mp4">
+            </video>
+
+          </div>
+
+<!--          <div class="main-slider__slide slider__slide">-->
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <div class="main-slider__content">
+                    <div class="main-slider__holder">
+                      <div class="main-slider__heading heading heading--h1">
+                        <div>Title</div>
+                      </div>
+                      <div class="main-slider__text">text</div>
+                      <div class="main-slider__actions">
+                        <nuxt-link :to="localePath('index')" class="gd-btn">Купить</nuxt-link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+<!--          </div>-->
+        </slide>
         <slide v-for="(item,key) in items" :key="key">
           <div class="main-slider__slide slider__slide"
                :style="{backgroundImage: 'url(' + item.img + ')', backgroundColor:item.color}">
@@ -150,6 +178,29 @@ export default {
     left: 0;
     opacity: 1;
   }
+}
+
+.index-video-viewport {
+  position: relative;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  /*z-index: -100;*/
+  background-size: cover;
+  overflow: hidden;
+}
+
+.index-video {
+  position: fixed;
+  /*right: auto;*/
+  /*left: auto;*/
+  /*top: -50%;*/
+  /*bottom: auto;*/
+  min-width: 100%;
+  min-height: 100%;
 }
 
 </style>
