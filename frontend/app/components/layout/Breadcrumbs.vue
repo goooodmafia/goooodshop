@@ -2,7 +2,7 @@
   <div class="row">
     <slot name="sidebar"/>
 
-    <div class="col">
+    <div class="col content">
 
       <template v-if="showBack">
         <div class="product-head">

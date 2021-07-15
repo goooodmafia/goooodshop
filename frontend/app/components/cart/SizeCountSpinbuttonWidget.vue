@@ -3,7 +3,7 @@
     v-model="count"
     inline
     variant="outline-warning"
-    class="rounded-0 product-size__count"
+    class="rounded-0 product-size__count form-spinbutton"
   ></b-form-spinbutton>
 </template>
 
@@ -40,12 +40,12 @@ export default {
   padding-right: 10px;
 }
 
-.form-control {
+.form-spinbutton.form-control {
   background-color: transparent;
   color: white;
   border: 1px solid #91b9ff;
 }
-.form-control.focus {
+.form-spinbutton.form-control.focus {
   color: white;
   background-color: transparent;
 }

@@ -150,10 +150,19 @@
                 <h3>Товары с этим дизайном</h3>
               </div>
               <div class="same-design__list">
-                <CatalogItem :item="item" v-for="(item, index) in products.items" :key="index"/>
+                <CatalogItem :item="item" v-for="(item, index) in same_products.items" :key="index"/>
               </div>
             </div>
 
+          </div>
+
+          <div class="similar">
+            <div class="heading heading--h2">
+              <h4>Похожие товары</h4>
+            </div>
+            <div class="similar__list">
+              <CatalogItem :item="item" v-for="(item, index) in simular_products.items" :key="index" class="simular_catalog"/>
+            </div>
           </div>
 
 
@@ -162,8 +171,8 @@
       </Breadcrumbs>
 
     </div>
-    <light-box v-if="product && product.mediaFiles.length>0" ref="lightbox" :media="product.mediaFiles"
-               :showThumbs="false" :showLightBox="false"></light-box>
+<!--    <light-box v-if="product && product.mediaFiles.length>0" ref="lightbox" :media="product.mediaFiles"-->
+<!--               :showThumbs="false" :showLightBox="false"></light-box>-->
 
   </Wrapper>
 </template>
@@ -205,6 +214,7 @@ export default {
         itemsToShow: 4,
         infiniteScroll: true,
       },
+
       product: {
         sku: '',
         model: '',
@@ -223,12 +233,12 @@ export default {
         glowInTheUv: '',
         slug: '',
       },
-      products: {items: []},
+      same_products: {items: []},
+      simular_products:{items:[]}
     }
   },
 
   apollo: {
-
     product: {
       query: PRODUCT,
       variables() {
@@ -239,7 +249,7 @@ export default {
       },
     },
 
-    products: {
+    same_products: {
       query: PRODUCTS,
       variables() {
         return {
@@ -258,25 +268,53 @@ export default {
         }
       },
       skip: true,
+      update: data => data.products
+    },
+
+    simular_products: {
+      query: PRODUCTS,
+      variables() {
+        return {
+          languageCode: this.$i18n.locale.toUpperCase(),
+          pageSize: 4,
+          page: 1,
+          route: '',
+          sizes: '',
+          colors: '',
+          effects: '',
+          tags: '',
+          hit: false,
+          new: false,
+          query: '',
+          order: 'Random'
+        }
+      },
+      skip: true,
+      update: data => data.products
     },
   },
 
   watch: {
     product() {
-      this.$apollo.queries.products.skip = false
-      this.$apollo.queries.products.refetch({
+      this.$apollo.queries.same_products.skip = false
+      this.$apollo.queries.same_products.refetch({
         tags: this.product.tags.join()
+      })
+
+      this.$apollo.queries.simular_products.skip = false
+      this.$apollo.queries.simular_products.refetch({
+        route: this.product.category.link
       })
 
       const pathArray = this.product.category.link.split('/')
       this.$data.currentpath = pathArray.slice(pathArray.indexOf('category') + 1)
-
-      // this.$refs.slider_nav.update()
-      // this.$refs.slider_main.update()
     }
   },
 
   methods: {
+    // getRoute(){
+    //   return this.$route.path
+    // },
     getSku() {
       return this.$route.params.sku
     },
@@ -301,17 +339,13 @@ export default {
       }
       return res
     }
-
   },
 
 
   computed: {
-
     categories() {
       return this.$store.state.categories.list
     },
-
-
   },
 
 }
@@ -337,12 +371,8 @@ export default {
   /*  fill: white;*/
 }
 
-/*.hooper-navigation.is-vertical .hooper-prev {*/
-/*  top: -42px;*/
-/*}*/
-
-/*.hooper-navigation.is-vertical .hooper-next {*/
-/*  bottom: -32px;*/
-/*}*/
+.simular_catalog {
+    margin: 0;
+}
 
 </style>
