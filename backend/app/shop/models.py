@@ -153,6 +153,13 @@ class Tag(models.Model):
         verbose_name_plural = 'теги'
 
 
+class SexChoise(models.TextChoices):
+    MALE = 'Мужское'
+    FEMALE = 'Женское'
+    KIDS = 'Детское'
+    UNISEX = 'Унисекс'
+
+
 class Product(TranslatableModel):
     sku = models.CharField(max_length=256, unique=True, verbose_name='Артикул')
     model = models.CharField(blank=False, default='', max_length=128, verbose_name='Модель')
@@ -183,6 +190,11 @@ class Product(TranslatableModel):
         related_name='products',
         verbose_name='Цвета'
     )
+    sex = models.CharField(
+        max_length=10,
+        choices=SexChoise.choices,
+        default=SexChoise.MALE,
+    )
 
     thumbnail = models.OneToOneField(
         MediaFile,
@@ -210,11 +222,12 @@ class Product(TranslatableModel):
     # )
 
     price_ret = models.IntegerField(blank=False, default=0, verbose_name='Розничная цена')
+    price_ret_sale = models.IntegerField(blank=False, default=0, verbose_name='Розничная цена, с учетом скидки')
     price_opt_m = models.IntegerField(blank=False, default=0, verbose_name='Мелкий Опт')
     price_opt_1 = models.IntegerField(blank=False, default=0, verbose_name='Опт от 11000')
-    price_opt_2 = models.IntegerField(blank=False, default=0, verbose_name='Опт от 30000')
-    price_opt_3 = models.IntegerField(blank=False, default=0, verbose_name='Опт от 70000')
-    price_opt_4 = models.IntegerField(blank=False, default=0, verbose_name='Опт от 110000')
+    price_opt_2 = models.IntegerField(blank=False, default=0, verbose_name='- 3% от 30000')
+    price_opt_3 = models.IntegerField(blank=False, default=0, verbose_name='- 7% от 70000')
+    price_opt_4 = models.IntegerField(blank=False, default=0, verbose_name='- 11% от 110000')
 
     size_ns = models.IntegerField(blank=False, default=0, verbose_name='Без размера')
     size_4xs = models.IntegerField(blank=False, default=0, verbose_name='4XS размер')
@@ -228,6 +241,8 @@ class Product(TranslatableModel):
     size_2xl = models.IntegerField(blank=False, default=0, verbose_name='2XL размер')
     size_3xl = models.IntegerField(blank=False, default=0, verbose_name='3XL размер')
     size_4xl = models.IntegerField(blank=False, default=0, verbose_name='4XL размер')
+    size_5xl = models.IntegerField(blank=False, default=0, verbose_name='5XL размер')
+    size_6xl = models.IntegerField(blank=False, default=0, verbose_name='6XL размер')
 
     new = models.BooleanField(default=True, verbose_name='Новинка')
     hit = models.BooleanField(default=False, verbose_name='Хит')

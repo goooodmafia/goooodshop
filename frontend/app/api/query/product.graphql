@@ -11,6 +11,7 @@ query(
     description(languageCode:$languageCode)
     content(languageCode:$languageCode)
     thumbnail
+    sex
     mediaFiles
     new
     hit

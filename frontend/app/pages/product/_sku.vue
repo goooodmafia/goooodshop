@@ -58,11 +58,12 @@
                 <hooper ref="slider_main"
                         :settings="options_main"
                         group="group"
-                        style="height: 554px"
+                        style="height:auto"
                 >
+<!--                  style="height: "-->
                   <template v-if="product.mediaFiles.length>0">
                     <slide v-for="(item, index) in product.mediaFiles" :key="index">
-                      <inner-image-zoom :src="item.src" :zoomSrc="item.src" :fullscreenOnMobile="true"/>
+                      <inner-image-zoom :src="item.src" :zoom="2" :zoomSrc="item.src" :fullscreenOnMobile="true"/>
                       <!--                      <div @click="openGallery(index)">-->
                       <!--                        <b-img-lazy blank-color="rgba(255, 255, 255, .3)" height="554px" center :src="item.src"/>-->
                       <!--                      </div>-->
@@ -224,6 +225,7 @@ export default {
         thumbnail: {
           link: '',
         },
+        sex:'',
         mediaFiles: [],
         new: '',
         hit: '',

@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.contrib.admin import register
 from import_export.admin import ImportExportModelAdmin, ExportMixin, ImportMixin
-from import_export.formats import base_formats
+
 from mptt.admin import MPTTModelAdmin
 from mptt.forms import MPTTAdminForm
 from parler.admin import TranslatableAdmin
 from parler.forms import TranslatableModelForm
 
+from shop.import_export.MyImportMixin import MyImportMixin
 from shop.models import Product, Category, Brand, MediaFile, Tag, Color
 from shop.import_export.resources import ProductResource
 
@@ -31,13 +32,7 @@ from adminsortable2.admin import SortableAdminMixin
 #         abstract = True
 
 
-class ImportExportMixinAdmin(ImportMixin, admin.ModelAdmin):
-    def get_import_formats(self):
-        formats = (
-            base_formats.XLS,
-        )
-        return [f for f in formats if f().can_import()]
-
+class ImportExportMixinAdmin(MyImportMixin, admin.ModelAdmin):
     class Meta:
         abstract = True
 
@@ -146,8 +141,10 @@ class ProductAdmin(TranslatableAdmin, ImportExportMixinAdmin, SortableAdminMixin
                 'tags',
                 'colors',
                 'thumbnail',
+                'sex',
                 'media_files',
                 'price_ret',
+                'price_ret_sale',
                 'price_opt_m',
                 'price_opt_1',
                 'price_opt_2',
@@ -155,6 +152,8 @@ class ProductAdmin(TranslatableAdmin, ImportExportMixinAdmin, SortableAdminMixin
                 'price_opt_4',
                 'total_count',
                 'size_ns',
+                'size_3xs',
+                'size_2xs',
                 'size_xs',
                 'size_s',
                 'size_m',
@@ -163,6 +162,8 @@ class ProductAdmin(TranslatableAdmin, ImportExportMixinAdmin, SortableAdminMixin
                 'size_2xl',
                 'size_3xl',
                 'size_4xl',
+                'size_5xl',
+                'size_6xl',
                 'new',
                 'hit',
                 'sale',

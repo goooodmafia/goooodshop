@@ -33,6 +33,7 @@ query(
       mediaFiles
       colors
       category
+      sex
       new
       hit
       sale

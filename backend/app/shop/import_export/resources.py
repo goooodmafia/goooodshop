@@ -5,7 +5,7 @@ from import_export.fields import Field
 
 from shop.models import Product, Tag, Brand, Category, Color, MediaFile
 from shop.import_export.widgets import MyGetForeignKeyWidget, MyGetManyToManyWidget, \
-    MyCategoriesWidget
+    MyCategoriesWidget, MySexWidget
 
 from django.utils.text import slugify
 
@@ -117,7 +117,16 @@ class ProductResource(VerboseNameModelResource):
         widget=widgets.IntegerWidget()
     )
 
-    price_ret = Field(default=0, attribute='price_ret', column_name='Розничная цена, р', widget=widgets.IntegerWidget())
+    sex = Field(
+        attribute='sex',
+        column_name='Описание',
+        widget=MySexWidget()
+    )
+
+    price_ret = Field(default=0, attribute='price_ret', column_name='Розничная цена, р',
+                      widget=widgets.IntegerWidget())
+    price_ret_sale = Field(default=0, attribute='price_ret_sale', column_name='Розничная цена, с учетом скидки, р',
+                           widget=widgets.IntegerWidget())
     price_opt_m = Field(default=0, attribute='price_opt_m', column_name='Мелкий опт от 10шт.',
                         widget=widgets.IntegerWidget())
     price_opt_1 = Field(default=0, attribute='price_opt_1', column_name='Опт. от 15000р',
@@ -129,7 +138,10 @@ class ProductResource(VerboseNameModelResource):
     price_opt_4 = Field(default=0, attribute='price_opt_4', column_name='- 11% от 110000р',
                         widget=widgets.IntegerWidget())
 
-    size_ns = Field(default=0, attribute='size_ns', column_name='*', widget=widgets.IntegerWidget())
+    size_ns = Field(default=0, attribute='size_ns', column_name='NO SIZE', widget=widgets.IntegerWidget())
+
+    size_3xs = Field(default=0, attribute='size_xxxs', column_name='XXXS', widget=widgets.IntegerWidget())
+    size_2xs = Field(default=0, attribute='size_xxs', column_name='XXS', widget=widgets.IntegerWidget())
     size_xs = Field(default=0, attribute='size_xs', column_name='XS (42)', widget=widgets.IntegerWidget())
     size_s = Field(default=0, attribute='size_s', column_name='S (44)', widget=widgets.IntegerWidget())
     size_m = Field(default=0, attribute='size_m', column_name='M (46)', widget=widgets.IntegerWidget())
@@ -215,6 +227,7 @@ class ProductResource(VerboseNameModelResource):
             'Цвет',
             'Состав',
             'Розничная цена, р',
+            'Розничная цена, с учетом скидки, р',
             'Мелкий опт от 10шт.',
             'Комиссия, р',
             'Опт. от 15000р',
@@ -223,9 +236,9 @@ class ProductResource(VerboseNameModelResource):
             '- 11% от 110000р',
             '',
             'Кол-во',
-            '*',
-            '',
-            '',
+            'NO SIZE',
+            'XXXS',
+            'XXS',
             'XS (42)',
             'S (44)',
             'M (46)',
@@ -233,7 +246,8 @@ class ProductResource(VerboseNameModelResource):
             'XL (50)',
             'XXL (52)',
             'XXХL (54-56)',
-            '4ХL (58)'
+            '4ХL (58)',
+            '5XL(62)'
         )
 
     class Meta:

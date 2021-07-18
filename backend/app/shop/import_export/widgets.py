@@ -33,6 +33,28 @@ class MyTagWidget(ManyToManyWidget):
             '%s__in' % self.field: ids
         })
 
+from shop.models import SexChoise
+
+class MySexWidget(Widget):
+    separator = ';'
+
+    def render(self, value, obj=None):
+        return SexChoise.MALE
+
+    def clean(self, value, row=None, *args, **kwargs):
+        if value == "":
+            return SexChoise.MALE
+
+        s_list = value.split(self.separator)
+        s_list = list(filter(None, [i.strip() for i in s_list]))
+        if len(s_list)>1:
+            return SexChoise.UNISEX
+
+        return {
+            'Мужское':SexChoise.MALE,
+            'Женское':SexChoise.FEMALE,
+            'Детское':SexChoise.KIDS,
+        }.get(s_list[0], SexChoise.MALE)
 
 class MyBooleanWidget(Widget):
     TRUE_VALUE = 'Y'

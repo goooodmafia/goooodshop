@@ -86,6 +86,7 @@ class ProductType(DjangoObjectType):
     description = TranslatedInstanceFields(graphene.String, resolver=myresolver)
     content = TranslatedInstanceFields(graphene.String, resolver=myresolver)
     colors = graphene.List(graphene.String)
+    sex = graphene.Field(graphene.String)
     thumbnail = graphene.Field(graphene.String)
     mediaFiles = graphene.List(GenericScalar)
     tags = graphene.List(graphene.String)
@@ -112,6 +113,9 @@ class ProductType(DjangoObjectType):
 
     def resolve_mediaFiles(self, info):
         return [{'src': media.link} for media in self.media_files.all()]
+
+    def resolve_sex(self, info):
+        return self.sex
 
     def resolve_thumbnail(self, info):
         return self.thumbnail.link
