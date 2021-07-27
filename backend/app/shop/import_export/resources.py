@@ -64,8 +64,7 @@ class VerboseNameModelResource(resources.ModelResource):
         )
         return field
 
-
-class ProductResource(VerboseNameModelResource):
+class ProductResourceMain(VerboseNameModelResource):
     order = 1
 
     sku = Field(
@@ -260,10 +259,84 @@ class ProductResource(VerboseNameModelResource):
         fields = ('sku', 'model', 'content', 'brand', 'categories')
         export_order = fields
 
-    # def import_data(self, dataset, *args, **kwargs):
-    #
-    #     print(dataset)
-    #
-    #     # del dataset[0:7]
-    #
-    #     super(ProductResource, self).import_data(dataset, *args, **kwargs)
+
+
+class ProductResourceSecondary(VerboseNameModelResource):
+    sku = Field(
+        attribute='sku',
+        column_name='Артикул',
+        widget=widgets.CharWidget()
+    )
+
+    def before_import(self, dataset, using_transactions, dry_run, **kwargs):
+        del dataset[0:8]
+        dataset.headers = (
+            'Артикул',
+            'Превью',
+            'Модель / Цвет',
+            '',
+            '',
+            'Описание',
+            'Тематика Дизайна',
+            'Пол',
+            'Правила ухода',
+            'Страна производитель',
+            'Дата и время добавления',
+            'Порядок в каталоге',
+            'Наличие ',
+            'NO SIZE Параметры размера',
+            'XXXS Параметры размера',
+            'XXS Параметры размера',
+            'XS Параметры размера',
+            'S Параметры размера',
+            'M Параметры размера в сантиметрах',
+            'L Параметры размера',
+            'XL Параметры размера',
+            'XXL Параметры размера',
+            '3XL Параметры размера',
+            '4XL Параметры размера',
+            '5XL Параметры размера',
+            'EN: Модель (Название Дизайна)',
+            'EN: Бренд',
+            'EN: Описание',
+            'EN: Цвет',
+            'EN: Тематика Дизайна',
+            'EN: Верхняя категория товара',
+            'EN: Категории товара',
+            'EN: Состав',
+            'EN: Пол',
+            'EN: Правила ухода',
+            'EN: Страна производитель',
+            'EN: Розничная цена, $',
+            'EN: Цена Мелкий Опт, $',
+            'EN: Цена Опт-1, $',
+            'EN: Цена Опт-2, $',
+            'EN: Цена Опт-3, $',
+            'EN: Цена Опт-4, $',
+            'EN: Спецэффект',
+            'EN: NO SIZE Параметры размера',
+            'EN: XXXS Параметры размера',
+            'EN: XXS Параметры размера',
+            'EN: XS Параметры размера',
+            'EN: S Параметры размера',
+            'EN: M Параметры размера',
+            'EN: L Параметры размера',
+            'EN: XL Параметры размера',
+            'EN: XXL Параметры размера',
+            'EN: 3XL Параметры размера',
+            'EN: 4XL Параметры размера',
+            'EN: 5XL Параметры размера',
+        )
+
+    def skip_row(self, instance, original):
+        return not Product.objects.filter(sku = instance.sku).exists()
+
+    class Meta:
+        model = Product
+        skip_unchanged = False
+        report_skipped = True
+        import_id_fields = ('sku',)
+        exclude = ('id','total_count')
+
+        fields = ('sku',)
+        export_order = fields

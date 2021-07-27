@@ -211,7 +211,7 @@ class Product(TranslatableModel):
         verbose_name='Медиафайлы'
     )
 
-    total_count = models.IntegerField(verbose_name='Остаток')
+    total_count = models.IntegerField(verbose_name='Остаток', default=0)
 
     # myprice = models.OneToOneField(
     #     Price,

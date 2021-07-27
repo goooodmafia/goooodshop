@@ -9,7 +9,7 @@ from parler.forms import TranslatableModelForm
 
 from shop.import_export.MyImportMixin import MyImportMixin
 from shop.models import Product, Category, Brand, MediaFile, Tag, Color
-from shop.import_export.resources import ProductResource
+from shop.import_export.resources import ProductResourceMain, ProductResourceSecondary
 
 from adminsortable2.admin import SortableAdminMixin
 
@@ -32,10 +32,21 @@ from adminsortable2.admin import SortableAdminMixin
 #         abstract = True
 
 
-class ImportExportMixinAdmin(MyImportMixin, admin.ModelAdmin):
+class MyImportMixinAdmin(MyImportMixin, admin.ModelAdmin):
+    # resource_class = ProductResourceMain
     class Meta:
         abstract = True
 
+
+# class ImportMixinAdminSecondary(SecondaryImportMixin, admin.ModelAdmin):
+#     resource_class = ProductResourceSecondary
+#     class Meta:
+#         abstract = True
+
+# class MyImportExportMixinAdminSecondary(ImportMixin, admin.ModelAdmin):
+#     resource_class = ProductResourceSecondary
+#     class Meta:
+#         abstract = True
 
 class CategoryAdminForm(MPTTAdminForm, TranslatableModelForm):
     pass
@@ -87,8 +98,14 @@ class CategoryAdmin(TranslatableAdmin, MPTTModelAdmin):
 
 @register(Product)
 # class ProductAdmin(TranslatableAdmin,ImportExportModelAdmin, ImportExportMixinAdmin):
-class ProductAdmin(TranslatableAdmin, ImportExportMixinAdmin, SortableAdminMixin):
-    resource_class = ProductResource
+class ProductAdmin(TranslatableAdmin,
+                   # ImportMixin,
+                   MyImportMixinAdmin,
+                   # ImportMixinAdminMain,
+                   # ImportMixinAdminSecondary,
+                   # MyImportExportMixinAdminSecondary,
+                   SortableAdminMixin):
+    # resource_class = ProductResourceMain
     readonly_fields = ['pub_date', 'mod_date']
     # autocomplete_fields = ['media_files','video_files', 'thumbnail', 'categories']
     list_display = (
