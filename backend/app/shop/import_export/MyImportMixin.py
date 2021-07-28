@@ -11,7 +11,7 @@ from django.urls import path, reverse
 
 from django.views.decorators.http import require_POST
 
-from shop.import_export.resources import ProductResourceSecondary
+from shop.import_export.resources import ProductResourceMain, ProductResourceSecondary
 
 
 class MyImportMixin(ImportMixin):
@@ -81,6 +81,7 @@ class MyImportMixin(ImportMixin):
             # prepare kwargs for import data, if needed
             res_kwargs = self.get_import_resource_kwargs(request, form=form, *args, **kwargs)
             resource = self.get_import_resource_class()(**res_kwargs)
+            # resource = ProductResourceMain #(**res_kwargs)
 
             # prepare additional kwargs for import_data, if needed
             imp_kwargs = self.get_import_data_kwargs(request, form=form, *args, **kwargs)
@@ -104,6 +105,7 @@ class MyImportMixin(ImportMixin):
         else:
             res_kwargs = self.get_import_resource_kwargs(request, form=form, *args, **kwargs)
             resource = self.get_import_resource_class()(**res_kwargs)
+            # resource = ProductResourceMain
 
         context.update(self.admin_site.each_context(request))
 
@@ -160,6 +162,7 @@ class MyImportMixin(ImportMixin):
             # prepare kwargs for import data, if needed
             res_kwargs = self.get_import_resource_kwargs(request, form=form, *args, **kwargs)
             resource = self.get_import_resource_class()(**res_kwargs)
+            # resource = ProductResourceSecondary
 
             # prepare additional kwargs for import_data, if needed
             imp_kwargs = self.get_import_data_kwargs(request, form=form, *args, **kwargs)
@@ -183,6 +186,7 @@ class MyImportMixin(ImportMixin):
         else:
             res_kwargs = self.get_import_resource_kwargs(request, form=form, *args, **kwargs)
             resource = self.get_import_resource_class()(**res_kwargs)
+            # resource = ProductResourceSecondary
 
         context.update(self.admin_site.each_context(request))
 

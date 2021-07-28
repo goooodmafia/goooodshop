@@ -2,6 +2,6 @@
 {% load admin_urls %}
 
 {% if has_import_permission %}
-<li><a href='{% url opts|admin_urlname:"import_main" %}' class="import_link">{% trans "Import" %}</a></li>
+{#<li><a href='{% url opts|admin_urlname:"import_main" %}' class="import_link">{% trans "Import" %}</a></li>#}
 <li><a href='{% url opts|admin_urlname:"import_secondary" %}' class="import_link">{% trans "Import" %}</a></li>
 {% endif %}

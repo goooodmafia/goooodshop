@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import register
+from django.urls import path
 from import_export.admin import ImportExportModelAdmin, ExportMixin, ImportMixin
 
 from mptt.admin import MPTTModelAdmin
@@ -32,11 +33,30 @@ from adminsortable2.admin import SortableAdminMixin
 #         abstract = True
 
 
-class MyImportMixinAdmin(MyImportMixin, admin.ModelAdmin):
-    # resource_class = ProductResourceMain
+class MyImportMixinAdmin(ImportMixin, admin.ModelAdmin):
+    resource_class = ProductResourceMain
     class Meta:
         abstract = True
 
+class MyImportMixinAdminSecondary(ImportMixin, admin.ModelAdmin):
+    change_list_template = 'shop/admin/import_export/change_list_import.html'
+    resource_class = ProductResourceSecondary
+
+    def get_urls(self):
+        urls = super().get_urls()
+        info = self.get_model_info()
+        my_urls = [
+            path('process_import/',
+                 self.admin_site.admin_view(self.process_import),
+                 name='%s_%s_process_import' % info),
+            path('import_secondary/',
+                 self.admin_site.admin_view(self.import_action),
+                 name='%s_%s_import_secondary' % info),
+        ]
+        return my_urls + urls
+
+    class Meta:
+        abstract = True
 
 # class ImportMixinAdminSecondary(SecondaryImportMixin, admin.ModelAdmin):
 #     resource_class = ProductResourceSecondary
@@ -100,9 +120,9 @@ class CategoryAdmin(TranslatableAdmin, MPTTModelAdmin):
 # class ProductAdmin(TranslatableAdmin,ImportExportModelAdmin, ImportExportMixinAdmin):
 class ProductAdmin(TranslatableAdmin,
                    # ImportMixin,
-                   MyImportMixinAdmin,
+                   # MyImportMixinAdmin,
                    # ImportMixinAdminMain,
-                   # ImportMixinAdminSecondary,
+                   MyImportMixinAdminSecondary,
                    # MyImportExportMixinAdminSecondary,
                    SortableAdminMixin):
     # resource_class = ProductResourceMain
