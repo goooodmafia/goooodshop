@@ -5,7 +5,7 @@ from import_export.fields import Field
 
 from shop.models import Product, Tag, Brand, Category, Color, MediaFile
 from shop.import_export.widgets import MyGetForeignKeyWidget, MyGetManyToManyWidget, \
-    MyCategoriesWidget, MySexWidget
+    MyCategoriesWidget, MySexWidget, TranslatableField, MyDescriptionWidget, MyContentWidget
 
 from django.utils.text import slugify
 
@@ -63,6 +63,7 @@ class VerboseNameModelResource(resources.ModelResource):
             default=django_field.default,
         )
         return field
+
 
 class ProductResourceMain(VerboseNameModelResource):
     order = 1
@@ -260,12 +261,23 @@ class ProductResourceMain(VerboseNameModelResource):
         export_order = fields
 
 
-
 class ProductResourceSecondary(VerboseNameModelResource):
     sku = Field(
         attribute='sku',
         column_name='Артикул',
         widget=widgets.CharWidget()
+    )
+
+    description = TranslatableField(
+        attribute='description',
+        column_name='Описание',
+        widget=MyDescriptionWidget()
+    )
+
+    content = TranslatableField(
+        attribute='content',
+        column_name='Состав',
+        widget=MyContentWidget()
     )
 
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
@@ -329,14 +341,14 @@ class ProductResourceSecondary(VerboseNameModelResource):
         )
 
     def skip_row(self, instance, original):
-        return not Product.objects.filter(sku = instance.sku).exists()
+        return not Product.objects.filter(sku=instance.sku).exists()
 
     class Meta:
         model = Product
         skip_unchanged = False
         report_skipped = True
         import_id_fields = ('sku',)
-        exclude = ('id','total_count')
+        exclude = ('id', 'total_count')
 
-        fields = ('sku',)
+        fields = ('sku', 'description', 'content')
         export_order = fields
