@@ -277,7 +277,8 @@ class ProductResourceSecondary(VerboseNameModelResource):
     content = TranslatableField(
         attribute='content',
         column_name='Состав',
-        widget=MyContentWidget()
+        # widget=MyContentWidget()
+        widget=widgets.JSONWidget()
     )
 
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
