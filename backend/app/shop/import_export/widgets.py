@@ -7,6 +7,7 @@ from django.conf import settings
 
 
 class TranslatableField(Field):
+    saves_null_values = False
 
     def save(self, obj, data, is_m2m=False):
         """
@@ -18,14 +19,15 @@ class TranslatableField(Field):
             for attr in attrs[:-1]:
                 obj = getattr(obj, attr, None)
             cleaned = self.clean(data)
+            print(cleaned)
 
             if cleaned is not None or self.saves_null_values:
                 for loc in settings.PARLER_LANGUAGES[None]:
                     obj.set_current_language(loc['code'])
                     if loc['code'] in cleaned:
                         setattr(obj, attrs[-1], cleaned[loc['code']])
-                    # else:
-                    #     setattr(obj, attrs[-1], '')
+                    else:
+                        setattr(obj, attrs[-1], '')
 
 
 class MyModelWidget(Widget):
@@ -182,15 +184,25 @@ class MyDescriptionWidget(Widget):
 
 class MyContentWidget(Widget):
     def render(self, value, obj=None):
-        print('321')
+
+        print(obj.sku)
+        obj.set_current_language('ru')
+        print(obj.content)
+        obj.set_current_language('en')
+        print(obj.content)
+        # print(obj.safe_translation_getter('content', language_code='ru'))
+        # print(obj.safe_translation_getter('content', language_code='en'))
         return {
             'ru': obj.safe_translation_getter('content', language_code='ru'),
             'en': obj.safe_translation_getter('content', language_code='en')
         }
 
     def clean(self, value, row=None, *args, **kwargs):
-        print('123')
-        return {'ru': value, 'en': row['EN: Описание']}
+        return value
+    # def clean(self, value, row=None, *args, **kwargs):
+    #     print('123')
+    #     print(row)
+    #     return {'ru': value, 'en': row['EN: Описание']}
 
     # def clean(self, value, row=None, *args, **kwargs):
     #     print('123')
