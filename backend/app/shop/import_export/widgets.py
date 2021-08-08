@@ -1,4 +1,7 @@
+import json
+
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.encoding import force_str
 from import_export.widgets import ForeignKeyWidget, Widget, ManyToManyWidget, CharWidget
 
 from shop.models import Category, Product
@@ -180,6 +183,7 @@ class MyDescriptionWidget(Widget):
     def clean(self, value, row=None, *args, **kwargs):
         return {'ru': value, 'en': row['EN: Описание']}
 
+
 class MyContentWidget(Widget):
     def render(self, value, obj=None):
         print('321')
@@ -196,3 +200,20 @@ class MyContentWidget(Widget):
     #     print('123')
     #     print(row)
     #     return {'ru': row['Состав'], 'en': row['EN: Состав']}
+
+
+class MyJSONWidget(Widget):
+
+    def render(self, value, obj=None):
+        p = {
+                'ru': obj.safe_translation_getter('content', language_code='ru'),
+                'en': obj.safe_translation_getter('content', language_code='en')
+            }
+        print(p)
+        return p
+
+
+    def clean(self, value, row=None, *args, **kwargs):
+        p = json.dumps(force_str({'ru': value, 'en': row['EN: Описание']}))
+        print(p)
+        return p

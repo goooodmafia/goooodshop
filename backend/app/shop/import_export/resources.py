@@ -5,7 +5,7 @@ from import_export.fields import Field
 
 from shop.models import Product, Tag, Brand, Category, Color, MediaFile
 from shop.import_export.widgets import MyGetForeignKeyWidget, MyGetManyToManyWidget, \
-    MyCategoriesWidget, MySexWidget, TranslatableField, MyDescriptionWidget, MyContentWidget
+    MyCategoriesWidget, MySexWidget, TranslatableField, MyDescriptionWidget, MyContentWidget, MyJSONWidget
 
 from django.utils.text import slugify
 
@@ -278,7 +278,7 @@ class ProductResourceSecondary(VerboseNameModelResource):
         attribute='content',
         column_name='Состав',
         # widget=MyContentWidget()
-        widget=widgets.JSONWidget()
+        widget=MyJSONWidget()
     )
 
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
