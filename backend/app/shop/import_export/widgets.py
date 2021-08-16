@@ -7,7 +7,7 @@ from import_export.widgets import ForeignKeyWidget, Widget, ManyToManyWidget, Ch
 from shop.models import Category, Product
 from import_export.fields import Field
 from django.conf import settings
-
+from parler.utils.context import switch_language
 
 class TranslatableField(Field):
 
@@ -21,6 +21,7 @@ class TranslatableField(Field):
             for attr in attrs[:-1]:
                 obj = getattr(obj, attr, None)
             cleaned = self.clean(data)
+
 
             if cleaned is not None or self.saves_null_values:
                 for loc in settings.PARLER_LANGUAGES[None]:
@@ -186,15 +187,20 @@ class MyDescriptionWidget(Widget):
 
 class MyContentWidget(Widget):
     def render(self, value, obj=None):
-        print('321')
+        # return {'ru':'Было', 'en':'Was'}
+        # obj.set_current_language('en')
+        # print(obj.content)
+        # with switch_language(obj, 'en'):
+        #     print(obj.content)
         return {
             'ru': obj.safe_translation_getter('content', language_code='ru'),
             'en': obj.safe_translation_getter('content', language_code='en')
         }
+        # return obj.content
 
     def clean(self, value, row=None, *args, **kwargs):
-        print('123')
-        return {'ru': value, 'en': row['EN: Описание']}
+        # return {'ru':'Стало', 'en':'Were'}
+        return {'en': value}
 
     # def clean(self, value, row=None, *args, **kwargs):
     #     print('123')
@@ -204,16 +210,17 @@ class MyContentWidget(Widget):
 
 class MyJSONWidget(Widget):
 
-    def render(self, value, obj=None):
-        p = {
-                'ru': obj.safe_translation_getter('content', language_code='ru'),
-                'en': obj.safe_translation_getter('content', language_code='en')
-            }
-        print(p)
-        return p
-
+    # def render(self, value, obj=None):
+    #     p = {
+    #             'ru': obj.safe_translation_getter('content', language_code='ru'),
+    #             'en': obj.safe_translation_getter('content', language_code='en')
+    #         }
+    #     print(p)
+    #     return p
 
     def clean(self, value, row=None, *args, **kwargs):
-        p = json.dumps(force_str({'ru': value, 'en': row['EN: Описание']}))
-        print(p)
-        return p
+        print(row['EN: Описание'])
+        # p = json.dumps(force_str({'ru': value, 'en': row['EN: Описание']}))
+        # print(p)
+        # return p
+        return '123'

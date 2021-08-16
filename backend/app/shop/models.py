@@ -167,7 +167,7 @@ class Product(TranslatableModel):
     # price = models.IntegerField(blank=True, default=0, verbose_name='Цена')
     translations = TranslatedFields(
         description=models.TextField(blank=True, default='', verbose_name='Описание'),
-        content=models.TextField(blank=True, default='', verbose_name='Состав'),
+        content=models.TextField(blank=True, null=True, default='', verbose_name='Состав'),
     )
 
     categories = models.ManyToManyField(

@@ -7,7 +7,6 @@
             <h1>###test</h1>
 
 
-
             <div>В корзине {{ cartCount }} товаров</div>
             <div>
               <ul>

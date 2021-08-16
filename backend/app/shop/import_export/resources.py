@@ -268,17 +268,19 @@ class ProductResourceSecondary(VerboseNameModelResource):
         widget=widgets.CharWidget()
     )
 
-    description = TranslatableField(
-        attribute='description',
-        column_name='Описание',
-        widget=MyDescriptionWidget()
-    )
+    # description = TranslatableField(
+    #     attribute='description',
+    #     column_name='Описание',
+    #     widget=MyDescriptionWidget()
+    # )
 
     content = TranslatableField(
         attribute='content',
-        column_name='Состав',
-        # widget=MyContentWidget()
-        widget=MyJSONWidget()
+        column_name='EN: Состав',
+        widget=MyContentWidget(),
+        # widget=widgets.JSONWidget()
+        # readonly=False,
+        saves_null_values=False
     )
 
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
@@ -351,5 +353,9 @@ class ProductResourceSecondary(VerboseNameModelResource):
         import_id_fields = ('sku',)
         exclude = ('id', 'total_count')
 
-        fields = ('sku', 'description', 'content')
+        fields = (
+            'sku',
+            # 'description',
+            'content'
+        )
         export_order = fields
