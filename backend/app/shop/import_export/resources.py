@@ -5,7 +5,8 @@ from import_export.fields import Field
 
 from shop.models import Product, Tag, Brand, Category, Color, MediaFile
 from shop.import_export.widgets import MyGetForeignKeyWidget, MyGetManyToManyWidget, \
-    MyCategoriesWidget, MySexWidget, TranslatableField, MyDescriptionWidget, MyContentWidget, MyJSONWidget
+    MyCategoriesWidget, MySexWidget, TranslatableField, MyDescriptionWidget, MyContentWidget, MyJSONWidget, \
+    MyOrderWidget
 
 from django.utils.text import slugify
 
@@ -66,7 +67,7 @@ class VerboseNameModelResource(resources.ModelResource):
 
 
 class ProductResourceMain(VerboseNameModelResource):
-    order = 1
+    # order = 1
 
     sku = Field(
         attribute='sku',
@@ -194,8 +195,8 @@ class ProductResourceMain(VerboseNameModelResource):
             )
         )[0]
 
-        instance.my_order = self.order
-        self.order += 1
+        # instance.my_order = self.order
+        # self.order += 1
 
         return instance
 
@@ -208,9 +209,9 @@ class ProductResourceMain(VerboseNameModelResource):
             if (success):
                 instance.media_files.add(media_file)
 
-        (tag, success) = Tag.objects.get_or_create(name=instance.model)
-
-        instance.tags.add(tag)
+        # (tag, success) = Tag.objects.get_or_create(name=instance.model)
+        #
+        # instance.tags.add(tag)
 
         return instance
 
@@ -281,6 +282,39 @@ class ProductResourceSecondary(VerboseNameModelResource):
         # widget=widgets.JSONWidget()
         # readonly=False,
         saves_null_values=False
+    )
+
+    tags = Field(
+        attribute='tags',
+        column_name='Тематика Дизайна',
+
+        widget=MyGetManyToManyWidget(
+            model=Tag,
+            field="name",
+            separator=';'
+        )
+    )
+    tags_en = Field(
+        attribute='tags_en',
+        column_name='EN: Тематика Дизайна',
+
+        widget=MyGetManyToManyWidget(
+            model=Tag,
+            field="name",
+            separator=';'
+        )
+    )
+
+    colors_en = Field(
+        attribute='colors_en',
+        column_name='EN: Цвет',
+        widget=MyGetManyToManyWidget(model=Color, field='name', separator=';')
+    )
+
+    my_order = Field(
+        attribute='my_order',
+        column_name='Порядок в каталоге',
+        widget=MyOrderWidget()
     )
 
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):

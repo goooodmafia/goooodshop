@@ -127,15 +127,16 @@ class ProductAdmin(TranslatableAdmin,
                    # MyImportMixinAdminSecondary,
                    # MyImportExportMixinAdminSecondary,
 
-                   SortableAdminMixin):
+                   # SortableAdminMixin):
+                   ):
     # resource_class = ProductResourceMain
     readonly_fields = ['pub_date', 'mod_date']
     # autocomplete_fields = ['media_files','video_files', 'thumbnail', 'categories']
     list_display = (
-        # 'my_order',
+
         'sku',
         'model',
-
+        'my_order',
         'description',
         'get_categories',
         'get_tags',
@@ -217,8 +218,8 @@ class ProductAdmin(TranslatableAdmin,
         }),
     )
 
-    class Meta:
-        ordering = ['my_order']
+    # class Meta:
+    #     ordering = ['-my_order']
 
 
 @register(Tag)

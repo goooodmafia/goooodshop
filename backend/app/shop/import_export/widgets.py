@@ -2,7 +2,7 @@ import json
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.encoding import force_str
-from import_export.widgets import ForeignKeyWidget, Widget, ManyToManyWidget, CharWidget
+from import_export.widgets import ForeignKeyWidget, Widget, ManyToManyWidget, CharWidget, NumberWidget
 
 from shop.models import Category, Product
 from import_export.fields import Field
@@ -224,3 +224,12 @@ class MyJSONWidget(Widget):
         # print(p)
         # return p
         return '123'
+
+class MyOrderWidget(NumberWidget):
+    def clean(self, value, row=None, *args, **kwargs):
+        if self.is_empty(value):
+            return 0
+        return int(float(value)*1000)
+
+    def render(self, value, obj=None):
+        return float(value/1000)

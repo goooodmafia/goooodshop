@@ -116,7 +116,7 @@ export default {
           sizes: this.getFilter('size'),
           colors: this.getFilter('color'),
           effects: this.getFilter('effects'),
-          tags: '',
+          tags: this.getFilter('tags'),
           hit:false,
           new:false,
           query: this.getQuery(),
@@ -271,6 +271,7 @@ export default {
           sizes: this.getFilter('size'),
           colors: this.getFilter('color'),
           effects: this.getFilter('effects'),
+          tags: this.getFilter('tags'),
           order: this.getOrder()
         }
       )

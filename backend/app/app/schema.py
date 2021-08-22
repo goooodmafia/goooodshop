@@ -19,23 +19,7 @@ from users.schema import Mutations as AuthMutations
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 
-def get_paginator(qs, page, page_size, paginated_type, **kwargs):
-    p = Paginator(qs, page_size)
-    try:
-        page_obj = p.page(page)
-    except PageNotAnInteger:
-        page_obj = p.page(1)
-    except EmptyPage:
-        page_obj = p.page(p.num_pages)
-    return paginated_type(
-        items=page_obj.object_list,
-        total=qs.count(),
-        # page=page_obj.number,
-        pages=p.num_pages,
-        has_next=page_obj.has_next(),
-        has_prev=page_obj.has_previous(),
-        **kwargs
-    )
+
 
 
 class CountableType(graphene.ObjectType):
@@ -64,15 +48,7 @@ class MyQuery(graphene.ObjectType):
         page=graphene.Argument(graphene.Int)
     )
 
-    def resolve_news(self, info, per_page, page):
-        qs = News.objects.filter(enable=True)
-        qs = Paginator(qs, per_page).page(page)
-        return qs
-
     newscount = graphene.Int()
-
-    def resolve_newscount(self, info):
-        return News.objects.filter(enable=True).count()
 
     products = graphene.Field(
         ProductCountableType,
@@ -104,7 +80,38 @@ class MyQuery(graphene.ObjectType):
             query,
             order
     ):
+
+        def get_paginator(qs, page, page_size, paginated_type, **kwargs):
+            p = Paginator(qs, page_size)
+            try:
+                page_obj = p.page(page)
+            except PageNotAnInteger:
+                page_obj = p.page(1)
+            except EmptyPage:
+                page_obj = p.page(p.num_pages)
+            return paginated_type(
+                items=page_obj.object_list,
+                total=qs.count(),
+                # page=page_obj.number,
+                pages=p.num_pages,
+                has_next=page_obj.has_next(),
+                has_prev=page_obj.has_previous(),
+                **kwargs
+            )
+
+        def my_is_true_filter(filter_status, field_name):
+            if filter_status:
+                return Q(**{field_name: True})
+            else:
+                return Q()
+
+
         route_filter = Q(categories__path__icontains=route)
+
+        query_filter = Q(translations__description__icontains=query) \
+                       | Q(model__icontains=query) \
+                       | Q(sku__icontains=query)
+
 
         sizes_list = list(filter(None, map(str.strip, sizes.split(','))))
         all_sizes_list = {
@@ -131,25 +138,16 @@ class MyQuery(graphene.ObjectType):
         effects_list = list(filter(None, map(str.strip, effects.split(','))))
         effect_glow_in_the_dark = 'Светится в темноте' in effects_list
         effect_glow_in_the_uv = 'Светится в ультрафиолете' in effects_list
+
         effects_filter = Q()
-        if effect_glow_in_the_dark:
-            effects_filter = effects_filter & Q(glow_in_the_dark=True)
-        if effect_glow_in_the_uv:
-            effects_filter = effects_filter & Q(glow_in_the_uv=True)
+        effects_filter = effects_filter & my_is_true_filter(effect_glow_in_the_dark, 'glow_in_the_dark')
+        effects_filter = effects_filter & my_is_true_filter(effect_glow_in_the_uv, 'glow_in_the_uv')
 
         tag_list = list(filter(None, map(str.strip, tags.split(','))))
         tag_filter = Q(tags__name__in=tag_list) if tag_list else Q()
 
-        hit_filter = Q()
-        if hit:
-            hit_filter = hit_filter & Q(hit=True)
-        new_filter = Q()
-        if hit:
-            new_filter = new_filter & Q(hit=True)
-
-        query_filter = Q(translations__description__icontains=query) \
-                       | Q(model__icontains=query) \
-                       | Q(sku__icontains=query)
+        hit_filter = my_is_true_filter(hit, 'hit')
+        new_filter = my_is_true_filter(new, 'new')
 
         pqs = Product.objects.filter(enable=True, total_count__gt=0)
         pqs = pqs.filter(route_filter)
@@ -157,15 +155,21 @@ class MyQuery(graphene.ObjectType):
         pqs = pqs.filter(hit_filter)
         pqs = pqs.filter(new_filter)
 
+        print(pqs.count())
+
         qs = pqs.filter(color_filter)
         qs = qs.filter(effects_filter)
         qs = qs.filter(sizes_filter)
         qs = qs.filter(tag_filter)
         qs = qs.distinct()
 
+        t = pqs.filter(effects_filter & color_filter)
         sizes_qs = [
             {'lable': value,
-             'count': pqs.filter(effects_filter & color_filter).values(key).filter(Q(**{key + '__gt': 0})).count()
+             'count': t \
+                 .filter(Q(**{key + '__gt': 0})) \
+                 .distinct() \
+                 .count()
              # 'value': True if key in avaliable_sizes else False
              } for key, value in all_sizes_list.items()
         ]
@@ -175,27 +179,62 @@ class MyQuery(graphene.ObjectType):
             .exclude(lable__isnull=True) \
             .annotate(count=Count('lable', filter=effects_filter & sizes_filter)) \
             .order_by('lable') \
+
             # .annotate(value=Value(False, output_field=BooleanField())) \
 
-        products_dark_qs = pqs \
-            .values('glow_in_the_dark') \
-            .filter(glow_in_the_dark=True) \
-            .annotate(count=Count('glow_in_the_dark', filter=color_filter & sizes_filter)) \
-            .annotate(lable=Value('Светится в темноте', output_field=CharField())) \
-            .values('lable', 'count')
-        # .annotate(value=Value(effect_glow_in_the_dark, output_field=BooleanField())) \
-        # .values('lable', 'count', 'value')
 
-        products_uv_qs = pqs \
-            .values('glow_in_the_uv') \
+        # .filter(effects_filter) \
+        # .filter(sizes_filter) \
+        # .annotate(lable=F('colors__name')) \
+        # .exclude(lable__isnull=True) \
+        # .annotate(count=Count('*')) \
+        # .order_by('lable') \
+        # .values('lable', 'count')
+
+        # c = pqs \
+        #     .annotate(count=Count('colors__name',filter=effects_filter & sizes_filter)) \
+        #     .values('colors__name', 'count').distinct()
+        #
+        #
+        #
+        # print(c)
+
+
+        products_dark_uv = pqs \
+            .filter(color_filter) \
+            .filter(sizes_filter)
+
+        products_dark = products_dark_uv\
+            .filter(glow_in_the_dark=True) \
+            .distinct() \
+            .count()
+        products_dark_qs = [{'lable' :'Светится в темноте', 'count': products_dark}]
+
+        # products_uv_qs = pqs \
+        #     .values('glow_in_the_uv') \
+        #     .filter(glow_in_the_uv=True) \
+        #     .aggregate(count=Count('glow_in_the_uv', filter=color_filter & sizes_filter))
+        # products_uv_qs['lable'] = 'Светится в ультрафиолете'
+        # products_uv_qs = [products_uv_qs,]
+
+        products_uv = products_dark_uv \
             .filter(glow_in_the_uv=True) \
-            .annotate(count=Count('glow_in_the_uv', filter=color_filter & sizes_filter)) \
-            .annotate(lable=Value('Светится в ультрафиолете', output_field=CharField())) \
-            .values('lable', 'count')
-        # .annotate(value=Value(effect_glow_in_the_uv, output_field=BooleanField())) \
-        # .values('lable', 'count', 'value')
+            .distinct() \
+            .count()
+        products_uv_qs = [{'lable': 'Светится в ультрафиолете', 'count': products_uv}]
+
+
+
 
         colors = list(color_qs)
+
+        tags_qs = pqs \
+            .values('tags__name') \
+            .annotate(lable=F('tags__name')) \
+            .exclude(tags__name__isnull=True) \
+            .values('lable') \
+            .distinct()
+        print(tags_qs)
 
         # for color in colors:
         #     if color['lable'] in color_list:
@@ -205,19 +244,29 @@ class MyQuery(graphene.ObjectType):
             FiltersType(title='Размер', name='size', items=sizes_qs),
             FiltersType(title='Цвет', name='color', items=colors),
             FiltersType(title='Спецэффекты', name='effects', items=list(products_dark_qs) + list(products_uv_qs)),
+            FiltersType(title='Теги', name='tags', items=tags_qs),
         ]
 
         if order == OrderEnum.Random.value: qs = qs.order_by('?')
-        if order == OrderEnum.OrderInc.value: qs = qs.order_by('my_order')
-        if order == OrderEnum.OrderDec.value: qs = qs.order_by('-my_order')
-        if order == OrderEnum.PriceInc.value: qs = qs.order_by('price_ret', 'my_order')
-        if order == OrderEnum.PriceDec.value: qs = qs.order_by('-price_ret', 'my_order')
-        if order == OrderEnum.SaleInc.value: qs = qs.order_by('sale', 'my_order')
-        if order == OrderEnum.SaleDec.value: qs = qs.order_by('-sale', 'my_order')
-        # if order == OrderEnum.HitInc.value: qs = qs.order_by('hit', 'my_order')
-        # if order == OrderEnum.HitDec.value: qs = qs.order_by('-hit', 'my_order')
+        if order == OrderEnum.OrderInc.value: qs = qs.order_by('-my_order')
+        if order == OrderEnum.OrderDec.value: qs = qs.order_by('my_order')
+        if order == OrderEnum.PriceInc.value: qs = qs.order_by('price_ret', '-my_order')
+        if order == OrderEnum.PriceDec.value: qs = qs.order_by('-price_ret', '-my_order')
+        if order == OrderEnum.SaleInc.value: qs = qs.order_by('sale', '-my_order')
+        if order == OrderEnum.SaleDec.value: qs = qs.order_by('-sale', '-my_order')
+        # if order == OrderEnum.HitInc.value: qs = qs.order_by('hit', '-my_order')
+        # if order == OrderEnum.HitDec.value: qs = qs.order_by('-hit', '-my_order')
 
         return get_paginator(qs, page, page_size, ProductCountableType, filters=filters)
+
+
+    def resolve_news(self, info, per_page, page):
+        qs = News.objects.filter(enable=True)
+        qs = Paginator(qs, per_page).page(page)
+        return qs
+
+    def resolve_newscount(self, info):
+        return News.objects.filter(enable=True).count()
 
     # fetchproducts = graphene.List(
     #     ProductType,
@@ -270,227 +319,228 @@ class MyQuery(graphene.ObjectType):
     def resolve_product(self, info, sku):
         return Product.objects.get(sku=sku)
 
-    def resolve_filters(self, info, route, sizes, colors, effects, query):
-        print(sizes)
-        colors_list = list(filter(None, map(str.strip, colors.split(','))))
-        effects_list = list(filter(None, map(str.strip, effects.split(','))))
-
-        effect_glow_in_the_dark = 'Светится в темноте' in effects_list
-        effect_glow_in_the_uv = 'Светится в ультрафиолете' in effects_list
-
-        sizes_list = list(filter(None, map(str.strip, sizes.split(','))))
-        s_list = {
-            'size_ns': 'Без размера',
-            'size_xs': 'XS',
-            'size_s': 'S',
-            'size_m': 'M',
-            'size_l': 'L',
-            'size_xl': 'XL',
-            'size_2xl': 'XXL',
-            'size_3xl': 'XXXL',
-            'size_4xl': 'XXXXL',
-        }
-        s_list_rev = dict(zip(s_list.values(), s_list.keys()))
-        s = [s_list_rev[key] for key in sizes_list]
-
-        sizes_filter = Q()
-        for size in s:
-            sizes_filter |= Q(**{size + '__gt': 0})
-
-        colors_filter = Q()
-        if len(colors_list) > 0:
-            colors_filter = colors_filter & Q(colors__name__in=colors_list)
-
-        effects_filter = Q()
-        if effect_glow_in_the_dark:
-            effects_filter = effects_filter & Q(glow_in_the_dark=True)
-        if effect_glow_in_the_uv:
-            effects_filter = effects_filter & Q(glow_in_the_uv=True)
-
-        query_filter = Q(translations__description__icontains=query) \
-                       | Q(model__icontains=query) \
-                       | Q(sku__icontains=query)
-
-        qs = Product.objects.filter(enable=True, total_count__gt=0)
-        qs = qs.filter(categories__path__icontains=route)
-        qs = qs.filter(query_filter)
-        # qs = qs.distinct()
-
-        sizes_qs = qs \
-            .filter(colors_filter) \
-            .filter(effects_filter)
-
-        sizes_qs = [
-            {'lable': value,
-             'count': sizes_qs.values(key).filter(Q(**{key + '__gt': 0})).count(),
-             'value': True if key in s else False} for key, value in s_list.items()
-        ]
-
-        color_qs = qs \
-            .annotate(lable=F('colors__name')).values('lable') \
-            .exclude(lable__isnull=True) \
-            .annotate(count=Count('lable', filter=effects_filter & sizes_filter)) \
-            .annotate(value=Value(False, output_field=BooleanField())) \
-            .order_by('lable')
-
-        products_dark_qs = qs \
-            .values('glow_in_the_dark') \
-            .filter(glow_in_the_dark=True) \
-            .annotate(count=Count('glow_in_the_dark', filter=colors_filter & sizes_filter)) \
-            .annotate(lable=Value('Светится в темноте', output_field=CharField())) \
-            .annotate(value=Value(effect_glow_in_the_dark, output_field=BooleanField())) \
-            .values('lable', 'count', 'value')
-
-        products_uv_qs = qs \
-            .values('glow_in_the_uv') \
-            .filter(glow_in_the_uv=True) \
-            .annotate(count=Count('glow_in_the_uv', filter=colors_filter & sizes_filter)) \
-            .annotate(lable=Value('Светится в ультрафиолете', output_field=CharField())) \
-            .annotate(value=Value(effect_glow_in_the_uv, output_field=BooleanField())) \
-            .values('lable', 'count', 'value')
-
-        colors = list(color_qs)
-
-        for color in colors:
-            if color['lable'] in colors_list:
-                color['value'] = True
-
-        print(sizes_qs)
-
-        return [
-            FiltersType(title='Размер', name='size', items=sizes_qs),
-            FiltersType(title='Цвет', name='color', items=colors),
-            FiltersType(title='Спецэффекты', name='effects', items=list(products_dark_qs) + list(products_uv_qs)),
-        ]
-
-    def resolve_fetchproducts(
-            self,
-            info,
-            per_page,
-            page,
-            route,
-            sizes,
-            colors,
-            effects,
-            tags,
-            query,
-            order
-    ):
-
-        route_filter = Q(categories__path__icontains=route)
-
-        sizes_list = list(filter(None, map(str.strip, sizes.split(','))))
-        s_list = {
-            'size_ns': 'Без размера',
-            'size_xs': 'XS',
-            'size_s': 'S',
-            'size_m': 'M',
-            'size_l': 'L',
-            'size_xl': 'XL',
-            'size_2xl': 'XXL',
-            'size_3xl': 'XXXL',
-            'size_4xl': 'XXXXL',
-        }
-        s_list_rev = dict(zip(s_list.values(), s_list.keys()))
-        s = [s_list_rev[key] for key in sizes_list]
-
-        sizes_filter = Q()
-        for size in s:
-            sizes_filter |= Q(**{size + '__gt': 0})
-
-        color_list = list(filter(None, map(str.strip, colors.split(','))))
-        color_filter = Q(colors__name__in=color_list) if color_list else Q()
-
-        effects_list = list(filter(None, map(str.strip, effects.split(','))))
-        effect_glow_in_the_dark = 'Светится в темноте' in effects_list
-        effect_glow_in_the_uv = 'Светится в ультрафиолете' in effects_list
-        effects_filter = Q()
-        if effect_glow_in_the_dark:
-            effects_filter = effects_filter & Q(glow_in_the_dark=True)
-        if effect_glow_in_the_uv:
-            effects_filter = effects_filter & Q(glow_in_the_uv=True)
-
-        tag_list = list(filter(None, map(str.strip, tags.split(','))))
-        tag_filter = Q(tags__name__in=tag_list) if tag_list else Q()
-
-        query_filter = Q(translations__description__icontains=query) \
-                       | Q(model__icontains=query) \
-                       | Q(sku__icontains=query)
-
-        qs_filter = route_filter \
-                    & color_filter \
-                    & effects_filter \
-                    & sizes_filter \
-                    & tag_filter \
-                    & query_filter
-
-        qs = Product.objects.filter(enable=True, total_count__gt=0)
-        qs = qs.filter(qs_filter)
-        qs = qs.distinct()
-
-        if order == OrderEnum.Random.value: qs = qs.order_by('?')
-        if order == OrderEnum.OrderInc.value: qs = qs.order_by('my_order')
-        if order == OrderEnum.OrderDec.value: qs = qs.order_by('-my_order')
-        if order == OrderEnum.PriceInc.value: qs = qs.order_by('price_ret', 'my_order')
-        if order == OrderEnum.PriceDec.value: qs = qs.order_by('-price_ret', 'my_order')
-        if order == OrderEnum.SaleInc.value: qs = qs.order_by('sale', 'my_order')
-        if order == OrderEnum.SaleDec.value: qs = qs.order_by('-sale', 'my_order')
-        if order == OrderEnum.HitInc.value: qs = qs.order_by('hit', 'my_order')
-        if order == OrderEnum.HitDec.value: qs = qs.order_by('-hit', 'my_order')
-
-        qs = Paginator(qs, per_page).page(page)
-
-        return qs
-
-    def resolve_fetchproductscount(self, info, route, sizes, colors, effects, query):
-        qs = Product.objects.filter(enable=True, total_count__gt=0).filter(categories__path__icontains=route)
-        # qs = Category.objects.get(path=route).products.filter(enable=True, total_count__gt=0)
-        if (colors):
-            colors_list = list(map(str.strip, colors.split(',')))
-            colors_filter = (
-                Q(colors__name__in=colors_list)
-            )
-            qs = qs.filter(colors_filter)
-
-        effects_list = list(map(str.strip, effects.split(',')))
-
-        effect_glow_in_the_dark = 'Светится в темноте' in effects_list
-        effect_glow_in_the_uv = 'Светится в ультрафиолете' in effects_list
-
-        sizes_list = list(filter(None, map(str.strip, sizes.split(','))))
-        s_list = {
-            'size_ns': 'Без размера',
-            'size_xs': 'XS',
-            'size_s': 'S',
-            'size_m': 'M',
-            'size_l': 'L',
-            'size_xl': 'XL',
-            'size_2xl': 'XXL',
-            'size_3xl': 'XXXL',
-            'size_4xl': 'XXXXL',
-        }
-        s_list_rev = dict(zip(s_list.values(), s_list.keys()))
-        s = [s_list_rev[key] for key in sizes_list]
-
-        sizes_filter = Q()
-        for size in s:
-            sizes_filter |= Q(**{size + '__gt': 0})
-
-        effects_filter = Q()
-        if effect_glow_in_the_dark:
-            effects_filter = effects_filter & Q(glow_in_the_dark=True)
-        if effect_glow_in_the_uv:
-            effects_filter = effects_filter & Q(glow_in_the_uv=True)
-
-        query_filter = Q(translations__description__icontains=query) \
-                       | Q(model__icontains=query) \
-                       | Q(sku__icontains=query)
-
-        qs = qs.filter(effects_filter)
-        qs = qs.filter(sizes_filter)
-        qs = qs.filter(query_filter)
-        qs = qs.distinct()
-        return qs.count()
+    # def resolve_filters(self, info, route, sizes, colors, effects, query):
+    #     print(sizes)
+    #     colors_list = list(filter(None, map(str.strip, colors.split(','))))
+    #     effects_list = list(filter(None, map(str.strip, effects.split(','))))
+    #
+    #     effect_glow_in_the_dark = 'Светится в темноте' in effects_list
+    #     effect_glow_in_the_uv = 'Светится в ультрафиолете' in effects_list
+    #
+    #     sizes_list = list(filter(None, map(str.strip, sizes.split(','))))
+    #     s_list = {
+    #         'size_ns': 'Без размера',
+    #         'size_xs': 'XS',
+    #         'size_s': 'S',
+    #         'size_m': 'M',
+    #         'size_l': 'L',
+    #         'size_xl': 'XL',
+    #         'size_2xl': 'XXL',
+    #         'size_3xl': 'XXXL',
+    #         'size_4xl': 'XXXXL',
+    #     }
+    #     s_list_rev = dict(zip(s_list.values(), s_list.keys()))
+    #     s = [s_list_rev[key] for key in sizes_list]
+    #
+    #     sizes_filter = Q()
+    #     for size in s:
+    #         sizes_filter |= Q(**{size + '__gt': 0})
+    #
+    #     colors_filter = Q()
+    #     if len(colors_list) > 0:
+    #         colors_filter = colors_filter & Q(colors__name__in=colors_list)
+    #
+    #     effects_filter = Q()
+    #     if effect_glow_in_the_dark:
+    #         effects_filter = effects_filter & Q(glow_in_the_dark=True)
+    #     if effect_glow_in_the_uv:
+    #         effects_filter = effects_filter & Q(glow_in_the_uv=True)
+    #
+    #     query_filter = Q(translations__description__icontains=query) \
+    #                    | Q(model__icontains=query) \
+    #                    | Q(sku__icontains=query)
+    #
+    #     qs = Product.objects.filter(enable=True, total_count__gt=0)
+    #     qs = qs.filter(categories__path__icontains=route)
+    #     qs = qs.filter(query_filter)
+    #     # qs = qs.distinct()
+    #
+    #     sizes_qs = qs \
+    #         .filter(colors_filter) \
+    #         .filter(effects_filter)
+    #
+    #     sizes_qs = [
+    #         {'lable': value,
+    #          'count': sizes_qs.values(key).filter(Q(**{key + '__gt': 0})).count(),
+    #          'value': True if key in s else False} for key, value in s_list.items()
+    #     ]
+    #
+    #     color_qs = qs \
+    #         .annotate(lable=F('colors__name')).values('lable') \
+    #         .exclude(lable__isnull=True) \
+    #         .annotate(count=Count('lable', filter=effects_filter & sizes_filter)) \
+    #         .annotate(value=Value(False, output_field=BooleanField())) \
+    #         .order_by('lable')
+    #
+    #     products_dark_qs = qs \
+    #         .values('glow_in_the_dark') \
+    #         .filter(glow_in_the_dark=True) \
+    #         .annotate(count=Count('glow_in_the_dark', filter=colors_filter & sizes_filter)) \
+    #         .annotate(lable=Value('Светится в темноте', output_field=CharField())) \
+    #         .annotate(value=Value(effect_glow_in_the_dark, output_field=BooleanField())) \
+    #         .values('lable', 'count', 'value')
+    #
+    #     products_uv_qs = qs \
+    #         .values('glow_in_the_uv') \
+    #         .filter(glow_in_the_uv=True) \
+    #         .annotate(count=Count('glow_in_the_uv', filter=colors_filter & sizes_filter)) \
+    #         .annotate(lable=Value('Светится в ультрафиолете', output_field=CharField())) \
+    #         .annotate(value=Value(effect_glow_in_the_uv, output_field=BooleanField())) \
+    #         .values('lable', 'count', 'value')
+    #
+    #     colors = list(color_qs)
+    #
+    #     for color in colors:
+    #         if color['lable'] in colors_list:
+    #             color['value'] = True
+    #
+    #     print(sizes_qs)
+    #
+    #     return [
+    #         FiltersType(title='Размер', name='size', items=sizes_qs),
+    #         FiltersType(title='Цвет', name='color', items=colors),
+    #         FiltersType(title='Спецэффекты', name='effects', items=list(products_dark_qs) + list(products_uv_qs)),
+    #
+    #     ]
+    #
+    # def resolve_fetchproducts(
+    #         self,
+    #         info,
+    #         per_page,
+    #         page,
+    #         route,
+    #         sizes,
+    #         colors,
+    #         effects,
+    #         tags,
+    #         query,
+    #         order
+    # ):
+    #
+    #     route_filter = Q(categories__path__icontains=route)
+    #
+    #     sizes_list = list(filter(None, map(str.strip, sizes.split(','))))
+    #     s_list = {
+    #         'size_ns': 'Без размера',
+    #         'size_xs': 'XS',
+    #         'size_s': 'S',
+    #         'size_m': 'M',
+    #         'size_l': 'L',
+    #         'size_xl': 'XL',
+    #         'size_2xl': 'XXL',
+    #         'size_3xl': 'XXXL',
+    #         'size_4xl': 'XXXXL',
+    #     }
+    #     s_list_rev = dict(zip(s_list.values(), s_list.keys()))
+    #     s = [s_list_rev[key] for key in sizes_list]
+    #
+    #     sizes_filter = Q()
+    #     for size in s:
+    #         sizes_filter |= Q(**{size + '__gt': 0})
+    #
+    #     color_list = list(filter(None, map(str.strip, colors.split(','))))
+    #     color_filter = Q(colors__name__in=color_list) if color_list else Q()
+    #
+    #     effects_list = list(filter(None, map(str.strip, effects.split(','))))
+    #     effect_glow_in_the_dark = 'Светится в темноте' in effects_list
+    #     effect_glow_in_the_uv = 'Светится в ультрафиолете' in effects_list
+    #     effects_filter = Q()
+    #     if effect_glow_in_the_dark:
+    #         effects_filter = effects_filter & Q(glow_in_the_dark=True)
+    #     if effect_glow_in_the_uv:
+    #         effects_filter = effects_filter & Q(glow_in_the_uv=True)
+    #
+    #     tag_list = list(filter(None, map(str.strip, tags.split(','))))
+    #     tag_filter = Q(tags__name__in=tag_list) if tag_list else Q()
+    #
+    #     query_filter = Q(translations__description__icontains=query) \
+    #                    | Q(model__icontains=query) \
+    #                    | Q(sku__icontains=query)
+    #
+    #     qs_filter = route_filter \
+    #                 & color_filter \
+    #                 & effects_filter \
+    #                 & sizes_filter \
+    #                 & tag_filter \
+    #                 & query_filter
+    #
+    #     qs = Product.objects.filter(enable=True, total_count__gt=0)
+    #     qs = qs.filter(qs_filter)
+    #     qs = qs.distinct()
+    #
+    #     if order == OrderEnum.Random.value: qs = qs.order_by('?')
+    #     if order == OrderEnum.OrderInc.value: qs = qs.order_by('-my_order')
+    #     if order == OrderEnum.OrderDec.value: qs = qs.order_by('my_order')
+    #     if order == OrderEnum.PriceInc.value: qs = qs.order_by('price_ret', '-my_order')
+    #     if order == OrderEnum.PriceDec.value: qs = qs.order_by('-price_ret', '-my_order')
+    #     if order == OrderEnum.SaleInc.value: qs = qs.order_by('sale', '-my_order')
+    #     if order == OrderEnum.SaleDec.value: qs = qs.order_by('-sale', '-my_order')
+    #     if order == OrderEnum.HitInc.value: qs = qs.order_by('hit', '-my_order')
+    #     if order == OrderEnum.HitDec.value: qs = qs.order_by('-hit', '-my_order')
+    #
+    #     qs = Paginator(qs, per_page).page(page)
+    #
+    #     return qs
+    #
+    # def resolve_fetchproductscount(self, info, route, sizes, colors, effects, query):
+    #     qs = Product.objects.filter(enable=True, total_count__gt=0).filter(categories__path__icontains=route)
+    #     # qs = Category.objects.get(path=route).products.filter(enable=True, total_count__gt=0)
+    #     if (colors):
+    #         colors_list = list(map(str.strip, colors.split(',')))
+    #         colors_filter = (
+    #             Q(colors__name__in=colors_list)
+    #         )
+    #         qs = qs.filter(colors_filter)
+    #
+    #     effects_list = list(map(str.strip, effects.split(',')))
+    #
+    #     effect_glow_in_the_dark = 'Светится в темноте' in effects_list
+    #     effect_glow_in_the_uv = 'Светится в ультрафиолете' in effects_list
+    #
+    #     sizes_list = list(filter(None, map(str.strip, sizes.split(','))))
+    #     s_list = {
+    #         'size_ns': 'Без размера',
+    #         'size_xs': 'XS',
+    #         'size_s': 'S',
+    #         'size_m': 'M',
+    #         'size_l': 'L',
+    #         'size_xl': 'XL',
+    #         'size_2xl': 'XXL',
+    #         'size_3xl': 'XXXL',
+    #         'size_4xl': 'XXXXL',
+    #     }
+    #     s_list_rev = dict(zip(s_list.values(), s_list.keys()))
+    #     s = [s_list_rev[key] for key in sizes_list]
+    #
+    #     sizes_filter = Q()
+    #     for size in s:
+    #         sizes_filter |= Q(**{size + '__gt': 0})
+    #
+    #     effects_filter = Q()
+    #     if effect_glow_in_the_dark:
+    #         effects_filter = effects_filter & Q(glow_in_the_dark=True)
+    #     if effect_glow_in_the_uv:
+    #         effects_filter = effects_filter & Q(glow_in_the_uv=True)
+    #
+    #     query_filter = Q(translations__description__icontains=query) \
+    #                    | Q(model__icontains=query) \
+    #                    | Q(sku__icontains=query)
+    #
+    #     qs = qs.filter(effects_filter)
+    #     qs = qs.filter(sizes_filter)
+    #     qs = qs.filter(query_filter)
+    #     qs = qs.distinct()
+    #     return qs.count()
 
 
 class Mutations(AuthMutations, graphene.ObjectType):

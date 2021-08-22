@@ -5,7 +5,7 @@
     <label
       :for="filter.title+'_'+item.lable"
       class="f-options__label">{{ item.lable }}<span
-      class="f-options__count">&NonBreakingSpace;({{ item.count }})</span></label>
+      class="f-options__count" v-if="item.count !== undefined">&NonBreakingSpace;({{ item.count }})</span></label>
   </div>
 </template>
 

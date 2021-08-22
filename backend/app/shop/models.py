@@ -184,12 +184,27 @@ class Product(TranslatableModel):
         verbose_name='Теги'
     )
 
+    tags_en = models.ManyToManyField(
+        Tag,
+        blank=True,
+        related_name='products_en',
+        verbose_name='Теги_En'
+    )
+
     colors = models.ManyToManyField(
         Color,
         blank=True,
         related_name='products',
         verbose_name='Цвета'
     )
+
+    colors_en = models.ManyToManyField(
+        Color,
+        blank=True,
+        related_name='products_en',
+        verbose_name='Цвета_En'
+    )
+
     sex = models.CharField(
         max_length=10,
         choices=SexChoise.choices,
@@ -275,6 +290,6 @@ class Product(TranslatableModel):
         return self.sku
 
     class Meta:
-        # ordering = ['my_order',]
+        ordering = ['-my_order',]
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'

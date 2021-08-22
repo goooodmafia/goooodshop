@@ -262,10 +262,11 @@ export default {
           sizes: '',
           colors: '',
           effects: '',
-          tags: this.product.tags.join(),
+          // tags: this.product.tags.join(),
+          tags: '',
           hit: false,
           new: false,
-          query: '',
+          query: this.product.model,
           order: 'Random'
         }
       },
