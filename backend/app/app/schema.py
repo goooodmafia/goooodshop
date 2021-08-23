@@ -19,9 +19,6 @@ from users.schema import Mutations as AuthMutations
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 
-
-
-
 class CountableType(graphene.ObjectType):
     total = graphene.Int()
     # page = graphene.Int()
@@ -35,6 +32,10 @@ class ProductCountableType(CountableType):
     filters = graphene.List(FiltersType)
 
 
+class NewsCountableType(CountableType):
+    items = graphene.List(NewsType)
+
+
 class MyQuery(graphene.ObjectType):
     content = graphene.List(ContentType, route=graphene.String(), position=PositionEnum())
     category = graphene.Field(CategoryType, route=graphene.String())
@@ -42,13 +43,19 @@ class MyQuery(graphene.ObjectType):
 
     product = graphene.Field(ProductType, sku=graphene.String())
 
-    news = graphene.List(
-        NewsType,
-        per_page=graphene.Argument(graphene.Int),
-        page=graphene.Argument(graphene.Int)
+    # news = graphene.List(
+    #     NewsType,
+    #     per_page=graphene.Argument(graphene.Int),
+    #     page=graphene.Argument(graphene.Int)
+    # )
+
+    news = graphene.Field(
+        CountableType,
+        page=graphene.Argument(graphene.Int),
+        page_size=graphene.Argument(graphene.Int),
     )
 
-    newscount = graphene.Int()
+    # newscount = graphene.Int()
 
     products = graphene.Field(
         ProductCountableType,
@@ -68,17 +75,17 @@ class MyQuery(graphene.ObjectType):
     def resolve_products(
             self,
             info,
-            page,
-            page_size,
-            route,
-            sizes,
-            colors,
-            effects,
-            tags,
-            hit,
-            new,
-            query,
-            order
+            page = 1,
+            page_size = 12,
+            route = '',
+            sizes = '',
+            colors = '',
+            effects = '',
+            tags = '',
+            hit = False,
+            new = False,
+            query = '',
+            order = OrderEnum.OrderInc.value
     ):
 
         def get_paginator(qs, page, page_size, paginated_type, **kwargs):
@@ -92,7 +99,6 @@ class MyQuery(graphene.ObjectType):
             return paginated_type(
                 items=page_obj.object_list,
                 total=qs.count(),
-                # page=page_obj.number,
                 pages=p.num_pages,
                 has_next=page_obj.has_next(),
                 has_prev=page_obj.has_previous(),
@@ -105,13 +111,11 @@ class MyQuery(graphene.ObjectType):
             else:
                 return Q()
 
-
         route_filter = Q(categories__path__icontains=route)
 
         query_filter = Q(translations__description__icontains=query) \
                        | Q(model__icontains=query) \
                        | Q(sku__icontains=query)
-
 
         sizes_list = list(filter(None, map(str.strip, sizes.split(','))))
         all_sizes_list = {
@@ -179,9 +183,8 @@ class MyQuery(graphene.ObjectType):
             .exclude(lable__isnull=True) \
             .annotate(count=Count('lable', filter=effects_filter & sizes_filter)) \
             .order_by('lable') \
-
+ \
             # .annotate(value=Value(False, output_field=BooleanField())) \
-
 
         # .filter(effects_filter) \
         # .filter(sizes_filter) \
@@ -199,16 +202,15 @@ class MyQuery(graphene.ObjectType):
         #
         # print(c)
 
-
         products_dark_uv = pqs \
             .filter(color_filter) \
             .filter(sizes_filter)
 
-        products_dark = products_dark_uv\
+        products_dark = products_dark_uv \
             .filter(glow_in_the_dark=True) \
             .distinct() \
             .count()
-        products_dark_qs = [{'lable' :'Светится в темноте', 'count': products_dark}]
+        products_dark_qs = [{'lable': 'Светится в темноте', 'count': products_dark}]
 
         # products_uv_qs = pqs \
         #     .values('glow_in_the_uv') \
@@ -222,9 +224,6 @@ class MyQuery(graphene.ObjectType):
             .distinct() \
             .count()
         products_uv_qs = [{'lable': 'Светится в ультрафиолете', 'count': products_uv}]
-
-
-
 
         colors = list(color_qs)
 
@@ -259,11 +258,31 @@ class MyQuery(graphene.ObjectType):
 
         return get_paginator(qs, page, page_size, ProductCountableType, filters=filters)
 
+    # def resolve_news(self, info, per_page, page):
+    #     qs = News.objects.filter(enable=True)
+    #     qs = Paginator(qs, per_page).page(page)
+    #     return qs
 
-    def resolve_news(self, info, per_page, page):
+    def resolve_news(self, info, page, page_size):
+        def get_paginator(qs, page, page_size, paginated_type, **kwargs):
+            p = Paginator(qs, page_size)
+            try:
+                page_obj = p.page(page)
+            except PageNotAnInteger:
+                page_obj = p.page(1)
+            except EmptyPage:
+                page_obj = p.page(p.num_pages)
+            return paginated_type(
+                items=page_obj.object_list,
+                total=qs.count(),
+                pages=p.num_pages,
+                has_next=page_obj.has_next(),
+                has_prev=page_obj.has_previous(),
+                **kwargs
+            )
+
         qs = News.objects.filter(enable=True)
-        qs = Paginator(qs, per_page).page(page)
-        return qs
+        return get_paginator(qs, page, page_size, NewsCountableType)
 
     def resolve_newscount(self, info):
         return News.objects.filter(enable=True).count()

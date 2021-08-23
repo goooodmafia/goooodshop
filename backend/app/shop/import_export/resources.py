@@ -67,7 +67,6 @@ class VerboseNameModelResource(resources.ModelResource):
 
 
 class ProductResourceMain(VerboseNameModelResource):
-    # order = 1
 
     sku = Field(
         attribute='sku',
