@@ -6,7 +6,7 @@
       </div>
     </template>
     <template>
-      <NewsWidget :items="news"/>
+      <NewsWidget :items="news.items"/>
 
       <div ref="newsscrollmonitor">
         <div v-if="this.$apollo.loading" class="text-center">
@@ -25,7 +25,6 @@ import Wrapper from "~/components/layout/Wrapper";
 import Breadcrumbs from "~/components/layout/Breadcrumbs";
 import NewsWidget from "../../components/news/NewsWidget";
 import NEWS from "~/api/query/news.graphql"
-import NEWSCOUNT from "~/api/query/newscount.graphql"
 import scrollMonitor from "scrollmonitor";
 
 export default {
@@ -42,20 +41,16 @@ export default {
       },
       page: 1,
       news: [],
-      newscount: 0,
     }
   },
 
   apollo: {
-    newscount: {
-      query: NEWSCOUNT,
-    },
     news: {
       query: NEWS,
       variables() {
         return {
           languageCode: this.$i18n.locale.toUpperCase(),
-          perPage: 12,
+          pageSize: 12,
           page: 1,
         }
       },
@@ -64,7 +59,7 @@ export default {
 
   methods: {
     fetchMoreNews() {
-      if (this.newscount > this.news.length) {
+      if (this.news.hasNext) {
         this.page++
         this.$apollo.queries.news.fetchMore({
           variables: {

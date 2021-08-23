@@ -21,7 +21,6 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 class CountableType(graphene.ObjectType):
     total = graphene.Int()
-    # page = graphene.Int()
     pages = graphene.Int()
     has_next = graphene.Boolean()
     has_prev = graphene.Boolean()
@@ -50,7 +49,7 @@ class MyQuery(graphene.ObjectType):
     # )
 
     news = graphene.Field(
-        CountableType,
+        NewsCountableType,
         page=graphene.Argument(graphene.Int),
         page_size=graphene.Argument(graphene.Int),
     )
@@ -182,8 +181,7 @@ class MyQuery(graphene.ObjectType):
             .annotate(lable=F('colors__name')).values('lable') \
             .exclude(lable__isnull=True) \
             .annotate(count=Count('lable', filter=effects_filter & sizes_filter)) \
-            .order_by('lable') \
- \
+            .order_by('lable')
             # .annotate(value=Value(False, output_field=BooleanField())) \
 
         # .filter(effects_filter) \
@@ -264,6 +262,7 @@ class MyQuery(graphene.ObjectType):
     #     return qs
 
     def resolve_news(self, info, page, page_size):
+
         def get_paginator(qs, page, page_size, paginated_type, **kwargs):
             p = Paginator(qs, page_size)
             try:

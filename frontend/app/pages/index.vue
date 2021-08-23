@@ -3,7 +3,7 @@
 
     <template v-slot:header>
       <IndexBanner :items="banners"/>
-      <NewsIndex :items="news"/>
+      <NewsIndex :items="news.items"/>
     </template>
 
     <template>
@@ -66,7 +66,7 @@ export default {
       variables() {
         return {
           languageCode: this.$i18n.locale.toUpperCase(),
-          perPage: 4,
+          pageSize: 4,
           page: 1,
         }
       },

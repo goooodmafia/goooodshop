@@ -1,17 +1,21 @@
 query (
-  $perPage:Int!
+  $pageSize:Int!
   $page:Int!
   $languageCode:LanguageCodeEnum!
 ){
   news(
-    perPage:$perPage
+    pageSize:$pageSize
     page:$page
   ){
-    title
-    description(languageCode:$languageCode)
-    image
-    link
-    slug
-    viewDate
+    total
+    hasNext
+    items{
+      title
+      description(languageCode:$languageCode)
+      image
+      link
+      slug
+      viewDate
+    }
   }
 }
