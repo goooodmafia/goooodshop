@@ -1,9 +1,9 @@
 <template>
   <div class="filters">
-    <div class="filters__headline">
+    <div class="filters__headline" @click="dropdown=!dropdown">
       <span>Фильтры</span>
     </div>
-    <div class="filters__content">
+    <div class="filters__content" :style="{display: dropdown ? 'block':'none'}">
 
       <FilterComponent v-for="filter in filters" :filter="filter" :key="filter.title"/>
 
@@ -17,6 +17,12 @@ export default {
 
   components: {FilterComponent},
   props:['filters'],
+
+  data() {
+    return {
+      dropdown: false
+    }
+  },
 
 }
 </script>

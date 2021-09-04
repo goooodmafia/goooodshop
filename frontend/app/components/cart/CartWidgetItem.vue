@@ -8,29 +8,29 @@
         </a>
       </div>
       <div class="basket__details">
-        <div class="basket__headline">Наименование</div>
+        <div class="basket__headline">{{ $t('page.cart.model') }}</div>
         <div class="basket__title">
           <nuxt-link :to="localePath(`/product/${product.sku}`)">{{ product.model }}</nuxt-link>
         </div>
-        <div class="basket__article">Артикул: {{ product.sku }}</div>
-        <div class="basket__color">Цвет: Черный</div>
+        <div class="basket__article">{{ $t('page.cart.sku') }}: {{ product.sku }}</div>
+        <div class="basket__color">{{ $t('page.cart.color') }}: {{ product.colors.join() }}</div>
       </div>
     </td>
     <td class="basket__price basket__cell">
-      <div class="basket__headline">Цена за единицу</div>
+      <div class="basket__headline">{{ $t('page.cart.price_per_item') }}</div>
       <div class="basket__value">{{ product.price }} руб.</div>
     </td>
 
 
     <td class="basket__cell">
-      <div class="basket__headline">Размеры</div>
+      <div class="basket__headline">{{ $t('page.cart.size') }}</div>
       <template v-for="s in item.size">
         <div class="basket__value" v-if="s.count > 0">{{ s.size }}</div>
       </template>
     </td>
 
     <td class="basket__cell">
-      <div class="basket__headline">Количество</div>
+      <div class="basket__headline">{{ $t('page.cart.count') }}</div>
       <template v-for="s in item.size">
         <div class="basket__value" v-if="s.count > 0">
           <SizeCountSpinbuttonWidget :size="s.size" :sku="item.sku" :price="product.price"/>
@@ -39,17 +39,17 @@
     </td>
 
     <td class="basket__cell">
-      <div class="basket__headline">Сумма</div>
+      <div class="basket__headline">{{ $t('page.cart.summ') }}</div>
       <template v-for="s in item.size">
         <div class="basket__value" v-if="s.count > 0">{{ s.count * product.price }}</div>
       </template>
     </td>
 
     <td class="basket__to-fav basket__cell">
-      <a href="#" class="to-favourites">В избранное</a>
+      <a href="#" class="to-favourites" style="border: red solid thick">{{ $t('page.cart.to_favorite') }}</a>
     </td>
     <td class="basket__del basket__cell">
-      <b-button @click="removeFromCart(product.sku)" class="gd-btn gd-btn--delete" title="Удалить"></b-button>
+      <b-button @click="removeFromCart(product.sku)" class="gd-btn gd-btn--delete" :title="$t('page.cart.delete_btn')"></b-button>
     </td>
 
   </tr>
@@ -68,7 +68,8 @@ export default {
   data() {
     return {
       product: {
-        thumbnail: null
+        thumbnail: null,
+        colors:[]
       }
     }
   },

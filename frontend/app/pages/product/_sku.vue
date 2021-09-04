@@ -82,8 +82,17 @@
               <div class="heading product-heading heading--h2">
                 <h1>{{ product.model }}</h1>
               </div>
-              <div class="product-article">Артикул: {{ product.sku }} <a href="#" class="product-share"
-                                                                         title="Поделиться"></a>
+              <div class="product-article">Артикул: {{ product.sku }}
+<!--                <a href="#" class="product-share" title="Поделиться">-->
+                <script src="https://yastatic.net/share2/share.js"></script>
+                  <div
+                    class="ya-share2 product-share"
+                    data-curtain data-shape="round"
+                    data-limit="0"
+                    data-more-button-type="short"
+                    data-services="vkontakte,facebook,odnoklassniki,telegram,viber,whatsapp"></div>
+
+<!--              </a>-->
               </div>
               <div class="product-price">
                 <div class="product-price__new">{{ product.price }} руб.</div>

@@ -49,9 +49,9 @@ export default {
   },
 
   async asyncData({app}) {
-    const banners = await import(`~/content/index/index_banner_${app.i18n.locale}.json`)
-    const wholesale = await import(`~/content/index/wholesale_${app.i18n.locale}.md`)
-    const about = await import(`~/content/index/about_${app.i18n.locale}.md`)
+    let banners = await import(`~/content/index/index_banner_${app.i18n.locale}.json`)
+    let wholesale = await import(`~/content/index/wholesale_${app.i18n.locale}.md`)
+    let about = await import(`~/content/index/about_${app.i18n.locale}.md`)
 
     return {
       banners: banners.default,

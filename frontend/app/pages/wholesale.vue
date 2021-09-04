@@ -47,7 +47,7 @@
           <div class="col">
             <div class="wholesale-help" id="wholesale-help">
               <div class="heading heading--orange heading--h3 pb-4">
-                <h2>Помощь для оптовиков</h2>
+                <h2>{{ $t('opt_help_title') }}</h2>
               </div>
               <div class="wholesale-help__items">
                 <OptHelpItem :item="item" v-for="(item, key) in opt_help" :key="key"/>
